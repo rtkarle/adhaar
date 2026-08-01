@@ -1,7 +1,6 @@
 # ═══════════════════════════════════════════════════════════════
 #  Adhaar – PHP Web App Dockerfile
 #  Base: PHP 8.2 + Apache
-#  Includes: mysqli, pdo_mysql, curl, mbstring, fileinfo, gd
 # ═══════════════════════════════════════════════════════════════
 
 FROM php:8.2-apache
@@ -18,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     zip \
     unzip \
     curl \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
 # ── PHP extensions ────────────────────────────────────────────
@@ -36,8 +36,8 @@ RUN docker-php-ext-configure gd \
         fileinfo \
         opcache
 
-# ── Enable Apache mod_rewrite (for .htaccess) ─────────────────
-RUN a2enmod rewrite
+# ── Enable Apache mod_rewrite ─────────────────────────────────
+RUN a2enmod rewrite headers
 
 # ── Apache config — allow .htaccess overrides ─────────────────
 RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
@@ -52,24 +52,28 @@ RUN { \
     echo 'memory_limit=256M'; \
     echo 'display_errors=Off'; \
     echo 'log_errors=On'; \
-    echo 'error_log=/var/log/apache2/php_errors.log'; \
 } > /usr/local/etc/php/conf.d/adhaar.ini
+
+# ── Install Composer ──────────────────────────────────────────
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # ── Copy application files ────────────────────────────────────
 WORKDIR /var/www/html
 COPY . .
+
+# ── Install PHP dependencies (Google API client etc.) ─────────
+# Skip if vendor/ already exists in repo
+RUN if [ -f composer.json ] && [ ! -d vendor ]; then \
+    composer install --no-dev --optimize-autoloader --no-interaction; \
+fi
 
 # ── Ensure uploads directory exists and is writable ───────────
 RUN mkdir -p /var/www/html/uploads \
     && chown -R www-data:www-data /var/www/html/uploads \
     && chmod -R 755 /var/www/html/uploads
 
-# ── Set correct permissions on all files ─────────────────────
-RUN chown -R www-data:www-data /var/www/html \
-    && find /var/www/html -type f -name "*.php" -exec chmod 644 {} \; \
-    && find /var/www/html -type d -exec chmod 755 {} \;
+# ── Set correct permissions ───────────────────────────────────
+RUN chown -R www-data:www-data /var/www/html
 
 # ── Expose port 80 ────────────────────────────────────────────
 EXPOSE 80
-
-# Apache runs in foreground by default in this base image
