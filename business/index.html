@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SoulServe Business Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#0a0a12;color:#f1f5f9;min-height:100vh;overflow-x:hidden}
+canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:60px 24px}
+.logo{display:flex;align-items:center;gap:14px;margin-bottom:56px}
+.logo-icon{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#1DB954,#0ea5e9);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 8px 24px rgba(29,185,84,.4)}
+.logo-text{font-size:22px;font-weight:800;letter-spacing:-.3px}
+.logo-sub{font-size:13px;color:#64748b;font-weight:500}
+h1{font-size:clamp(32px,5vw,52px);font-weight:900;line-height:1.1;margin-bottom:16px}
+h1 span{background:linear-gradient(135deg,#1DB954,#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:17px;color:#94a3b8;margin-bottom:52px;line-height:1.7;max-width:600px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:28px;cursor:pointer;text-decoration:none;transition:all .25s;display:block}
+.card:hover{background:rgba(255,255,255,.07);transform:translateY(-4px);border-color:rgba(29,185,84,.35);box-shadow:0 16px 40px rgba(0,0,0,.3)}
+.card-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px}
+.card-title{font-size:15px;font-weight:700;margin-bottom:6px}
+.card-desc{font-size:13px;color:#64748b;line-height:1.6}
+.card-tag{display:inline-block;margin-top:12px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(29,185,84,.12);color:#1DB954;border:1px solid rgba(29,185,84,.2)}
+.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#475569;margin:36px 0 16px}
+footer{text-align:center;margin-top:72px;padding-bottom:40px;font-size:13px;color:#334155}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.card{animation:fadeUp .4s ease both}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="wrap">
+  <div class="logo">
+    <div class="logo-icon">🌿</div>
+    <div><div class="logo-text">SoulServe</div><div class="logo-sub">Business & Marketing Hub</div></div>
+  </div>
+  <h1>Everything You Need to<br><span>Launch & Sell</span></h1>
+  <p class="sub">Complete business documentation, marketing assets, legal templates, investor materials, and revenue strategy — ready to use.</p>
+
+  <div class="section-label">🚀 Launch Assets</div>
+  <div class="grid">
+    <a href="landing_page.html" class="card" style="animation-delay:.05s">
+      <div class="card-icon" style="background:linear-gradient(135deg,#1DB954,#0ea5e9)">🌐</div>
+      <div class="card-title">Product Landing Page</div>
+      <div class="card-desc">Full marketing landing page with hero, features, pricing, testimonials, and CTA. Ready to deploy.</div>
+      <span class="card-tag">HTML · CSS · JS</span>
+    </a>
+    <a href="pricing_page.html" class="card" style="animation-delay:.1s">
+      <div class="card-icon" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">💰</div>
+      <div class="card-title">Pricing Page</div>
+      <div class="card-desc">Conversion-optimised pricing page with all tiers, NGO discounts, and annual billing toggle.</div>
+      <span class="card-tag">HTML · CSS · JS</span>
+    </a>
+    <a href="pitch_deck.html" class="card" style="animation-delay:.15s">
+      <div class="card-icon" style="background:linear-gradient(135deg,#7c3aed,#ec4899)">📊</div>
+      <div class="card-title">Investor Pitch Deck</div>
+      <div class="card-desc">15-slide interactive pitch deck with charts, financials, and team slides. Print-ready PDF export.</div>
+      <span class="card-tag">HTML · CSS · JS</span>
+    </a>
+    <a href="one_pager.html" class="card" style="animation-delay:.2s">
+      <div class="card-icon" style="background:linear-gradient(135deg,#0ea5e9,#1DB954)">📄</div>
+      <div class="card-title">Product One-Pager</div>
+      <div class="card-desc">Print-ready A4 product brochure / one-pager for sales meetings, conferences, and email attachments.</div>
+      <span class="card-tag">Print-Ready · A4</span>
+    </a>
+    <a href="email_templates.html" class="card" style="animation-delay:.25s">
+      <div class="card-icon" style="background:linear-gradient(135deg,#f59e0b,#10b981)">📧</div>
+      <div class="card-title">Email Templates</div>
+      <div class="card-desc">5 HTML email templates: welcome, OTP, cold outreach, proposal, and follow-up. Copy-paste ready.</div>
+      <span class="card-tag">HTML Email</span>
+    </a>
+    <a href="social_media_kit.html" class="card" style="animation-delay:.3s">
+      <div class="card-icon" style="background:linear-gradient(135deg,#ec4899,#7c3aed)">📱</div>
+      <div class="card-title">Social Media Kit</div>
+      <div class="card-desc">LinkedIn, Instagram, Twitter post templates with ready-to-copy captions and hashtag sets.</div>
+      <span class="card-tag">LinkedIn · Instagram</span>
+    </a>
+    <a href="client_proposal.html" class="card" style="animation-delay:.35s">
+      <div class="card-icon" style="background:linear-gradient(135deg,#0ea5e9,#7c3aed)">📋</div>
+      <div class="card-title">Client Proposal Template</div>
+      <div class="card-desc">Professional B2B proposal template for NGO clients. Editable, print-ready, with pricing table.</div>
+      <span class="card-tag">Print-Ready</span>
+    </a>
+    <a href="brand_kit.html" class="card" style="animation-delay:.4s">
+      <div class="card-icon" style="background:linear-gradient(135deg,#1DB954,#f59e0b)">🎨</div>
+      <div class="card-title">Brand Kit</div>
+      <div class="card-desc">Color palette, typography, logo usage rules, and brand voice guide — all in one interactive page.</div>
+      <span class="card-tag">Brand Identity</span>
+    </a>
+    <a href="resume_card.html" class="card" style="animation-delay:.45s">
+      <div class="card-icon" style="background:linear-gradient(135deg,#64748b,#1e293b)">👤</div>
+      <div class="card-title">Resume & Portfolio Card</div>
+      <div class="card-desc">Interactive project portfolio card and resume bullet points formatted for LinkedIn and job applications.</div>
+      <span class="card-tag">Portfolio</span>
+    </a>
+    <a href="revenue_tracker.html" class="card" style="animation-delay:.5s">
+      <div class="card-icon" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">📈</div>
+      <div class="card-title">Revenue Tracker</div>
+      <div class="card-desc">Interactive ₹1L → ₹1Cr revenue milestone tracker with progress bars and action checklists.</div>
+      <span class="card-tag">Interactive</span>
+    </a>
+  </div>
+
+  <div class="section-label">📚 Documentation</div>
+  <div class="grid">
+    <a href="01_product_branding.md" class="card" style="animation-delay:.55s">
+      <div class="card-icon" style="background:rgba(255,255,255,.07)">📝</div>
+      <div class="card-title">Product & Branding</div>
+      <div class="card-desc">Brand identity, color palette, typography, taglines, positioning statement.</div>
+      <span class="card-tag" style="background:rgba(100,116,139,.15);color:#94a3b8;border-color:rgba(100,116,139,.2)">Markdown</span>
+    </a>
+    <a href="07_investor_startup_material.md" class="card" style="animation-delay:.6s">
+      <div class="card-icon" style="background:rgba(255,255,255,.07)">💼</div>
+      <div class="card-title">Investor Materials</div>
+      <div class="card-desc">Executive summary, business plan, financials, pitch deck script, elevator pitches.</div>
+      <span class="card-tag" style="background:rgba(100,116,139,.15);color:#94a3b8;border-color:rgba(100,116,139,.2)">Markdown</span>
+    </a>
+    <a href="08_legal_documents.md" class="card" style="animation-delay:.65s">
+      <div class="card-icon" style="background:rgba(255,255,255,.07)">⚖️</div>
+      <div class="card-title">Legal Documents</div>
+      <div class="card-desc">Software License, EULA, Terms of Service, Privacy Policy, Refund & Support Policies.</div>
+      <span class="card-tag" style="background:rgba(100,116,139,.15);color:#94a3b8;border-color:rgba(100,116,139,.2)">Markdown</span>
+    </a>
+  </div>
+
+  <footer>© 2025 SoulServe · AADHAR – The SoulServe · All Rights Reserved</footer>
+</div>
+<script>
+(function(){
+  const c=document.getElementById('c'),x=c.getContext('2d');let W,H,pts=[];
+  function init(){W=c.width=innerWidth;H=c.height=innerHeight;pts=[];for(let i=0;i<65;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.6+.5});}
+  function draw(){x.clearRect(0,0,W,H);pts.forEach((a,i)=>{pts.slice(i+1).forEach(b=>{const d=Math.hypot(a.x-b.x,a.y-b.y);if(d<120){x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.strokeStyle=`rgba(29,185,84,${.15*(1-d/120)})`;x.lineWidth=.7;x.stroke();}});x.beginPath();x.arc(a.x,a.y,a.r,0,Math.PI*2);x.fillStyle='rgba(29,185,84,.45)';x.fill();a.x+=a.vx;a.y+=a.vy;if(a.x<0||a.x>W)a.vx*=-1;if(a.y<0||a.y>H)a.vy*=-1;});requestAnimationFrame(draw);}
+  window.addEventListener('resize',init);init();draw();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+# =====================================================
+#  Adhaar – The SoulServe  |  Apache Security Config
+# =====================================================
+
+# ── HTTPS redirect — active on Render (live server) ─────────
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP_HOST} !^localhost
+    RewriteCond %{HTTP_HOST} !^127\.0\.0\.1
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ── Prevent directory listing ─────────────────────────
+Options -Indexes
+
+# ── Block direct access to config files ───────────────
+<FilesMatch "\.(sql|log|env|ini|json|lock|md)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# ── Block direct access to PHP config files ───────────
+<Files "config.php">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files "db.php">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files "mail.php">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files "upload.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# ── Protect config/ directory entirely ────────────────
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^config/ - [F,L]
+    RewriteRule ^includes/ - [F,L]
+    RewriteRule ^vendor/ - [F,L]
+    RewriteRule ^database/ - [F,L]
+</IfModule>
+
+# ── Security headers ─────────────────────────────────
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ── Block PHP execution in uploads folder ────────────
+# (also enforced by uploads/.htaccess)
+<IfModule mod_rewrite.c>
+    RewriteRule ^uploads/.*\.php$ - [F,L]
+</IfModule>

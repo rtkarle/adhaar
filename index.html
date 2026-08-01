@@ -1,0 +1,362 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adhaar – The SoulServe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="nav-container">
+    <a href="index.html" class="logo-box">
+      <img src="assets/logo.jpg" class="logo-img" alt="Adhaar Logo">
+      <div class="logo-text">The SoulServes</div>
+    </a>
+    <nav class="nav" id="mobileMenu">
+      <a href="index.html" class="active">Home</a>
+      <a href="pages/about.html">About</a>
+      <a href="pages/activities.html">Our Stories</a>
+      <a href="pages/impact.php">Impact</a>
+      <a href="pages/contact.html">Contact</a>
+      <a href="pages/donate.html">Donate</a>
+      <a href="shop/shop.php" class="btn-nav-shop">🛍️ Shop</a>
+      <a href="auth/register.php" class="btn-nav">Sign Up</a>
+    </nav>
+    <div class="menu-icon" id="menuToggle">☰</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="hero-container">
+    <div class="hero-left reveal">
+      <h1>Connecting Surplus <br>to Human Need</h1>
+      <p class="hero-sub">
+        Adhaar – The SoulServe is a digital bridge that connects excess food
+        and unused clothing to communities that need dignity, not charity.
+      </p>
+      <div class="hero-buttons">
+        <a href="pages/donate.html" class="btn">Donate Now</a>
+        <a href="pages/about.html" class="btn">Learn More</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-image-frame">
+        <img src="assets/hero.jpg" alt="Hero Image">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VISION & MISSION -->
+<section class="vm-section reveal">
+  <div class="vm-box">
+    <h2>Our Vision</h2>
+    <p>To create a zero-waste, zero-hunger ecosystem by transforming urban surplus into rural support – one donation at a time.</p>
+  </div>
+  <div class="vm-box">
+    <h2>Our Mission</h2>
+    <p>To reduce food and clothing waste by ensuring surplus resources reach the right people at the right time with dignity.</p>
+  </div>
+</section>
+
+<!-- OUR STORIES -->
+<section id="stories" class="stories-section reveal">
+  <h2>Our Stories</h2>
+  <div class="story-slider-container">
+    <button class="story-prev">&#8249;</button>
+    <div class="story-slider" id="storySlider"></div>
+    <button class="story-next">&#8250;</button>
+  </div>
+</section>
+
+<!-- VOLUNTEER SECTION -->
+<section id="volunteer" class="section section-volunteer reveal">
+  <div class="volunteer-header">
+    <h2>Become a Volunteer</h2>
+    <p>Join Adhaar – The SoulServe as a volunteer and help connect surplus food and clothing to communities in need.</p>
+  </div>
+
+  <!-- Volunteer form success / error banners -->
+  <div id="volBanner" style="display:none;max-width:600px;margin:0 auto 28px;padding:14px 20px;border-radius:14px;font-size:14px;font-weight:700;text-align:center"></div>
+
+  <div class="volunteer-container">
+    <div class="volunteer-left">
+      <h3>Why Volunteer with Adhaar?</h3>
+      <ul>
+        <li>&#10004; Be part of real, ground-level social impact</li>
+        <li>&#10004; Help reduce food and clothing waste</li>
+        <li>&#10004; Support underserved communities with dignity</li>
+        <li>&#10004; Gain hands-on experience in social service</li>
+        <li>&#10004; Receive a certificate for active contribution</li>
+      </ul>
+      <p class="vol-note">We value commitment over numbers. If you truly wish to serve, Adhaar welcomes you.</p>
+    </div>
+    <div class="volunteer-form">
+      <h3>Volunteer Registration</h3>
+      <form action="api/volunteer.php" method="POST">
+        <input type="text"  name="name"     placeholder="Full Name"              required>
+        <input type="email" name="email"    placeholder="Email Address"          required>
+        <input type="text"  name="phone"    placeholder="Phone Number"           required>
+        <input type="text"  name="city"     placeholder="City / Location"        required>
+        <select name="interest" required>
+          <option value="">Preferred Volunteering Area</option>
+          <option value="Food Collection">Food Collection &amp; Distribution</option>
+          <option value="Clothing Distribution">Clothing Distribution</option>
+          <option value="Field Support">Field &amp; Ground Support</option>
+          <option value="Coordination">Coordination &amp; Management</option>
+        </select>
+        <textarea name="message" placeholder="Why do you want to volunteer?" required></textarea>
+        <button type="submit" class="vol-btn">Join as Volunteer &rarr;</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- HOW ADHAAR WAS BORN -->
+<section class="born-section reveal">
+  <h2>How Adhaar Was Born</h2>
+  <p class="born-short">
+    Adhaar was born from a simple yet powerful realization – while food is wasted
+    and clothes remain unused, countless people struggle for basic dignity.
+    Shaped by compassion, lived experiences, and the urge to act responsibly,
+    Adhaar stands as a bridge between surplus and human need.
+  </p>
+  <a href="pages/about.html" class="born-btn">Read Our Story &rarr;</a>
+</section>
+
+<!-- IMPACT -->
+<section id="impact" class="impact-section reveal">
+  <h2>Our Impact So Far</h2>
+  <p style="text-align:center;font-size:.9rem;color:var(--text-muted);margin-bottom:2rem;display:flex;align-items:center;justify-content:center;gap:8px">
+    <span style="width:8px;height:8px;border-radius:50%;background:#10b981;display:inline-block;animation:liveDot 1.5s ease-in-out infinite"></span>
+    Live data updated in real time from our database
+  </p>
+  <div class="impact-grid">
+    <div class="impact-card"><h3 id="stat-meals">0</h3><p>Meals Distributed</p></div>
+    <div class="impact-card"><h3 id="stat-cloth">0</h3><p>Clothing Kits Delivered</p></div>
+    <div class="impact-card"><h3 id="stat-areas">0</h3><p>Areas Covered</p></div>
+    <div class="impact-card"><h3 id="stat-vols">0</h3><p>Active Volunteers</p></div>
+  </div>
+  <div style="text-align:center;margin-top:2rem">
+    <a href="pages/impact.php" style="display:inline-flex;align-items:center;gap:8px;padding:.8rem 2rem;border-radius:50px;background:linear-gradient(135deg,var(--accent-main),var(--accent-soft));color:#fff;text-decoration:none;font-weight:700;font-size:.9rem;box-shadow:0 8px 22px rgba(122,125,63,.35)">
+      &#128202; View Full AI Impact Report &rarr;
+    </a>
+  </div>
+</section>
+<style>@keyframes liveDot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}</style>
+
+<!-- DONATE SECTION -->
+<section id="donate" class="donate-main">
+  <div class="donate-top">
+    <h2 class="donate-slogan">Small Contributions. <span>Real Impact.</span></h2>
+    <button class="donate-now-btn" onclick="openChoice()">Donate Now &rarr;</button>
+  </div>
+
+  <div id="donateChoice" class="donate-choice hidden">
+    <h3>What would you like to donate?</h3>
+    <div class="choice-buttons">
+      <button onclick="openFood()">🍲 Food</button>
+      <button onclick="openCloth()">👕 Clothes</button>
+    </div>
+  </div>
+
+  <div id="foodForm" class="donate-form hidden">
+    <h3>Food Donation Form</h3>
+    <form action="api/food_donate.php" method="POST" enctype="multipart/form-data">
+      <input type="datetime-local" name="prepared_at" required>
+      <select name="safe_hours" required>
+        <option value="">Safe to eat for</option>
+        <option value="2">2 hours</option>
+        <option value="4">4 hours</option>
+        <option value="6">6 hours</option>
+      </select>
+      <select name="priority" required>
+        <option value="">Select urgency</option>
+        <option value="high">High – needs pickup today</option>
+        <option value="medium">Medium – within 24 hours</option>
+        <option value="low">Low – flexible</option>
+      </select>
+      <input type="number" name="quantity" min="1" placeholder="Approx quantity (people)" required>
+      <input type="text"   name="pickup_address" placeholder="Pickup address" required>
+      <input type="tel"    name="contact" pattern="[0-9]{10}" placeholder="10-digit contact number" required>
+      <input type="file"   name="image" accept="image/*" required>
+      <button type="submit" class="submit-btn">Submit Food Donation</button>
+    </form>
+  </div>
+
+  <div id="clothForm" class="donate-form hidden">
+    <h3>Clothing Donation Form</h3>
+    <form action="api/cloth_donate.php" method="POST" enctype="multipart/form-data">
+      <input type="text"   name="purchase_time" placeholder="When were the clothes purchased?" required>
+      <input type="number" name="quantity" min="1" placeholder="Number of clothes" required>
+      <select name="cloth_type" required>
+        <option value="">Select clothing type</option>
+        <option value="Men">Men</option>
+        <option value="Women">Women</option>
+        <option value="Children">Children</option>
+        <option value="Mixed">Mixed</option>
+      </select>
+      <input type="text" name="pickup_address" placeholder="Pickup address" required>
+      <input type="tel"  name="contact" pattern="[0-9]{10}" placeholder="10-digit contact number" required>
+      <input type="file" name="image" accept="image/*" required>
+      <button type="submit" class="submit-btn">Submit Clothing Donation</button>
+    </form>
+  </div>
+</section>
+
+<!-- EMPOWER SHOP SECTION -->
+<section class="shop-section reveal">
+  <div class="shop-section-inner">
+    <div class="shop-text">
+      <div class="shop-tag">NEW</div>
+      <h2>🛍️ Adhaar Shop</h2>
+      <p>Empowering rural artisans, women entrepreneurs, and local craftspeople to sell their products directly to you. Every purchase creates real economic impact.</p>
+      <ul class="shop-points">
+        <li>🎨 Handmade handicrafts &amp; art</li>
+        <li>🧵 Handloom &amp; textile products</li>
+        <li>🍯 Organic &amp; local food products</li>
+        <li>💍 Traditional jewelry</li>
+        <li>🌿 Natural &amp; organic products</li>
+      </ul>
+      <div class="shop-actions">
+        <a href="shop/shop.php" class="btn shop-btn-primary">Browse Shop &rarr;</a>
+        <a href="auth/register.php" class="btn shop-btn-secondary">Sell on Adhaar</a>
+      </div>
+    </div>
+    <div class="shop-cards">
+      <div class="shop-card-preview">
+        <div class="scp-icon">🎨</div>
+        <h4>Handicrafts</h4>
+        <p>Handmade by skilled artisans</p>
+      </div>
+      <div class="shop-card-preview">
+        <div class="scp-icon">🧵</div>
+        <h4>Handlooms</h4>
+        <p>Traditional textile weaving</p>
+      </div>
+      <div class="shop-card-preview">
+        <div class="scp-icon">🍯</div>
+        <h4>Organic Food</h4>
+        <p>Pure &amp; locally sourced</p>
+      </div>
+      <div class="shop-card-preview">
+        <div class="scp-icon">💍</div>
+        <h4>Jewelry</h4>
+        <p>Traditional &amp; folk designs</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section id="contact" class="contact-section reveal">
+  <h2>Contact Us</h2>
+  <div class="contact-box">
+    <div class="contact-info">
+      <div class="info-item"><span class="icon">📧</span><p><b>Email:</b> adhaarsoulserve@gmail.com</p></div>
+      <div class="info-item"><span class="icon">📞</span><p><b>Phone:</b> +91 7387830337</p></div>
+      <div class="info-item"><span class="icon">📍</span><p><b>Location:</b> Kopargaon, Maharashtra</p></div>
+      <p class="contact-note">Reach out to us for donations, volunteering, or any collaboration.</p>
+    </div>
+    <form action="api/contact_submit.php" method="POST" class="contact-form">
+      <div class="input-group"><input type="text"  name="name"    placeholder=" " required><label>Your Name</label></div>
+      <div class="input-group"><input type="email" name="email"   placeholder=" " required><label>Your Email</label></div>
+      <div class="input-group"><textarea name="message" placeholder=" " required></textarea><label>Your Message</label></div>
+      <button type="submit" class="btn send-btn">Send Message &rarr;</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-about">
+      <h3>Adhaar – The SoulServe</h3>
+      <p>Connecting surplus food and clothing to communities in need, reducing waste while restoring dignity and trust.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <a href="index.html">Home</a>
+      <a href="pages/about.html">About</a>
+      <a href="pages/impact.php">Impact</a>
+      <a href="pages/donate.html">Donate</a>
+      <a href="pages/contact.html">Contact</a>
+    </div>
+    <div class="footer-contact">
+      <h4>Contact</h4>
+      <p>📞 +91 82379 17354</p>
+      <p>📧 adhaarsoulserve@gmail.com</p>
+      <p>📍 Maharashtra, India</p>
+    </div>
+  </div>
+  <p class="footer-bottom">&copy; 2026 Adhaar – The SoulServe. All Rights Reserved.</p>
+</footer>
+
+<script src="js/script.js"></script>
+<script src="js/ai_chat.js"></script>
+<script>
+/* ── Live impact stats from DB ── */
+fetch('api/ai_stats.php')
+  .then(r => r.json())
+  .then(d => {
+    function countUp(el, target, suffix) {
+      if (!el) return;
+      let cur = 0;
+      const step = Math.max(1, Math.ceil(target / 70));
+      const t = setInterval(() => {
+        cur = Math.min(cur + step, target);
+        el.textContent = cur.toLocaleString('en-IN') + (cur >= target ? suffix : '');
+        if (cur >= target) clearInterval(t);
+      }, 20);
+    }
+    countUp(document.getElementById('stat-meals'), d.meals_distributed || 0, '+');
+    countUp(document.getElementById('stat-cloth'), d.clothing_delivered  || 0, '+');
+    countUp(document.getElementById('stat-areas'), d.areas_covered        || 0, '+');
+    countUp(document.getElementById('stat-vols'),  d.active_volunteers    || 0, '+');
+  })
+  .catch(() => {
+    ['stat-meals','stat-cloth','stat-areas','stat-vols'].forEach((id,i) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = ['28+','12+','3+','20+'][i];
+    });
+  });
+
+/* ── CSRF auto-inject into all POST forms ── */
+fetch('api/get_csrf.php').then(r=>r.json()).then(d=>{
+  document.querySelectorAll('form[method="POST"],form[method="post"]').forEach(f=>{
+    if(!f.querySelector('[name="csrf_token"]')){
+      const i=document.createElement('input');
+      i.type='hidden';i.name='csrf_token';i.value=d.token;
+      f.prepend(i);
+    }
+  });
+});
+
+/* ── Volunteer form banner ── */
+(function(){
+  const p = new URLSearchParams(window.location.search);
+  const b = document.getElementById('volBanner');
+  if (!b) return;
+  if (p.get('vol_success') === '1') {
+    b.textContent = '&#10003; Thank you! Your volunteer registration has been submitted. We will be in touch soon.';
+    b.style.cssText = 'display:block;background:#d1fae5;color:#065f46;border:1.5px solid #6ee7b7;max-width:600px;margin:0 auto 28px;padding:14px 20px;border-radius:14px;font-size:14px;font-weight:700;text-align:center';
+    document.getElementById('volunteer')?.scrollIntoView({behavior:'smooth', block:'center'});
+  } else if (p.get('vol_error')) {
+    const msgs = {
+      missing: '&#9888; Please fill in all required fields.',
+      email:   '&#9888; Please enter a valid email address.',
+      db:      '&#9888; Something went wrong. Please try again.'
+    };
+    b.textContent = msgs[p.get('vol_error')] || '&#9888; Something went wrong. Please try again.';
+    b.style.cssText = 'display:block;background:#fee2e2;color:#991b1b;border:1.5px solid #fca5a5;max-width:600px;margin:0 auto 28px;padding:14px 20px;border-radius:14px;font-size:14px;font-weight:700;text-align:center';
+    document.getElementById('volunteer')?.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+})();
+</script>
+</body>
+</html>

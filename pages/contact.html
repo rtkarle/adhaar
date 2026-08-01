@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact | Adhaar – The SoulServe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+:root{--accent:#7a7d3f;--accent2:#9a8f5c;--bg:#f6f5f0;--text:#2f2e26;--muted:#5a594d;--shadow:0 16px 48px rgba(60,55,35,.11);--radius:22px}
+*{margin:0;padding:0;box-sizing:border-box}
+.page-wrap{padding-top:82px}
+section{padding:5rem 2rem}
+.reveal{opacity:0;transform:translateY(28px);transition:.7s ease}
+.reveal.show{opacity:1;transform:none}
+/* Hero */
+.con-hero{background:linear-gradient(135deg,#2f2e26,#4a4838);padding:6rem 2rem 5rem;text-align:center;position:relative;overflow:hidden}
+.con-hero::before{content:"";position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(122,125,63,.35),transparent);top:-100px;left:-100px;filter:blur(80px)}
+.con-hero h1{font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:900;color:#fff;line-height:1.15;margin-bottom:1rem;position:relative;z-index:1}
+.con-hero h1 span{background:linear-gradient(135deg,#9a8f5c,#c2b280);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.con-hero p{font-size:1.05rem;color:rgba(255,255,255,.72);max-width:520px;margin:0 auto;line-height:1.8;position:relative;z-index:1}
+/* Status banner */
+.status-banner{display:none;padding:14px 20px;border-radius:12px;font-size:14px;font-weight:600;margin-bottom:1.5rem;align-items:center;gap:10px}
+.status-banner.success{background:#d1fae5;border:1px solid #6ee7b7;color:#065f46}
+.status-banner.error{background:#fee2e2;border:1px solid #fca5a5;color:#991b1b}
+/* Main contact layout */
+.contact-page-inner{max-width:1050px;margin:auto;display:grid;grid-template-columns:1fr 1.3fr;gap:4rem;align-items:start}
+/* Info side */
+.info-card{background:#fff;border-radius:var(--radius);padding:2.8rem;box-shadow:var(--shadow)}
+.info-card h3{font-size:1.4rem;font-weight:800;margin-bottom:.5rem;color:var(--text)}
+.info-card .sub{font-size:.92rem;color:var(--muted);margin-bottom:2rem;line-height:1.7}
+.info-item{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid #f0ede4}
+.info-item:last-of-type{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.info-icon{width:44px;height:44px;min-width:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.info-label{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:.25rem}
+.info-val{font-size:.95rem;font-weight:600;color:var(--text)}
+.social-row{display:flex;gap:.7rem;margin-top:1.5rem;flex-wrap:wrap}
+.soc-btn{padding:8px 18px;border-radius:50px;border:1.5px solid #e0ddd5;background:var(--bg);font-size:.85rem;font-weight:700;color:var(--muted);text-decoration:none;transition:.25s}
+.soc-btn:hover{border-color:var(--accent);color:var(--accent);background:#fff}
+/* Form side */
+.form-card{background:#fff;border-radius:var(--radius);padding:2.8rem;box-shadow:var(--shadow)}
+.form-card h3{font-size:1.4rem;font-weight:800;margin-bottom:.5rem;color:var(--text)}
+.form-card .sub{font-size:.92rem;color:var(--muted);margin-bottom:2rem;line-height:1.7}
+.field{margin-bottom:1.3rem;position:relative}
+.field label{display:block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:.45rem}
+.field input,.field select,.field textarea{width:100%;padding:13px 15px;border:2px solid #e5e3d8;border-radius:12px;font-size:.93rem;color:var(--text);background:#fafaf6;transition:.25s;outline:none;font-family:'Inter',sans-serif}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(122,125,63,.1)}
+.field textarea{resize:vertical;min-height:130px}
+.char-row{text-align:right;font-size:.75rem;color:var(--muted);margin-top:.3rem;font-weight:600}
+.submit-btn{width:100%;padding:14px;border:none;border-radius:50px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 10px 28px rgba(122,125,63,.38);transition:.3s;margin-top:.4rem;font-family:'Inter',sans-serif}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(122,125,63,.5)}
+/* FAQ */
+.faq{background:var(--bg)}
+.faq-inner{max-width:740px;margin:auto}
+.faq-item{background:#fff;border-radius:14px;margin-bottom:.8rem;box-shadow:0 4px 14px rgba(60,55,35,.06);overflow:hidden}
+.faq-q{padding:1.2rem 1.5rem;font-size:.97rem;font-weight:700;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.faq-q span{font-size:1.2rem;color:var(--accent);transition:.3s}
+.faq-a{max-height:0;overflow:hidden;transition:.35s ease;font-size:.9rem;color:var(--muted);line-height:1.7}
+.faq-a-inner{padding:0 1.5rem 1.2rem}
+.faq-item.open .faq-a{max-height:200px}
+.faq-item.open .faq-q span{transform:rotate(45deg)}
+/* Map placeholder */
+.map-sec{background:#fff;padding:4rem 2rem}
+.map-inner{max-width:900px;margin:auto;text-align:center}
+.map-box{background:linear-gradient(135deg,#f0ede5,#e4e0d4);border-radius:var(--radius);height:280px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:2rem;box-shadow:var(--shadow);border:2px dashed rgba(122,125,63,.2)}
+.map-box p{font-size:1rem;color:var(--muted);font-weight:600;margin-top:.8rem}
+@media(max-width:900px){.contact-page-inner{grid-template-columns:1fr}}
+@media(max-width:600px){section{padding:4rem 1.4rem}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="nav-container">
+    <a href="../index.html" class="logo-box"><img src="../assets/logo.jpg" class="logo-img" alt="Adhaar Logo"><div class="logo-text">The SoulServes</div></a>
+    <nav class="nav" id="mobileMenu">
+      <a href="../index.html">Home</a><a href="about.html">About</a><a href="activities.html">Activities</a>
+      <a href="impact.php">Impact</a><a href="contact.html" class="active">Contact</a><a href="donate.html">Donate</a>
+      <a href="../shop/shop.php" class="btn-nav-shop">🛍️ Shop</a>
+      <a href="../auth/register.php" class="btn-nav">Sign Up</a>
+    </nav>
+    <div class="menu-icon" id="menuToggle">☰</div>
+  </div>
+</header>
+
+<div class="page-wrap">
+
+<section class="con-hero">
+  <h1>Get in <span>Touch</span></h1>
+  <p>Questions, collaborations, or partnerships — we read every message and respond within 24–48 hours.</p>
+</section>
+
+<section style="background:var(--bg)" class="reveal">
+  <div class="contact-page-inner">
+    <!-- Info -->
+    <div>
+      <div class="info-card" style="margin-bottom:1.5rem">
+        <h3>Contact Details</h3>
+        <p class="sub">Reach us by email, phone, or social media. We are based in Maharashtra and serve communities across the region.</p>
+        <div class="info-item"><div class="info-icon">📧</div><div><div class="info-label">Email</div><div class="info-val">adhaarsoulserve@gmail.com</div></div></div>
+        <div class="info-item"><div class="info-icon">📞</div><div><div class="info-label">Phone</div><div class="info-val">+91 82379 17354</div></div></div>
+        <div class="info-item"><div class="info-icon">📍</div><div><div class="info-label">Location</div><div class="info-val">Kopargaon, Maharashtra, India</div></div></div>
+        <div class="info-item"><div class="info-icon">⏰</div><div><div class="info-label">Response Time</div><div class="info-val">Within 24–48 hours</div></div></div>
+        <div class="social-row">
+          <a href="#" class="soc-btn">📘 Facebook</a>
+          <a href="#" class="soc-btn">📸 Instagram</a>
+          <a href="#" class="soc-btn">💼 LinkedIn</a>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow)">
+        <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:1rem;color:var(--text)">🤝 Partnership Enquiries</h3>
+        <p style="font-size:.9rem;color:var(--muted);line-height:1.7">NGOs, corporates (CSR), educational institutions, and government bodies are welcome to partner with Adhaar. Use the contact form to start a conversation.</p>
+      </div>
+    </div>
+    <!-- Form -->
+    <div class="form-card">
+      <h3>Send Us a Message</h3>
+      <p class="sub">Fill in the form below and we'll get back to you as soon as possible.</p>
+      <div id="statusBanner" class="status-banner"></div>
+      <form action="../api/contact_submit.php" method="POST">
+        <div class="field"><label>Your Name *</label><input type="text" name="name" placeholder="Full name" required></div>
+        <div class="field"><label>Email Address *</label><input type="email" name="email" placeholder="you@example.com" required></div>
+        <div class="field">
+          <label>Subject</label>
+          <select name="subject">
+            <option value="general">General Enquiry</option>
+            <option value="donation">Donation Query</option>
+            <option value="volunteer">Volunteering</option>
+            <option value="seller">Sell on Adhaar</option>
+            <option value="partnership">Partnership / CSR</option>
+            <option value="media">Media / Press</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Message *</label>
+          <textarea id="msgArea" name="message" placeholder="How can we help you?" required maxlength="1000"></textarea>
+          <div class="char-row"><span id="charCount">0 / 1000</span></div>
+        </div>
+        <button class="submit-btn" type="submit">Send Message →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- MAP placeholder -->
+<section class="map-sec reveal">
+  <div class="map-inner">
+    <div style="text-align:center"><h2 style="font-size:1.8rem;font-weight:800;margin-bottom:.5rem;color:var(--text)">📍 Find Us</h2><p style="color:var(--muted);font-size:.95rem">Kopargaon, Ahmednagar District, Maharashtra</p></div>
+    <div class="map-box"><div style="font-size:4rem">🗺️</div><p>Kopargaon, Maharashtra — 423601</p><p style="font-size:.8rem;margin-top:.4rem;opacity:.7">Serving communities across Ahmednagar &amp; surrounding districts</p></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq reveal">
+  <div class="faq-inner">
+    <div style="text-align:center;margin-bottom:2.5rem">
+      <div style="display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);background:rgba(122,125,63,.1);padding:5px 14px;border-radius:50px;margin-bottom:14px">Support</div>
+      <h2 style="font-size:clamp(1.8rem,3.5vw,2.2rem);font-weight:900;color:var(--text)">Frequently Asked <span style="color:var(--accent)">Questions</span></h2>
+    </div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How do I donate food or clothes?<span>+</span></div><div class="faq-a"><div class="faq-a-inner">Register for a free account as a Donor, then go to your dashboard and click "Donate". Fill the form with your details and upload a photo. Our team reviews and schedules a pickup, usually within 24 hours.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How can I become a volunteer?<span>+</span></div><div class="faq-a"><div class="faq-a-inner">Register on the Sign Up page and select "Volunteer" as your role. After email verification, you'll have access to the volunteer dashboard where you can accept pickup tasks assigned by the admin.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I sell my products on Adhaar?<span>+</span></div><div class="faq-a"><div class="faq-a-inner">Yes! Register as a "Seller" and set up your store in the Seller Dashboard. You can list products with photos, prices, and descriptions. Buyers (donors and volunteers) can purchase directly from your store.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is Adhaar free to use?<span>+</span></div><div class="faq-a"><div class="faq-a-inner">Completely free for donors, volunteers, and buyers. Sellers list and sell with no platform fee during our launch phase. Our goal is impact, not profit extraction from those who need it most.</div></div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How do I track my donation after submitting?<span>+</span></div><div class="faq-a"><div class="faq-a-inner">After submitting, log in to your Donor Dashboard and click "Track Donations". Every status change — Accepted, Scheduled, Out for Pickup, Delivered — triggers an email notification and updates your live tracker.</div></div></div>
+  </div>
+</section>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-about"><h3>Adhaar – The SoulServe</h3><p>Connecting surplus food and clothing to communities in need, reducing waste while restoring dignity and trust.</p></div>
+    <div class="footer-links"><h4>Quick Links</h4><a href="../index.html">Home</a><a href="about.html">About</a><a href="impact.php">Impact</a><a href="donate.html">Donate</a><a href="contact.html">Contact</a></div>
+    <div class="footer-contact"><h4>Contact</h4><p>📞 +91 82379 17354</p><p>📧 adhaarsoulserve@gmail.com</p><p>📍 Maharashtra, India</p></div>
+  </div>
+  <p class="footer-bottom">© 2026 Adhaar – The SoulServe. All Rights Reserved.</p>
+</footer>
+
+<script src="../js/contact.js"></script>
+<script>
+const menuToggle=document.getElementById('menuToggle'),nav=document.getElementById('mobileMenu');
+if(menuToggle&&nav)menuToggle.addEventListener('click',()=>nav.classList.toggle('show'));
+function toggleFaq(el){const item=el.parentElement;const isOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!isOpen)item.classList.add('open');}
+// Inject CSRF for form
+fetch('../api/get_csrf.php').then(r=>r.json()).then(d=>{
+  document.querySelectorAll('form[method="POST"]').forEach(f=>{if(!f.querySelector('[name="csrf_token"]')){const i=document.createElement('input');i.type='hidden';i.name='csrf_token';i.value=d.token;f.prepend(i);}});
+});
+</script>
+</body>
+</html>

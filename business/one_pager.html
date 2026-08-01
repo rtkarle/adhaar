@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SoulServe – Product One-Pager</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+:root{--g:#1DB954;--b:#1A3C6B;--o:#F47C3C;--dark:#0f172a;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:#f8fafc;color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:24px}
+.toolbar{display:flex;gap:10px;margin-bottom:20px;align-items:center}
+.tb-btn{padding:8px 20px;border-radius:50px;border:none;cursor:pointer;font-size:13px;font-weight:700;font-family:inherit;display:flex;align-items:center;gap:7px;transition:.2s}
+.tb-print{background:linear-gradient(135deg,var(--g),#0ea5e9);color:#fff;box-shadow:0 4px 14px rgba(29,185,84,.3)}
+.tb-print:hover{transform:translateY(-1px)}
+.tb-back{background:transparent;border:1.5px solid var(--border);color:var(--muted)}
+.tb-back:hover{border-color:var(--g);color:var(--g)}
+/* A4 PAGE */
+.page{width:794px;min-height:1123px;background:#fff;box-shadow:0 8px 40px rgba(0,0,0,.12);border-radius:4px;overflow:hidden;position:relative}
+/* Header strip */
+.page-header{background:linear-gradient(135deg,var(--dark),#1e3a5f);padding:36px 44px 32px;color:#fff;position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;top:-60px;right:-60px;width:240px;height:240px;border-radius:50%;background:rgba(29,185,84,.12)}
+.page-header::after{content:'';position:absolute;bottom:-40px;left:30%;width:160px;height:160px;border-radius:50%;background:rgba(14,165,233,.1)}
+.logo-row{display:flex;align-items:center;gap:14px;margin-bottom:20px;position:relative;z-index:1}
+.logo-icon{width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,var(--g),#0ea5e9);display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 6px 18px rgba(29,185,84,.4)}
+.logo-name{font-size:22px;font-weight:900;letter-spacing:-.3px}
+.logo-tagline{font-size:11px;color:rgba(255,255,255,.55);font-weight:500;margin-top:2px}
+.header-body{position:relative;z-index:1;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end}
+.header-title{font-size:32px;font-weight:900;line-height:1.15;letter-spacing:-.5px}
+.header-title span{background:linear-gradient(135deg,var(--g),#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header-sub{font-size:13px;color:rgba(255,255,255,.6);margin-top:8px;line-height:1.65;max-width:440px}
+.header-badge{background:rgba(29,185,84,.15);border:1px solid rgba(29,185,84,.35);border-radius:12px;padding:16px 20px;text-align:center;white-space:nowrap}
+.header-badge-num{font-size:26px;font-weight:900;color:var(--g)}
+.header-badge-lbl{font-size:10px;color:rgba(255,255,255,.55);font-weight:600;margin-top:2px}
+/* Body */
+.page-body{padding:32px 44px 36px}
+.row{display:grid;gap:20px;margin-bottom:24px}
+.row-3{grid-template-columns:1fr 1fr 1fr}
+.row-2{grid-template-columns:1fr 1fr}
+.section-label{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--g);margin-bottom:10px}
+/* Problem */
+.problem-item{background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
+.problem-icon{font-size:18px;flex-shrink:0;line-height:1.2}
+.problem-title{font-size:12px;font-weight:700;color:#991b1b;margin-bottom:3px}
+.problem-desc{font-size:11px;color:#b91c1c;line-height:1.5}
+/* Features */
+.feat-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:9px;margin-bottom:8px}
+.feat-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;color:#fff}
+.feat-text{font-size:12px;font-weight:600;color:var(--text)}
+/* Stats */
+.stat-card{background:linear-gradient(135deg,var(--dark),#1e3a5f);border-radius:12px;padding:16px;text-align:center;color:#fff}
+.stat-num{font-size:24px;font-weight:900;background:linear-gradient(135deg,var(--g),#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-lbl{font-size:10px;color:rgba(255,255,255,.5);font-weight:600;margin-top:3px}
+/* Pricing strip */
+.pricing-strip{background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:20px}
+.pricing-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.price-cell{text-align:center;padding:12px 8px;border-radius:10px;border:1px solid var(--border);background:#fff}
+.price-cell.pop{border-color:var(--g);background:#f0fdf4}
+.price-name{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:6px}
+.price-amount{font-size:18px;font-weight:900;color:var(--text)}
+.price-cell.pop .price-amount{color:var(--g)}
+.price-period{font-size:9px;color:var(--muted);margin-top:2px}
+/* How it works */
+.step-row{display:flex;gap:0;position:relative;margin-bottom:20px}
+.step-row::before{content:'';position:absolute;top:16px;left:24px;right:24px;height:2px;background:linear-gradient(135deg,var(--g),#0ea5e9);z-index:0}
+.step-item{flex:1;text-align:center;position:relative;z-index:1}
+.step-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--g),#0ea5e9);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;margin:0 auto 8px;box-shadow:0 0 0 3px #fff}
+.step-title{font-size:11px;font-weight:700;margin-bottom:3px}
+.step-desc{font-size:10px;color:var(--muted);line-height:1.5}
+/* Tech */
+.tech-pill{display:inline-block;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;background:#ede9fe;color:#5b21b6;border:1px solid #c4b5fd;margin:3px}
+/* Testimonial */
+.testi-box{background:linear-gradient(135deg,rgba(29,185,84,.08),rgba(14,165,233,.05));border:1px solid rgba(29,185,84,.2);border-radius:12px;padding:14px 18px}
+.testi-quote{font-size:12px;color:var(--text);line-height:1.65;font-style:italic;margin-bottom:10px}
+.testi-author{font-size:11px;font-weight:700;color:var(--g)}
+.testi-role{font-size:10px;color:var(--muted)}
+/* Footer strip */
+.page-footer{background:var(--dark);padding:16px 44px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.footer-brand{color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px}
+.footer-contact{display:flex;gap:20px;flex-wrap:wrap}
+.footer-item{font-size:11px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:5px}
+.footer-item i{color:var(--g);font-size:10px}
+.footer-cta{background:linear-gradient(135deg,var(--g),#0ea5e9);color:#fff;padding:7px 18px;border-radius:20px;font-size:11px;font-weight:700;text-decoration:none}
+/* divider */
+.divider-line{height:1px;background:var(--border);margin:16px 0}
+@media print{body{background:#fff;padding:0}.toolbar{display:none!important}.page{box-shadow:none;border-radius:0;width:100%}}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <a href="index.html" class="tb-btn tb-back"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+  <button class="tb-btn tb-print" onclick="window.print()"><i class="fas fa-print"></i> Print / Save PDF</button>
+  <span style="font-size:12px;color:#94a3b8;margin-left:8px">Tip: Use Chrome → Print → Save as PDF for best quality</span>
+</div>
+
+<div class="page">
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="logo-row">
+      <div class="logo-icon">🌿</div>
+      <div><div class="logo-name">SoulServe</div><div class="logo-tagline">Where Technology Meets Compassion</div></div>
+    </div>
+    <div class="header-body">
+      <div>
+        <div class="header-title">Run Your NGO Like a Pro.<br><span>Not Like a Spreadsheet.</span></div>
+        <div class="header-sub">India's first NGO-built donation and volunteer management platform. Replace Excel, WhatsApp, and paper registers with one beautiful system.</div>
+      </div>
+      <div>
+        <div class="header-badge"><div class="header-badge-num">50+</div><div class="header-badge-lbl">NGOs Active</div></div>
+        <div class="header-badge" style="margin-top:10px"><div class="header-badge-num">₹999/mo</div><div class="header-badge-lbl">Starting Price</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-body">
+    <!-- STATS ROW -->
+    <div class="row row-3" style="margin-bottom:20px">
+      <div class="stat-card"><div class="stat-num">3.3M+</div><div class="stat-lbl">NGOs in India</div></div>
+      <div class="stat-card"><div class="stat-num">78%</div><div class="stat-lbl">Still using Excel / Paper</div></div>
+      <div class="stat-card"><div class="stat-num">3–5 hrs</div><div class="stat-lbl">Lost daily to manual work</div></div>
+    </div>
+
+    <!-- PROBLEM + SOLUTION -->
+    <div class="row row-2">
+      <div>
+        <div class="section-label">The Problem</div>
+        <div class="problem-item" style="margin-bottom:8px"><div class="problem-icon">📋</div><div><div class="problem-title">Data Scattered in Files</div><div class="problem-desc">Excel files, WhatsApp groups, paper registers — no single source of truth.</div></div></div>
+        <div class="problem-item" style="margin-bottom:8px"><div class="problem-icon">📞</div><div><div class="problem-title">Manual Volunteer Coordination</div><div class="problem-desc">Calling volunteers manually. 30% no-show rate. Zero accountability.</div></div></div>
+        <div class="problem-item"><div class="problem-icon">📊</div><div><div class="problem-title">Reports Take Days</div><div class="problem-desc">FCRA returns compiled by hand. Impact data unavailable on demand.</div></div></div>
+      </div>
+      <div>
+        <div class="section-label">Key Features</div>
+        <div class="feat-item"><div class="feat-icon" style="background:linear-gradient(135deg,#1DB954,#0ea5e9)"><i class="fas fa-bowl-food"></i></div><div class="feat-text">Food + Clothing Donation Management</div></div>
+        <div class="feat-item"><div class="feat-icon" style="background:linear-gradient(135deg,#f59e0b,#ef4444)"><i class="fas fa-columns"></i></div><div class="feat-text">Kanban Distribution Board (Unique)</div></div>
+        <div class="feat-item"><div class="feat-icon" style="background:linear-gradient(135deg,#7c3aed,#ec4899)"><i class="fas fa-person-walking"></i></div><div class="feat-text">Volunteer Assignment & Coordination</div></div>
+        <div class="feat-item"><div class="feat-icon" style="background:linear-gradient(135deg,#0ea5e9,#1DB954)"><i class="fas fa-gauge-high"></i></div><div class="feat-text">Admin Dashboard with Live Stats</div></div>
+        <div class="feat-item"><div class="feat-icon" style="background:linear-gradient(135deg,#10b981,#0ea5e9)"><i class="fas fa-file-export"></i></div><div class="feat-text">One-Click CSV Export (FCRA Ready)</div></div>
+        <div class="feat-item"><div class="feat-icon" style="background:linear-gradient(135deg,#475569,#1e293b)"><i class="fas fa-shield-halved"></i></div><div class="feat-text">bcrypt · CSRF · OTP · Google OAuth</div></div>
+      </div>
+    </div>
+
+    <div class="divider-line"></div>
+
+    <!-- HOW IT WORKS -->
+    <div class="section-label" style="margin-bottom:14px">How It Works — 4 Simple Steps</div>
+    <div class="step-row">
+      <div class="step-item"><div class="step-num">1</div><div class="step-title">Post Donation</div><div class="step-desc">Upload food/items with photo, qty & location in under 2 min</div></div>
+      <div class="step-item"><div class="step-num">2</div><div class="step-title">Admin Approves</div><div class="step-desc">One-click review, schedule, assign volunteer</div></div>
+      <div class="step-item"><div class="step-num">3</div><div class="step-title">Volunteer Picks Up</div><div class="step-desc">Notified automatically, tracks to address, marks collected</div></div>
+      <div class="step-item"><div class="step-num">4</div><div class="step-title">Impact Certified</div><div class="step-desc">Donor gets certificate. Impact logged on dashboard forever.</div></div>
+    </div>
+
+    <div class="divider-line"></div>
+
+    <!-- PRICING + TESTIMONIAL -->
+    <div class="row row-2">
+      <div>
+        <div class="section-label">Pricing — Simple &amp; Transparent</div>
+        <div class="pricing-row" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
+          <div class="price-cell"><div class="price-name">Seed SaaS</div><div class="price-amount">₹999</div><div class="price-period">/month</div></div>
+          <div class="price-cell pop"><div class="price-name">Grow SaaS ★</div><div class="price-amount">₹2,499</div><div class="price-period">/month</div></div>
+          <div class="price-cell"><div class="price-name">Starter License</div><div class="price-amount">₹4,999</div><div class="price-period">one-time</div></div>
+          <div class="price-cell"><div class="price-name">Agency License</div><div class="price-amount">₹24,999</div><div class="price-period">one-time · unlimited</div></div>
+        </div>
+        <div style="margin-top:10px;font-size:10px;color:var(--muted);background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px 12px"><i class="fas fa-tag" style="color:var(--g);margin-right:5px"></i>Registered NGOs get <strong style="color:var(--g)">40% off</strong> · Students get <strong style="color:#0ea5e9">60% off</strong> · 14-day free trial available</div>
+      </div>
+      <div>
+        <div class="section-label">What NGOs Are Saying</div>
+        <div class="testi-box" style="margin-bottom:10px">
+          <div class="testi-quote">"We used to spend 3 hours every Sunday updating donor spreadsheets. SoulServe paid for itself in the first week."</div>
+          <div class="testi-author">Sunita Nair</div><div class="testi-role">Director, Asha Foundation, Mumbai</div>
+        </div>
+        <div class="testi-box">
+          <div class="testi-quote">"Our FCRA annual return used to take 3 days. Now we export CSV in 10 seconds and we're done."</div>
+          <div class="testi-author">Priya Iyer</div><div class="testi-role">Admin, Seva Trust, Chennai</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider-line"></div>
+
+    <!-- TECH + COMPARE ROW -->
+    <div class="row row-2">
+      <div>
+        <div class="section-label">Technology Stack</div>
+        <div style="margin-bottom:10px">
+          <span class="tech-pill">PHP 8+</span><span class="tech-pill">MySQL 8</span><span class="tech-pill">Bootstrap 5</span>
+          <span class="tech-pill">JavaScript ES6</span><span class="tech-pill">PHPMailer</span><span class="tech-pill">Google OAuth 2.0</span>
+          <span class="tech-pill" style="background:#dbeafe;color:#1e40af;border-color:#93c5fd">Self-Hosted</span>
+          <span class="tech-pill" style="background:#fef9c3;color:#854d0e;border-color:#fde047">SaaS Ready</span>
+          <span class="tech-pill" style="background:#fee2e2;color:#991b1b;border-color:#fca5a5">AI-Ready</span>
+        </div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.7">Runs on any shared hosting or VPS. Requires PHP 8+, MySQL 8+, Apache. Setup in 60 minutes.</div>
+      </div>
+      <div>
+        <div class="section-label">Why SoulServe Wins</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span style="width:16px;height:16px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;color:#fff;font-size:8px;flex-shrink:0"><i class="fas fa-check"></i></span><span>Kanban board — <strong>no competitor offers this for NGOs</strong></span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span style="width:16px;height:16px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;color:#fff;font-size:8px;flex-shrink:0"><i class="fas fa-check"></i></span><span>India-first design — FCRA compliant, India workflows</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span style="width:16px;height:16px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;color:#fff;font-size:8px;flex-shrink:0"><i class="fas fa-check"></i></span><span><strong>10x cheaper</strong> than Salesforce NPSP or Bloomerang</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span style="width:16px;height:16px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;color:#fff;font-size:8px;flex-shrink:0"><i class="fas fa-check"></i></span><span>Self-hosted license option — own your data forever</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span style="width:16px;height:16px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;color:#fff;font-size:8px;flex-shrink:0"><i class="fas fa-check"></i></span><span>Both food AND clothing — dual donation modules</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span style="width:16px;height:16px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;color:#fff;font-size:8px;flex-shrink:0"><i class="fas fa-check"></i></span><span>Setup in 60 minutes — no IT team required</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="page-footer">
+    <div class="footer-brand"><span style="font-size:18px">🌿</span> SoulServe</div>
+    <div class="footer-contact">
+      <div class="footer-item"><i class="fas fa-globe"></i> soulserve.io</div>
+      <div class="footer-item"><i class="fas fa-envelope"></i> hello@soulserve.io</div>
+      <div class="footer-item"><i class="fab fa-linkedin-in"></i> linkedin.com/in/soulserve</div>
+      <div class="footer-item"><i class="fas fa-map-marker-alt"></i> Mumbai, India</div>
+    </div>
+    <a href="#" class="footer-cta">Start Free Trial →</a>
+  </div>
+</div>
+</body></html>

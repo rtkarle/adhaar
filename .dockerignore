@@ -1,0 +1,28 @@
+# Exclude from Docker build context
+
+# Local dev files
+.git
+.gitignore
+*.md
+README_DEPLOY.md
+
+# XAMPP-specific
+.htaccess.xampp
+
+# Python AI (not needed in PHP container)
+ai_python/__pycache__
+ai_python/*.pyc
+ai_python/datasets/
+# Keep models/ so PHP container can reference paths
+# ai_python is excluded entirely from PHP image — it has its own Dockerfile
+
+# Vendor (if large)
+# vendor/
+
+# Logs
+*.log
+error_log
+
+# OS files
+.DS_Store
+Thumbs.db

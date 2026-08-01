@@ -1,0 +1,35 @@
+{
+  "model": "DecisionTreeClassifier",
+  "module": "volunteer_recommendation",
+  "accuracy": 0.8042,
+  "features": [
+    "volunteer_zone_enc",
+    "donation_zone_enc",
+    "zone_distance",
+    "is_available",
+    "log_tasks",
+    "workload_penalty",
+    "skill_match_count",
+    "response_rate",
+    "days_since_last"
+  ],
+  "target": "suitability_label",
+  "classes": [
+    "poor",
+    "fair",
+    "good",
+    "best"
+  ],
+  "feature_importance": {
+    "volunteer_zone_enc": 0.0148,
+    "donation_zone_enc": 0.0142,
+    "zone_distance": 0.1924,
+    "is_available": 0.2472,
+    "log_tasks": 0.237,
+    "workload_penalty": 0.1451,
+    "skill_match_count": 0.0708,
+    "response_rate": 0.017,
+    "days_since_last": 0.0615
+  },
+  "max_depth": 8
+}

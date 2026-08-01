@@ -1,0 +1,45 @@
+{
+  "model": "KNeighborsClassifier",
+  "module": "product_recommendation",
+  "knn_accuracy": 0.9167,
+  "rf_accuracy": 0.9208,
+  "best_k": 5,
+  "features": [
+    "searched_category_enc",
+    "bought_category_enc",
+    "viewed_category_enc",
+    "product_category_enc",
+    "product_rating",
+    "rating_sq",
+    "log_price",
+    "log_sold",
+    "has_discount",
+    "is_new_listing",
+    "cat_match_search",
+    "cat_match_buy",
+    "cat_match_view"
+  ],
+  "target": "relevance_label",
+  "classes": [
+    "not_relevant",
+    "somewhat",
+    "relevant",
+    "highly_relevant"
+  ],
+  "rf_feature_importance": {
+    "searched_category_enc": 0.0362,
+    "bought_category_enc": 0.0331,
+    "viewed_category_enc": 0.0354,
+    "product_category_enc": 0.0343,
+    "product_rating": 0.0922,
+    "rating_sq": 0.1026,
+    "log_price": 0.0527,
+    "log_sold": 0.077,
+    "has_discount": 0.0499,
+    "is_new_listing": 0.0397,
+    "cat_match_search": 0.1547,
+    "cat_match_buy": 0.2333,
+    "cat_match_view": 0.0588
+  },
+  "scaling": "StandardScaler"
+}

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About Us | Adhaar – The SoulServe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+/* ── Page Variables ── */
+:root{--accent:#7a7d3f;--accent2:#9a8f5c;--bg:#f6f5f0;--text:#2f2e26;--muted:#5a594d;--card:#fff;--shadow:0 20px 55px rgba(60,55,35,.12);--radius:26px}
+
+/* ── Layout ── */
+.page-wrap{padding-top:82px}
+section{padding:6rem 2rem}
+
+/* ── Hero ── */
+.about-hero{
+  background:linear-gradient(135deg,#1e1d18,#2f2e26,#3d3c30);
+  padding:7rem 2rem 6rem;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.about-hero::before{content:"";position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(122,125,63,.35),transparent 65%);top:-150px;left:-150px;filter:blur(80px)}
+.about-hero::after{content:"";position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(154,143,92,.25),transparent 65%);bottom:-100px;right:-100px;filter:blur(80px)}
+.about-hero h1{font-size:clamp(2.4rem,5vw,3.8rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:1.2rem;position:relative;z-index:1}
+.about-hero h1 span{background:linear-gradient(135deg,#9a8f5c,#c2b280);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.about-hero p{font-size:1.1rem;color:rgba(255,255,255,.75);max-width:620px;margin:0 auto 2rem;line-height:1.8;position:relative;z-index:1}
+.hero-tags{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+.hero-tag{padding:7px 18px;border-radius:50px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.85);font-size:13px;font-weight:600;backdrop-filter:blur(6px)}
+
+/* ── Section headings ── */
+.sec-label{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);background:rgba(122,125,63,.1);padding:5px 14px;border-radius:50px;margin-bottom:14px}
+.sec-h{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:900;color:var(--text);margin-bottom:1rem;line-height:1.15}
+.sec-h span{color:var(--accent)}
+.sec-p{color:var(--muted);font-size:1rem;line-height:1.8;max-width:640px}
+
+/* ── Origin Story ── */
+.origin{background:#fff}
+.origin-inner{max-width:1100px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.origin-visual{position:relative}
+.origin-big-num{font-size:9rem;font-weight:900;color:rgba(122,125,63,.08);line-height:1;position:absolute;top:-20px;left:-10px;pointer-events:none;user-select:none}
+.origin-card{background:linear-gradient(135deg,#f0f0e0,#e8e5d5);border-radius:var(--radius);padding:3rem;position:relative;z-index:1}
+.origin-card blockquote{font-size:1.3rem;font-weight:700;color:var(--text);line-height:1.5;margin:0 0 1.2rem;font-style:italic}
+.origin-card cite{font-size:13px;color:var(--muted);font-weight:600;font-style:normal}
+.quote-mark{font-size:5rem;color:rgba(122,125,63,.2);line-height:.5;display:block;margin-bottom:.8rem}
+.origin-text p{color:var(--muted);font-size:1rem;line-height:1.85;margin-bottom:1.2rem}
+.origin-text p:last-child{margin-bottom:0}
+
+/* ── Vision Mission ── */
+.vm-alt{background:var(--bg)}
+.vm-alt-inner{max-width:1000px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
+.vm-alt-card{border-radius:var(--radius);padding:3rem;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.vm-alt-card.vision{background:linear-gradient(135deg,#7a7d3f,#9a8f5c);color:#fff}
+.vm-alt-card.mission{background:#fff}
+.vm-alt-card .card-icon{font-size:3rem;margin-bottom:1.2rem;display:block}
+.vm-alt-card h3{font-size:1.6rem;font-weight:800;margin-bottom:1rem}
+.vm-alt-card p{font-size:.97rem;line-height:1.8}
+.vm-alt-card.vision p{color:rgba(255,255,255,.88)}
+.vm-alt-card.mission p{color:var(--muted)}
+
+/* ── Values ── */
+.values{background:#fff}
+.values-inner{max-width:1100px;margin:auto}
+.values-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.8rem;margin-top:3rem}
+.value-card{background:var(--bg);border-radius:20px;padding:2.2rem 2rem;transition:.4s;border-top:4px solid transparent;cursor:default}
+.value-card:hover{transform:translateY(-8px);box-shadow:var(--shadow);border-top-color:var(--accent)}
+.value-icon{font-size:2.4rem;margin-bottom:1rem;display:block}
+.value-card h4{font-size:1rem;font-weight:800;margin-bottom:.6rem;color:var(--text)}
+.value-card p{font-size:.9rem;color:var(--muted);line-height:1.65}
+
+/* ── Problem We Solve ── */
+.problem{background:linear-gradient(135deg,#1e1d18,#2f2e26)}
+.problem-inner{max-width:1100px;margin:auto}
+.problem h2{color:#fff}
+.problem .sec-label{color:#9a8f5c;background:rgba(154,143,92,.15)}
+.problem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.5rem;margin-top:3rem}
+.prob-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:2rem;backdrop-filter:blur(8px);transition:.3s}
+.prob-card:hover{background:rgba(255,255,255,.09);transform:translateY(-4px)}
+.prob-icon{font-size:2rem;margin-bottom:.8rem;display:block}
+.prob-card h4{font-size:.97rem;font-weight:700;color:#fff;margin-bottom:.5rem}
+.prob-card p{font-size:.88rem;color:rgba(255,255,255,.62);line-height:1.65}
+
+/* ── Timeline ── */
+.timeline-sec{background:var(--bg)}
+.timeline-inner{max-width:800px;margin:auto}
+.timeline{position:relative;margin-top:3rem}
+.timeline::before{content:"";position:absolute;left:18px;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--accent),var(--accent2))}
+.tl-item{display:flex;gap:2rem;margin-bottom:2.5rem;padding-left:.5rem;opacity:0;transform:translateX(-20px);transition:.6s}
+.tl-item.visible{opacity:1;transform:none}
+.tl-dot{width:40px;height:40px;min-width:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:.9rem;position:relative;z-index:1;margin-top:2px;box-shadow:0 4px 14px rgba(122,125,63,.4)}
+.tl-content h4{font-size:1.05rem;font-weight:800;color:var(--text);margin-bottom:.4rem}
+.tl-content p{font-size:.93rem;color:var(--muted);line-height:1.7}
+.tl-year{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);margin-bottom:.3rem}
+
+/* ── Team ── */
+.team{background:#fff}
+.team-inner{max-width:1100px;margin:auto}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:2rem;margin-top:3rem}
+.team-card{background:var(--bg);border-radius:22px;padding:2.5rem 2rem;text-align:center;transition:.4s;transform-style:preserve-3d;cursor:default}
+.team-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 1.2rem;box-shadow:0 8px 20px rgba(122,125,63,.3)}
+.team-card h4{font-size:1rem;font-weight:800;margin-bottom:.3rem;color:var(--text)}
+.team-role{font-size:.85rem;font-weight:600;color:var(--accent);margin-bottom:.8rem}
+.team-bio{font-size:.88rem;color:var(--muted);line-height:1.6}
+
+/* ── CTA ── */
+.about-cta{background:linear-gradient(135deg,var(--accent),var(--accent2));padding:5rem 2rem;text-align:center}
+.about-cta h2{font-size:2.2rem;font-weight:900;color:#fff;margin-bottom:1rem}
+.about-cta p{font-size:1rem;color:rgba(255,255,255,.85);margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.cta-btn-white{padding:.9rem 2.4rem;border-radius:50px;background:#fff;color:var(--accent);font-weight:700;text-decoration:none;transition:.3s;font-size:.95rem}
+.cta-btn-white:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(0,0,0,.2)}
+.cta-btn-outline{padding:.9rem 2.4rem;border-radius:50px;border:2px solid rgba(255,255,255,.6);color:#fff;font-weight:700;text-decoration:none;transition:.3s;font-size:.95rem}
+.cta-btn-outline:hover{background:rgba(255,255,255,.15)}
+
+/* ── Reveal ── */
+.reveal{opacity:0;transform:translateY(32px);transition:.7s ease}
+.reveal.show{opacity:1;transform:none}
+
+/* ── Responsive ── */
+@media(max-width:900px){.origin-inner,.vm-alt-inner{grid-template-columns:1fr}.origin-big-num{display:none}}
+@media(max-width:600px){.hero-tags{flex-direction:column;align-items:center}section{padding:4rem 1.5rem}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="nav-container">
+    <a href="../index.html" class="logo-box">
+      <img src="../assets/logo.jpg" class="logo-img" alt="Adhaar Logo">
+      <div class="logo-text">The SoulServes</div>
+    </a>
+    <nav class="nav" id="mobileMenu">
+      <a href="../index.html">Home</a>
+      <a href="about.html" class="active">About</a>
+      <a href="activities.html">Activities</a>
+      <a href="impact.php">Impact</a>
+      <a href="contact.html">Contact</a>
+      <a href="donate.html">Donate</a>
+      <a href="../shop/shop.php" class="btn-nav-shop">🛍️ Shop</a>
+      <a href="../auth/register.php" class="btn-nav">Sign Up</a>
+    </nav>
+    <div class="menu-icon" id="menuToggle">☰</div>
+  </div>
+</header>
+
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <section class="about-hero">
+    <h1>We Are <span>Adhaar</span><br>The SoulServe</h1>
+    <p>A technology-driven platform built to bridge the gap between surplus and need — delivering dignity, not just donations.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">🌿 Zero Hunger</span>
+      <span class="hero-tag">💚 No Poverty</span>
+      <span class="hero-tag">🤝 Community First</span>
+      <span class="hero-tag">🛍️ Rural Empowerment</span>
+    </div>
+  </section>
+
+  <!-- ORIGIN STORY -->
+  <section class="origin reveal">
+    <div class="origin-inner">
+      <div class="origin-visual">
+        <div class="origin-big-num">"</div>
+        <div class="origin-card">
+          <span class="quote-mark">"</span>
+          <blockquote>We don't throw away food — we deliver it with dignity.</blockquote>
+          <cite>— The Adhaar Founding Principle</cite>
+        </div>
+      </div>
+      <div class="origin-text">
+        <div class="sec-label">Our Story</div>
+        <h2 class="sec-h">Born from a <span>Simple Realization</span></h2>
+        <p>Adhaar was born from a moment of honest discomfort — watching perfectly good food being discarded at a celebration while knowing that families just kilometres away were struggling to find a proper meal.</p>
+        <p>That contradiction — surplus existing alongside scarcity — became our reason to build. We didn't want to simply redistribute; we wanted to do it with respect, transparency, and technology.</p>
+        <p>Today, Adhaar connects donors, volunteers, and communities through a verified, real-time platform. Every donation is tracked. Every delivery is acknowledged. No middlemen. Pure impact.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISION & MISSION -->
+  <section class="vm-alt reveal">
+    <div style="max-width:1000px;margin:0 auto 3rem;text-align:center">
+      <div class="sec-label">What Drives Us</div>
+      <h2 class="sec-h">Vision &amp; <span>Mission</span></h2>
+    </div>
+    <div class="vm-alt-inner">
+      <div class="vm-alt-card vision">
+        <span class="card-icon">🔭</span>
+        <h3>Our Vision</h3>
+        <p>A world where no surplus goes to waste and no person goes without — where technology removes the barriers between those who have and those who need, creating a self-sustaining ecosystem of dignified giving.</p>
+      </div>
+      <div class="vm-alt-card mission">
+        <span class="card-icon">🎯</span>
+        <h3>Our Mission</h3>
+        <p>To reduce food and clothing waste by building a verified, transparent, real-time donation and distribution network — powered by volunteers, governed by accountability, and guided by compassion.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="values reveal">
+    <div class="values-inner">
+      <div style="text-align:center">
+        <div class="sec-label">What We Stand For</div>
+        <h2 class="sec-h">Our Core <span>Values</span></h2>
+      </div>
+      <div class="values-grid">
+        <div class="value-card">
+          <span class="value-icon">🤝</span>
+          <h4>Dignity First</h4>
+          <p>Every person who receives a donation deserves respect. Our process ensures that giving and receiving feel equal, not transactional.</p>
+        </div>
+        <div class="value-card">
+          <span class="value-icon">🔍</span>
+          <h4>Radical Transparency</h4>
+          <p>Every donation is tracked from submission to delivery. Donors see exactly where their contribution goes — in real time.</p>
+        </div>
+        <div class="value-card">
+          <span class="value-icon">⚡</span>
+          <h4>Speed & Reliability</h4>
+          <p>Food spoils. Timing matters. Our volunteer network is built to respond fast, especially for high-priority perishable donations.</p>
+        </div>
+        <div class="value-card">
+          <span class="value-icon">🌱</span>
+          <h4>Sustainability</h4>
+          <p>We tackle waste at its source. By redistributing surplus intelligently, we contribute to a circular, zero-waste community model.</p>
+        </div>
+        <div class="value-card">
+          <span class="value-icon">💪</span>
+          <h4>Empowerment</h4>
+          <p>Beyond donations, our Shop module empowers rural artisans and women entrepreneurs to sell, earn, and thrive independently.</p>
+        </div>
+        <div class="value-card">
+          <span class="value-icon">🛡️</span>
+          <h4>Accountability</h4>
+          <p>Admin oversight, volunteer assignments, and donor notifications ensure every stakeholder is answerable at every step.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM WE SOLVE -->
+  <section class="problem reveal">
+    <div class="problem-inner">
+      <div style="text-align:center;margin-bottom:1rem">
+        <div class="sec-label">The Problem</div>
+        <h2 class="sec-h" style="color:#fff">A Gap We <span style="color:#9a8f5c">Refuse to Ignore</span></h2>
+        <p style="color:rgba(255,255,255,.65);max-width:540px;margin:0 auto;font-size:.97rem;line-height:1.8">India wastes 40% of its food while 200 million people face hunger daily. 78 million tonnes of textile waste is generated yearly. Adhaar exists to fix this.</p>
+      </div>
+      <div class="problem-grid">
+        <div class="prob-card">
+          <span class="prob-icon">🗑️</span>
+          <h4>40% Food Wasted</h4>
+          <p>India wastes enough food annually to feed the entire country twice over. Events, weddings, and hotels discard tonnes daily.</p>
+        </div>
+        <div class="prob-card">
+          <span class="prob-icon">👕</span>
+          <h4>Textile Overproduction</h4>
+          <p>Families discard clothes they no longer need while rural communities lack basic winter clothing. The gap is logistics, not availability.</p>
+        </div>
+        <div class="prob-card">
+          <span class="prob-icon">📡</span>
+          <h4>No Digital Bridge</h4>
+          <p>Donors and NGOs have no reliable, transparent, real-time system to connect. WhatsApp and Excel can't scale — technology can.</p>
+        </div>
+        <div class="prob-card">
+          <span class="prob-icon">🏪</span>
+          <h4>Artisans Without Reach</h4>
+          <p>Rural craftspeople and women's self-help groups create beautiful products but have no platform to sell them nationally.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="timeline-sec reveal">
+    <div class="timeline-inner">
+      <div style="text-align:center">
+        <div class="sec-label">Our Journey</div>
+        <h2 class="sec-h">How We <span>Got Here</span></h2>
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot">1</div>
+          <div class="tl-content">
+            <div class="tl-year">2024 — The Idea</div>
+            <h4>A Moment of Discomfort</h4>
+            <p>Watching food being wasted at a local event sparked the founding idea. Interviews with NGOs, donors, and communities revealed a systemic gap — not of generosity, but of infrastructure.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">2</div>
+          <div class="tl-content">
+            <div class="tl-year">Early 2025 — Build</div>
+            <h4>Platform v1.0 Launched</h4>
+            <p>Built the core donation management system — food & cloth donations, volunteer coordination, admin dashboard, and real-time tracking. OTP verification and Google OAuth added for security.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">3</div>
+          <div class="tl-content">
+            <div class="tl-year">Mid 2025 — Scale</div>
+            <h4>First Deliveries Made</h4>
+            <p>Partnered with 5 local NGOs. First deliveries made across 3 areas. Donor trust built through real-time email notifications and donation tracking dashboards.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">4</div>
+          <div class="tl-content">
+            <div class="tl-year">2026 — Empowerment</div>
+            <h4>Adhaar Shop Launched</h4>
+            <p>Added the seller empowerment module — enabling rural artisans, women entrepreneurs, and local craftspeople to list and sell products directly. Shop + Donation in one platform.</p>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot">5</div>
+          <div class="tl-content">
+            <div class="tl-year">Future — Expand</div>
+            <h4>AI Matching & Mobile App</h4>
+            <p>Building AI-powered donor-to-need matching, mobile app for volunteers, and expansion across Maharashtra and beyond. The mission: make Adhaar India's default donation infrastructure.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+  <section class="team reveal">
+    <div class="team-inner">
+      <div style="text-align:center">
+        <div class="sec-label">The People</div>
+        <h2 class="sec-h">Built With <span>Heart & Purpose</span></h2>
+        <p class="sec-p" style="margin:0 auto 0">A small, committed team driven by social impact and a belief that technology should serve humanity.</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">👨‍💻</div>
+          <h4>Founder & Developer</h4>
+          <div class="team-role">Full-Stack Engineer</div>
+          <p class="team-bio">Built Adhaar from ground up. Interviewed NGO directors before writing a single line of code. Believes tech must earn its place in social work.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">🤝</div>
+          <h4>Community Lead</h4>
+          <div class="team-role">Volunteer Coordinator</div>
+          <p class="team-bio">Manages volunteer onboarding, training, and ground-level coordination. The human bridge between platform and people.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">📊</div>
+          <h4>Operations Head</h4>
+          <div class="team-role">NGO Partnerships</div>
+          <p class="team-bio">Builds and manages relationships with partner NGOs, local governments, and community organisations across Maharashtra.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">🌿</div>
+          <h4>Impact Analyst</h4>
+          <div class="team-role">Data & Reporting</div>
+          <p class="team-bio">Tracks delivery data, impact metrics, and donor insights. Ensures every number tells a real human story, not just a statistic.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="about-cta">
+    <h2>Be Part of the Solution</h2>
+    <p>Whether you donate, volunteer, sell, or simply spread the word — every action matters.</p>
+    <div class="cta-btns">
+      <a href="../auth/register.php" class="cta-btn-white">Join Adhaar →</a>
+      <a href="contact.html" class="cta-btn-outline">Get in Touch</a>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-about">
+      <h3>Adhaar – The SoulServe</h3>
+      <p>Connecting surplus food and clothing to communities in need, reducing waste while restoring dignity and trust.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <a href="../index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="impact.php">Impact</a>
+      <a href="donate.html">Donate</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-contact">
+      <h4>Contact</h4>
+      <p>📞 +91 82379 17354</p>
+      <p>📧 adhaarsoulserve@gmail.com</p>
+      <p>📍 Maharashtra, India</p>
+    </div>
+  </div>
+  <p class="footer-bottom">© 2026 Adhaar – The SoulServe. All Rights Reserved.</p>
+</footer>
+
+<script src="../js/about.js"></script>
+</body>
+</html>

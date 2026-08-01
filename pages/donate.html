@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Donate | Adhaar – The SoulServe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+:root{--accent:#7a7d3f;--accent2:#9a8f5c;--bg:#f6f5f0;--text:#2f2e26;--muted:#5a594d;--shadow:0 16px 48px rgba(60,55,35,.11);--radius:22px}
+*{margin:0;padding:0;box-sizing:border-box}
+.page-wrap{padding-top:82px}
+section{padding:5rem 2rem}
+.reveal{opacity:0;transform:translateY(28px);transition:.7s ease}
+.reveal.show{opacity:1;transform:none}
+/* Hero */
+.don-hero{background:linear-gradient(135deg,#1e1d18,#2f2e26,#4a4838);padding:6.5rem 2rem 5rem;text-align:center;position:relative;overflow:hidden}
+.don-hero::before,.don-hero::after{content:"";position:absolute;border-radius:50%;filter:blur(90px);opacity:.22;pointer-events:none}
+.don-hero::before{width:500px;height:500px;background:#7a7d3f;top:-150px;left:-120px}
+.don-hero::after{width:400px;height:400px;background:#9a8f5c;bottom:-80px;right:-100px}
+.don-hero h1{font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:900;color:#fff;margin-bottom:1rem;line-height:1.1;position:relative;z-index:1}
+.don-hero h1 span{background:linear-gradient(135deg,#9a8f5c,#c2b280);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.don-hero p{font-size:1.05rem;color:rgba(255,255,255,.72);max-width:540px;margin:0 auto 2rem;line-height:1.8;position:relative;z-index:1}
+.hero-chips{display:flex;gap:.7rem;justify-content:center;flex-wrap:wrap;position:relative;z-index:1}
+.hero-chip{padding:7px 18px;border-radius:50px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:rgba(255,255,255,.85);font-size:.82rem;font-weight:600}
+/* Why donate */
+.why{background:#fff}
+.why-inner{max-width:1050px;margin:auto}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:1.6rem;margin-top:2.8rem}
+.why-card{background:var(--bg);border-radius:18px;padding:2rem 1.7rem;transition:.35s;border-top:4px solid transparent}
+.why-card:hover{transform:translateY(-7px);box-shadow:var(--shadow);border-top-color:var(--accent)}
+.why-icon{font-size:2rem;margin-bottom:.8rem;display:block}
+.why-card h4{font-size:.97rem;font-weight:800;margin-bottom:.5rem;color:var(--text)}
+.why-card p{font-size:.87rem;color:var(--muted);line-height:1.65}
+/* Donation section */
+.don-sec{background:var(--bg)}
+.don-inner{max-width:760px;margin:auto}
+/* Tabs */
+.tab-row{display:flex;gap:0;background:#fff;border-radius:14px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:2.2rem}
+.tab-btn{flex:1;padding:1.1rem;border:none;background:transparent;font-size:.97rem;font-weight:700;color:var(--muted);cursor:pointer;transition:.25s;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.tab-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.tab-btn:not(.active):hover{background:var(--bg)}
+/* Form panel */
+.form-panel{display:none;background:#fff;border-radius:var(--radius);padding:2.8rem;box-shadow:var(--shadow)}
+.form-panel.active{display:block}
+.form-panel h3{font-size:1.35rem;font-weight:800;margin-bottom:.4rem;color:var(--text)}
+.form-panel .note{font-size:.88rem;color:var(--muted);margin-bottom:2rem;line-height:1.7}
+.field{margin-bottom:1.2rem}
+.field label{display:block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:.4rem}
+.field input,.field select,.field textarea{width:100%;padding:12px 15px;border:2px solid #e5e3d8;border-radius:11px;font-size:.93rem;color:var(--text);background:#fafaf6;transition:.25s;outline:none;font-family:'Inter',sans-serif}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px rgba(122,125,63,.1)}
+.field textarea{resize:vertical;min-height:90px}
+.checkbox-row{display:flex;align-items:flex-start;gap:.6rem;margin-bottom:1.2rem;font-size:.88rem;color:var(--muted)}
+.checkbox-row input{margin-top:2px;accent-color:var(--accent);width:auto}
+.img-preview{max-width:100%;max-height:180px;border-radius:10px;object-fit:cover;display:none;margin-top:.6rem}
+.impact-note{background:rgba(122,125,63,.1);border-radius:10px;padding:.8rem 1.1rem;font-size:.87rem;color:var(--accent);font-weight:600;text-align:center;margin-bottom:1.2rem}
+.submit-btn{width:100%;padding:14px;border:none;border-radius:50px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:1rem;font-weight:700;cursor:pointer;box-shadow:0 10px 28px rgba(122,125,63,.38);transition:.3s;font-family:'Inter',sans-serif}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(122,125,63,.5)}
+.char-count{text-align:right;font-size:.75rem;color:var(--muted);margin-top:.3rem;font-weight:600}
+/* Need to login banner */
+.login-banner{background:#fff;border-radius:var(--radius);padding:3rem 2rem;text-align:center;box-shadow:var(--shadow);margin-bottom:2rem}
+.login-banner h3{font-size:1.3rem;font-weight:800;margin-bottom:.6rem;color:var(--text)}
+.login-banner p{font-size:.93rem;color:var(--muted);margin-bottom:1.5rem;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.7}
+.lbtn{display:inline-block;padding:.85rem 2.2rem;border-radius:50px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;text-decoration:none;font-weight:700;font-size:.93rem;margin:.3rem;transition:.3s}
+.lbtn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(122,125,63,.45)}
+.lbtn.outline{background:transparent;border:2px solid var(--accent);color:var(--accent)}
+.lbtn.outline:hover{background:var(--accent);color:#fff}
+/* Guidelines */
+.guidelines{background:#fff}
+.guide-inner{max-width:900px;margin:auto}
+.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2.5rem}
+.guide-box{border-radius:16px;padding:2rem;border-left:5px solid}
+.guide-box.dos{background:#f0fdf4;border-color:#16a34a}
+.guide-box.donts{background:#fff5f5;border-color:#dc2626}
+.guide-box h4{font-size:1rem;font-weight:800;margin-bottom:1rem}
+.guide-box.dos h4{color:#16a34a}
+.guide-box.donts h4{color:#dc2626}
+.guide-box ul{list-style:none}
+.guide-box ul li{font-size:.9rem;padding:.4rem 0;border-bottom:1px solid rgba(0,0,0,.06);display:flex;align-items:flex-start;gap:.5rem;color:var(--muted)}
+.guide-box ul li:last-child{border-bottom:none}
+/* Track CTA */
+.track-cta{background:linear-gradient(135deg,var(--accent),var(--accent2));padding:4.5rem 2rem;text-align:center}
+.track-cta h2{font-size:2rem;font-weight:900;color:#fff;margin-bottom:.8rem}
+.track-cta p{color:rgba(255,255,255,.85);max-width:440px;margin:0 auto 1.8rem;line-height:1.8;font-size:.97rem}
+.wb{display:inline-block;padding:.85rem 2.2rem;border-radius:50px;background:#fff;color:var(--accent);font-weight:700;text-decoration:none;margin:.3rem;transition:.3s}
+.wb:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.2)}
+.ob{display:inline-block;padding:.85rem 2.2rem;border-radius:50px;border:2px solid rgba(255,255,255,.55);color:#fff;font-weight:700;text-decoration:none;margin:.3rem;transition:.3s}
+.ob:hover{background:rgba(255,255,255,.12)}
+@media(max-width:700px){.guide-grid{grid-template-columns:1fr}section{padding:4rem 1.4rem}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="nav-container">
+    <a href="../index.html" class="logo-box"><img src="../assets/logo.jpg" class="logo-img" alt="Adhaar Logo"><div class="logo-text">The SoulServes</div></a>
+    <nav class="nav" id="mobileMenu">
+      <a href="../index.html">Home</a><a href="about.html">About</a><a href="activities.html">Activities</a>
+      <a href="impact.php">Impact</a><a href="contact.html">Contact</a>
+      <a href="donate.html" class="active">Donate</a>
+      <a href="../shop/shop.php" class="btn-nav-shop">🛍️ Shop</a>
+      <a href="../auth/register.php" class="btn-nav">Sign Up</a>
+    </nav>
+    <div class="menu-icon" id="menuToggle">☰</div>
+  </div>
+</header>
+
+<div class="page-wrap">
+
+<!-- HERO -->
+<section class="don-hero">
+  <h1>Donate with <span>Purpose</span></h1>
+  <p>Your surplus food or unused clothing could be someone's lifeline today. Submit a donation in minutes — we handle the rest.</p>
+  <div class="hero-chips">
+    <span class="hero-chip">✅ Verified & Tracked</span>
+    <span class="hero-chip">🚚 Free Volunteer Pickup</span>
+    <span class="hero-chip">📧 Real-time Notifications</span>
+    <span class="hero-chip">🔒 Safe & Dignified</span>
+  </div>
+</section>
+
+<!-- WHY DONATE -->
+<section class="why reveal">
+  <div class="why-inner">
+    <div style="text-align:center">
+      <div style="display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);background:rgba(122,125,63,.1);padding:5px 14px;border-radius:50px;margin-bottom:14px">Why It Matters</div>
+      <h2 style="font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:900;color:var(--text);margin-bottom:.6rem">Every Donation <span style="color:var(--accent)">Changes a Life</span></h2>
+      <p style="color:var(--muted);max-width:520px;margin:0 auto;font-size:.97rem;line-height:1.8">India wastes 40% of its food. Families need clothing they can't afford. Your surplus is someone else's necessity.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card"><span class="why-icon">🍱</span><h4>Food Reaches in Hours</h4><p>Perishable food is prioritised. Our volunteers ensure same-day or next-day delivery to beneficiaries.</p></div>
+      <div class="why-card"><span class="why-icon">👕</span><h4>Clothes with Dignity</h4><p>Donations are sorted, verified, and delivered intact — never dumped, always respected.</p></div>
+      <div class="why-card"><span class="why-icon">📍</span><h4>Full Transparency</h4><p>Track every step from submission to delivery on your Donor Dashboard in real time.</p></div>
+      <div class="why-card"><span class="why-icon">🤝</span><h4>Volunteer Pickup</h4><p>You don't travel. A verified volunteer picks up from your address at your scheduled time.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DONATION FORMS -->
+<section class="don-sec reveal">
+  <div class="don-inner">
+    <div style="text-align:center;margin-bottom:2rem">
+      <div style="display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);background:rgba(122,125,63,.1);padding:5px 14px;border-radius:50px;margin-bottom:14px">Donate Now</div>
+      <h2 style="font-size:clamp(1.8rem,3.5vw,2.3rem);font-weight:900;color:var(--text)">What Would You Like to <span style="color:var(--accent)">Donate?</span></h2>
+    </div>
+
+    <!-- Login prompt shown when not logged in -->
+    <div class="login-banner" id="loginBanner">
+      <div style="font-size:3rem;margin-bottom:.6rem">🔒</div>
+      <h3>Login Required to Donate</h3>
+      <p>Create a free Donor account or login to submit your donation. It takes under 2 minutes.</p>
+      <a href="../auth/register.php" class="lbtn">Create Free Account →</a>
+      <a href="../auth/login.php" class="lbtn outline">Already have an account? Login</a>
+    </div>
+
+    <!-- Forms (shown only after login via dashboard redirect) -->
+    <div id="donForms" style="display:none">
+      <div class="tab-row">
+        <button class="tab-btn active" data-tab="food" onclick="switchTab('food',this)">🍲 Donate Food</button>
+        <button class="tab-btn" data-tab="cloth" onclick="switchTab('cloth',this)">👕 Donate Clothes</button>
+      </div>
+      <!-- FOOD FORM -->
+      <div class="form-panel active" id="foodForm">
+        <h3>🍲 Food Donation</h3>
+        <p class="note">Food must be freshly prepared and properly packed. We only accept same-day cooked food.</p>
+        <form action="../api/food_donate.php" method="POST" enctype="multipart/form-data" class="donate-form">
+          <div class="field"><label>When was the food prepared? *</label><input type="datetime-local" name="prepared_at" required></div>
+          <div class="field"><label>Safe to eat for *</label>
+            <select name="safe_hours" required><option value="">Select duration</option><option value="2">2 hours</option><option value="4">4 hours</option><option value="6">6 hours</option><option value="8">8+ hours</option></select></div>
+          <div class="field"><label>Serves approximately how many people? *</label><input type="number" name="quantity" min="1" placeholder="e.g. 20" required></div>
+          <div class="field"><label>Urgency *</label>
+            <select name="priority" required><option value="">Select urgency</option><option value="high">High – needs pickup today</option><option value="medium">Medium – within 24 hours</option><option value="low">Low – flexible timing</option></select></div>
+          <div class="field"><label>Pickup Address *</label><input type="text" name="pickup_address" placeholder="Full address including landmark" required></div>
+          <div class="field"><label>Contact Number *</label><input type="tel" name="contact" pattern="[0-9]{10}" placeholder="10-digit mobile" required></div>
+          <div class="field"><label>Upload Photo *</label><input type="file" name="image" id="foodImage" accept="image/*" required><img id="foodPreview" class="img-preview" alt="Preview"></div>
+          <div class="checkbox-row"><input type="checkbox" required><span>I confirm the food is safe, hygienic, and suitable for consumption.</span></div>
+          <div class="impact-note">🌱 Your donation can feed 5–50 people today</div>
+          <button class="submit-btn" type="submit">Submit Food Donation →</button>
+        </form>
+      </div>
+      <!-- CLOTH FORM -->
+      <div class="form-panel" id="clothForm">
+        <h3>👕 Clothing Donation</h3>
+        <p class="note">Clothes must be clean, wearable, and in good condition. We do not accept torn or heavily worn items.</p>
+        <form action="../api/cloth_donate.php" method="POST" enctype="multipart/form-data" class="donate-form">
+          <div class="field"><label>When were the clothes purchased? *</label><input type="text" name="purchase_time" placeholder="e.g. 2 years ago / 2022" required></div>
+          <div class="field"><label>Number of items *</label><input type="number" name="quantity" min="1" placeholder="e.g. 5" required></div>
+          <div class="field"><label>Clothing type *</label>
+            <select name="cloth_type" required><option value="">Select type</option><option value="Men">Men's clothing</option><option value="Women">Women's clothing</option><option value="Children">Children's clothing</option><option value="Mixed">Mixed</option></select></div>
+          <div class="field"><label>Condition *</label>
+            <select name="condition_type" required><option value="new">New / Unused</option><option value="good">Good condition</option><option value="fair">Fair – slightly used</option></select></div>
+          <div class="field"><label>Pickup Address *</label><input type="text" name="pickup_address" placeholder="Full address including landmark" required></div>
+          <div class="field"><label>Contact Number *</label><input type="tel" name="contact" pattern="[0-9]{10}" placeholder="10-digit mobile" required></div>
+          <div class="field"><label>Upload Photo *</label><input type="file" name="image" id="clothImage" accept="image/*" required><img id="clothPreview" class="img-preview" alt="Preview"></div>
+          <div class="checkbox-row"><input type="checkbox" name="is_clean" value="1"><span>I confirm the clothes are clean and washed.</span></div>
+          <div class="impact-note">👕 Brings warmth and dignity to someone in need</div>
+          <button class="submit-btn" type="submit">Submit Clothing Donation →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUIDELINES -->
+<section class="guidelines reveal">
+  <div class="guide-inner">
+    <div style="text-align:center;margin-bottom:.5rem">
+      <div style="display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);background:rgba(122,125,63,.1);padding:5px 14px;border-radius:50px;margin-bottom:14px">Rules</div>
+      <h2 style="font-size:clamp(1.8rem,3.5vw,2.2rem);font-weight:900;color:var(--text)">Donation <span style="color:var(--accent)">Guidelines</span></h2>
+    </div>
+    <div class="guide-grid">
+      <div class="guide-box dos">
+        <h4>✅ We Accept</h4>
+        <ul>
+          <li>✔ Freshly cooked food (same day)</li>
+          <li>✔ Sealed packaged food within expiry</li>
+          <li>✔ Clean, wearable clothing</li>
+          <li>✔ New or gently used clothes</li>
+          <li>✔ Winter wear (jackets, sweaters, shawls)</li>
+          <li>✔ Children's clothing in good condition</li>
+        </ul>
+      </div>
+      <div class="guide-box donts">
+        <h4>❌ We Do Not Accept</h4>
+        <ul>
+          <li>✗ Stale, expired, or unsafe food</li>
+          <li>✗ Partially eaten meals</li>
+          <li>✗ Torn, unwashed, or unusable clothes</li>
+          <li>✗ Items in very poor / damaged condition</li>
+          <li>✗ Undergarments or personal hygiene items</li>
+          <li>✗ Items without a photo upload</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACK CTA -->
+<section class="track-cta">
+  <h2>Already Donated?</h2>
+  <p>Log in to your Donor Dashboard to track every stage of your donation in real time.</p>
+  <a href="../auth/login.php" class="wb">Login to Track →</a>
+  <a href="../auth/register.php" class="ob">Create Free Account</a>
+</section>
+</div>
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-about"><h3>Adhaar – The SoulServe</h3><p>Connecting surplus food and clothing to communities in need, reducing waste while restoring dignity and trust.</p></div>
+    <div class="footer-links"><h4>Quick Links</h4><a href="../index.html">Home</a><a href="about.html">About</a><a href="activities.html">Activities</a><a href="impact.php">Impact</a><a href="contact.html">Contact</a></div>
+    <div class="footer-contact"><h4>Contact</h4><p>📞 +91 82379 17354</p><p>📧 adhaarsoulserve@gmail.com</p><p>📍 Maharashtra, India</p></div>
+  </div>
+  <p class="footer-bottom">© 2026 Adhaar – The SoulServe. All Rights Reserved.</p>
+</footer>
+
+<script src="../js/donate.js"></script>
+<script>
+const menuToggle=document.getElementById('menuToggle'),nav=document.getElementById('mobileMenu');
+if(menuToggle&&nav)menuToggle.addEventListener('click',()=>nav.classList.toggle('show'));
+// Reveal
+const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');ro.unobserve(e.target);}});},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+// Tab switching
+function switchTab(type,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===type));
+  document.querySelectorAll('.form-panel').forEach(p=>p.classList.toggle('active',p.id===type+'Form'));
+}
+// File preview
+['food','cloth'].forEach(t=>{
+  const inp=document.getElementById(t+'Image'),prev=document.getElementById(t+'Preview');
+  if(inp&&prev)inp.addEventListener('change',()=>{const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{prev.src=e.target.result;prev.style.display='block';};r.readAsDataURL(f);});
+});
+// Show login banner for visitors, forms for authenticated users
+// Since this is a static HTML page, we just show the login banner
+// (actual donation forms are in donor/donate.php after login)
+document.getElementById('loginBanner').style.display='block';
+</script>
+</body>
+</html>

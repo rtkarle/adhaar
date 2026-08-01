@@ -1,0 +1,62 @@
+{
+  "donation_trend": {
+    "model": "LinearRegression",
+    "r2_score": 0.9846,
+    "features": [
+      "week_number",
+      "month",
+      "season_index",
+      "prev_food",
+      "prev_cloth",
+      "prev_total",
+      "rolling_avg",
+      "sin_month",
+      "cos_month"
+    ],
+    "target": "next_week_total",
+    "coeff": {
+      "week_number": 8.9898,
+      "month": 0.5097,
+      "season_index": 2.3913,
+      "prev_food": -2.117,
+      "prev_cloth": 2.4301,
+      "prev_total": -0.5581,
+      "rolling_avg": 14.7309,
+      "sin_month": 0.2257,
+      "cos_month": 0.2116
+    }
+  },
+  "sales_prediction": {
+    "model": "RandomForestRegressor",
+    "r2_score": 0.9221,
+    "features": [
+      "week_number",
+      "month",
+      "season_index",
+      "prev_food",
+      "prev_cloth",
+      "prev_total",
+      "rolling_avg",
+      "sin_month",
+      "cos_month",
+      "food_donations",
+      "cloth_donations",
+      "total_donations"
+    ],
+    "target": "marketplace_sales_inr",
+    "feature_importance": {
+      "week_number": 0.0187,
+      "month": 0.0036,
+      "season_index": 0.0003,
+      "prev_food": 0.008,
+      "prev_cloth": 0.0103,
+      "prev_total": 0.0189,
+      "rolling_avg": 0.0682,
+      "sin_month": 0.0036,
+      "cos_month": 0.0036,
+      "food_donations": 0.008,
+      "cloth_donations": 0.0503,
+      "total_donations": 0.8064
+    }
+  }
+}

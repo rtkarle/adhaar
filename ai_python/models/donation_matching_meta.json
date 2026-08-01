@@ -1,0 +1,40 @@
+{
+  "model": "RandomForestClassifier",
+  "module": "donation_matching",
+  "accuracy": 0.7625,
+  "features": [
+    "donation_category_enc",
+    "quantity",
+    "urgency_enc",
+    "donor_zone_enc",
+    "beneficiary_zone_enc",
+    "zone_distance",
+    "same_zone",
+    "ngo_req_cat_enc",
+    "ngo_capacity",
+    "capacity_sufficient",
+    "donor_past_donations"
+  ],
+  "target": "match_label",
+  "classes": [
+    "no_match",
+    "partial",
+    "good",
+    "excellent"
+  ],
+  "feature_importance": {
+    "donation_category_enc": 0.0405,
+    "quantity": 0.0685,
+    "urgency_enc": 0.2849,
+    "donor_zone_enc": 0.0369,
+    "beneficiary_zone_enc": 0.0388,
+    "zone_distance": 0.1165,
+    "same_zone": 0.0497,
+    "ngo_req_cat_enc": 0.0349,
+    "ngo_capacity": 0.0883,
+    "capacity_sufficient": 0.0397,
+    "donor_past_donations": 0.2014
+  },
+  "n_estimators": 200,
+  "trained_rows": 960
+}
