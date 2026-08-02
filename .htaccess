@@ -1,26 +1,28 @@
 # =====================================================
-#  Adhaar – The SoulServe  |  Apache Security Config
+#  Adhaar â€“ The SoulServe  |  Apache Security Config
 # =====================================================
 
-# ── HTTPS redirect — active on Render (live server) ─────────
+# â”€â”€ HTTPS redirect â€” active on Render (live server) â”€â”€â”€â”€â”€â”€â”€â”€â”€
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteCond %{HTTPS} off
+    # Render already provides HTTPS via proxy â€” check X-Forwarded-Proto
+    # to avoid redirect loop on Render/Heroku style deployments
+    RewriteCond %{HTTP:X-Forwarded-Proto} =http
     RewriteCond %{HTTP_HOST} !^localhost
     RewriteCond %{HTTP_HOST} !^127\.0\.0\.1
     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 </IfModule>
 
-# ── Prevent directory listing ─────────────────────────
+# â”€â”€ Prevent directory listing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 Options -Indexes
 
-# ── Block direct access to config files ───────────────
+# â”€â”€ Block direct access to config files â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 <FilesMatch "\.(sql|log|env|ini|json|lock|md)$">
     Order allow,deny
     Deny from all
 </FilesMatch>
 
-# ── Block direct access to PHP config files ───────────
+# â”€â”€ Block direct access to PHP config files â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 <Files "config.php">
     Order allow,deny
     Deny from all
@@ -38,7 +40,7 @@ Options -Indexes
     Deny from all
 </Files>
 
-# ── Protect config/ directory entirely ────────────────
+# â”€â”€ Protect config/ directory entirely â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteRule ^config/ - [F,L]
@@ -47,7 +49,7 @@ Options -Indexes
     RewriteRule ^database/ - [F,L]
 </IfModule>
 
-# ── Security headers ─────────────────────────────────
+# â”€â”€ Security headers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options "nosniff"
     Header always set X-Frame-Options "SAMEORIGIN"
@@ -55,7 +57,7 @@ Options -Indexes
     Header always set Referrer-Policy "strict-origin-when-cross-origin"
 </IfModule>
 
-# ── Block PHP execution in uploads folder ────────────
+# â”€â”€ Block PHP execution in uploads folder â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # (also enforced by uploads/.htaccess)
 <IfModule mod_rewrite.c>
     RewriteRule ^uploads/.*\.php$ - [F,L]
