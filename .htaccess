@@ -1,3 +1,6 @@
+# Default index files
+DirectoryIndex index.html index.php
+
 # =====================================================
 #  Adhaar â€“ The SoulServe  |  Apache Security Config
 # =====================================================
