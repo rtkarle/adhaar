@@ -1,19 +1,19 @@
--- ============================================================
---  Adhaar – The SoulServe  |  MIGRATION SCRIPT v2.0
+﻿-- ============================================================
+--  Adhaar â€“ The SoulServe  |  MIGRATION SCRIPT v2.0
 --  Run this on any EXISTING install to upgrade to v2 schema.
 --  Safe to run multiple times (uses IF NOT EXISTS / IGNORE).
 -- ============================================================
 
 USE adhaar_db;
 
--- ── 1. register: add seller role & profile_photo ─────────────
+-- â”€â”€ 1. register: add seller role & profile_photo â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 ALTER TABLE register
   MODIFY COLUMN role ENUM('donor','volunteer','seller') NOT NULL DEFAULT 'donor';
 
 ALTER TABLE register
-  ADD COLUMN IF NOT EXISTS profile_photo VARCHAR(300) DEFAULT NULL AFTER verified;
+  ADD COLUMN profile_photo VARCHAR(300) DEFAULT NULL AFTER verified;
 
--- ── 2. food_donations: expand status, add missing cols ───────
+-- â”€â”€ 2. food_donations: expand status, add missing cols â”€â”€â”€â”€â”€â”€â”€
 ALTER TABLE food_donations
   MODIFY COLUMN status ENUM(
     'pending','accepted','rejected',
@@ -21,13 +21,13 @@ ALTER TABLE food_donations
   ) NOT NULL DEFAULT 'pending';
 
 ALTER TABLE food_donations
-  ADD COLUMN IF NOT EXISTS priority ENUM('low','medium','high')
+  ADD COLUMN priority ENUM('low','medium','high')
     NOT NULL DEFAULT 'medium' AFTER safe_hours;
 
 ALTER TABLE food_donations
-  ADD COLUMN IF NOT EXISTS notes TEXT NULL AFTER volunteer_email;
+  ADD COLUMN notes TEXT NULL AFTER volunteer_email;
 
--- ── 3. cloth_donations: expand status & condition ────────────
+-- â”€â”€ 3. cloth_donations: expand status & condition â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 ALTER TABLE cloth_donations
   MODIFY COLUMN status ENUM(
     'pending','accepted','rejected',
@@ -39,9 +39,9 @@ ALTER TABLE cloth_donations
     ENUM('new','good','fair','worn') NOT NULL DEFAULT 'good';
 
 ALTER TABLE cloth_donations
-  ADD COLUMN IF NOT EXISTS notes TEXT NULL AFTER volunteer_email;
+  ADD COLUMN notes TEXT NULL AFTER volunteer_email;
 
--- ── 4. seller_stores ─────────────────────────────────────────
+-- â”€â”€ 4. seller_stores â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS seller_stores (
   id               INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   seller_email     VARCHAR(180) NOT NULL UNIQUE,
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS seller_stores (
   INDEX idx_seller (seller_email)
 ) ENGINE=InnoDB;
 
--- ── 5. products ───────────────────────────────────────────────
+-- â”€â”€ 5. products â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS products (
   id             INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   seller_email   VARCHAR(180) NOT NULL,
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS products (
   FOREIGN KEY (store_id) REFERENCES seller_stores(id) ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
--- ── 6. cart ──────────────────────────────────────────────────
+-- â”€â”€ 6. cart â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS cart (
   id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   user_email   VARCHAR(180) NOT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE IF NOT EXISTS cart (
   FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- ── 7. orders ────────────────────────────────────────────────
+-- â”€â”€ 7. orders â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS orders (
   id               INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   order_number     VARCHAR(30) NOT NULL UNIQUE,
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS orders (
   INDEX idx_status (order_status)
 ) ENGINE=InnoDB;
 
--- ── 8. order_items ───────────────────────────────────────────
+-- â”€â”€ 8. order_items â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS order_items (
   id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   order_id     INT UNSIGNED NOT NULL,
@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS order_items (
   FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
--- ── 9. product_reviews ───────────────────────────────────────
+-- â”€â”€ 9. product_reviews â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS product_reviews (
   id             INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   product_id     INT UNSIGNED NOT NULL,
@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS product_reviews (
   FOREIGN KEY (order_id)   REFERENCES orders(id)   ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
--- ── 10. return_requests ──────────────────────────────────────
+-- â”€â”€ 10. return_requests â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS return_requests (
   id             INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   order_id       INT UNSIGNED NOT NULL,
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS return_requests (
   FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
--- ── 11. volunteer_tasks ──────────────────────────────────────
+-- â”€â”€ 11. volunteer_tasks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS volunteer_tasks (
   id              INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   volunteer_email VARCHAR(180) NOT NULL,
@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS volunteer_tasks (
   INDEX idx_status    (task_status)
 ) ENGINE=InnoDB;
 
--- ── 12. password_resets (safe no-op if exists) ───────────────
+-- â”€â”€ 12. password_resets (safe no-op if exists) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS password_resets (
   id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   email      VARCHAR(180) NOT NULL,
@@ -208,11 +208,11 @@ CREATE TABLE IF NOT EXISTS password_resets (
   INDEX idx_token (token)
 ) ENGINE=InnoDB;
 
--- ── Verify ───────────────────────────────────────────────────
+-- â”€â”€ Verify â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 SELECT 'Migration v2.0 complete.' AS status;
 SHOW TABLES;
 
--- ── 13. login_attempts (rate limiting) ───────────────────────
+-- â”€â”€ 13. login_attempts (rate limiting) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS login_attempts (
   id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   email      VARCHAR(180) NOT NULL,
@@ -222,7 +222,7 @@ CREATE TABLE IF NOT EXISTS login_attempts (
   INDEX idx_time  (attempted_at)
 ) ENGINE=InnoDB;
 
--- ── 14. settlements (seller payout tracking) ─────────────────
+-- â”€â”€ 14. settlements (seller payout tracking) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS settlements (
   id             INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   seller_email   VARCHAR(180) NOT NULL,
@@ -241,7 +241,7 @@ CREATE TABLE IF NOT EXISTS settlements (
   INDEX idx_status (status)
 ) ENGINE=InnoDB;
 
--- ── 15. ai_logs (AI decision audit trail) ────────────────────
+-- â”€â”€ 15. ai_logs (AI decision audit trail) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS ai_logs (
   id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   action_type  VARCHAR(60)  NOT NULL COMMENT 'auto_assign|validity_check|demand_forecast|rate_limit',
@@ -256,7 +256,7 @@ CREATE TABLE IF NOT EXISTS ai_logs (
 
 SELECT 'Migration v3.0 (AI + Settlements) complete.' AS status;
 
--- ── 16. product_search_history (AI search tracking) ─────────
+-- â”€â”€ 16. product_search_history (AI search tracking) â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS product_search_history (
   id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   user_email   VARCHAR(180) NOT NULL,
@@ -268,7 +268,7 @@ CREATE TABLE IF NOT EXISTS product_search_history (
   INDEX idx_time (searched_at)
 ) ENGINE=InnoDB;
 
--- ── 17. product_view_history (AI browse tracking) ────────────
+-- â”€â”€ 17. product_view_history (AI browse tracking) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS product_view_history (
   id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   user_email   VARCHAR(180) NOT NULL,
@@ -281,27 +281,27 @@ CREATE TABLE IF NOT EXISTS product_view_history (
   INDEX idx_time    (last_viewed)
 ) ENGINE=InnoDB;
 
--- ── 18. Add pincode to register (for distance-based volunteer matching) ─
+-- â”€â”€ 18. Add pincode to register (for distance-based volunteer matching) â”€
 ALTER TABLE register
-  ADD COLUMN IF NOT EXISTS pincode VARCHAR(10) DEFAULT NULL AFTER address;
+  ADD COLUMN pincode VARCHAR(10) DEFAULT NULL AFTER address;
 
--- ── 19. Add donor_pincode to donations (from pickup address) ─
+-- â”€â”€ 19. Add donor_pincode to donations (from pickup address) â”€
 ALTER TABLE food_donations
-  ADD COLUMN IF NOT EXISTS donor_pincode VARCHAR(10) DEFAULT NULL AFTER contact;
+  ADD COLUMN donor_pincode VARCHAR(10) DEFAULT NULL AFTER contact;
 
 ALTER TABLE cloth_donations
-  ADD COLUMN IF NOT EXISTS donor_pincode VARCHAR(10) DEFAULT NULL AFTER contact;
+  ADD COLUMN donor_pincode VARCHAR(10) DEFAULT NULL AFTER contact;
 
 SELECT 'Migration v4.0 (Recommendations + Distance) complete.' AS status;
 
 
--- ── 20. events_news (Admin-managed news & events) ────────────
+-- â”€â”€ 20. events_news (Admin-managed news & events) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 CREATE TABLE IF NOT EXISTS events_news (
   id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   title        VARCHAR(300)  NOT NULL,
   content      TEXT          NOT NULL,
   category     ENUM('event','news','drive','milestone') NOT NULL DEFAULT 'news',
-  emoji        VARCHAR(10)   DEFAULT '📰',
+  emoji        VARCHAR(10)   DEFAULT 'ðŸ“°',
   image        VARCHAR(300)  DEFAULT NULL,
   is_published TINYINT(1)    NOT NULL DEFAULT 1,
   event_date   DATE          DEFAULT NULL,
@@ -312,11 +312,12 @@ CREATE TABLE IF NOT EXISTS events_news (
   INDEX idx_category  (category)
 ) ENGINE=InnoDB;
 
--- ── 21. delivery_proof column on donation tables ──────────────
+-- â”€â”€ 21. delivery_proof column on donation tables â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 ALTER TABLE food_donations
-  ADD COLUMN IF NOT EXISTS delivery_proof VARCHAR(300) DEFAULT NULL AFTER notes;
+  ADD COLUMN delivery_proof VARCHAR(300) DEFAULT NULL AFTER notes;
 
 ALTER TABLE cloth_donations
-  ADD COLUMN IF NOT EXISTS delivery_proof VARCHAR(300) DEFAULT NULL AFTER notes;
+  ADD COLUMN delivery_proof VARCHAR(300) DEFAULT NULL AFTER notes;
 
 SELECT 'Migration v5.0 (Events/News + Delivery Proof) complete.' AS status;
+
