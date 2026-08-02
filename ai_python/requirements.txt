@@ -1,4 +1,4 @@
-# Adhaar AI — Python dependencies
+# Adhaar AI â€” Python dependencies
 # Production-pinned versions for Render deployment
 
 # Web server
@@ -11,7 +11,7 @@ numpy==1.26.4
 scikit-learn==1.5.0
 joblib==1.4.2
 
-# Google Gemini (optional — for AI chat)
+# Google Gemini (optional â€” for AI chat)
 google-generativeai==0.7.2
 
 # HTTP utils (used by gunicorn health checks)
