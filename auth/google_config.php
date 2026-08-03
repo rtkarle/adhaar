@@ -1,28 +1,23 @@
 <?php
 /**
  * Google OAuth Config
- * Credentials loaded from environment variables — never hardcoded.
- * Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in Render dashboard.
- *
- * Local dev: set in config/config.php or directly below as fallback.
+ * Credentials loaded from environment variables â€” never hardcoded.
  */
 require __DIR__ . '/../vendor/autoload.php';
 
 $client = new Google\Client();
 
-// Read from env vars (Render) — fallback to config values for local dev
-$googleClientId     = getenv('GOOGLE_CLIENT_ID')     ?: '';
-$googleClientSecret = getenv('GOOGLE_CLIENT_SECRET') ?: '';
+$client->setClientId(getenv('GOOGLE_CLIENT_ID') ?: '');
+$client->setClientSecret(getenv('GOOGLE_CLIENT_SECRET') ?: '');
 
-$client->setClientId($googleClientId);
-$client->setClientSecret($googleClientSecret);
-
-// Redirect URI based on environment
-if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'localhost') {
-    $redirect = "http://localhost/adhaar/auth/google_callback.php";
+// Auto-detect redirect URI based on environment
+if (php_sapi_name() === 'cli') {
+    $redirect = 'http://localhost/adhaar/auth/google_callback.php';
+} elseif (!empty($_SERVER['HTTP_HOST'])) {
+    $scheme   = (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) ? $_SERVER['HTTP_X_FORWARDED_PROTO'] : (!empty($_SERVER['HTTPS']) ? 'https' : 'http'));
+    $redirect = $scheme . '://' . $_SERVER['HTTP_HOST'] . '/auth/google_callback.php';
 } else {
-    $host     = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? '');
-    $redirect = $host . "/auth/google_callback.php";
+    $redirect = rtrim(getenv('APP_URL') ?: 'http://localhost/adhaar', '/') . '/auth/google_callback.php';
 }
 
 $client->setRedirectUri($redirect);
