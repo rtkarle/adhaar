@@ -1,0 +1,9 @@
+# Block PHP execution in uploads directory
+# Prevents uploaded file RCE attacks
+
+<FilesMatch "\.php$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+Options -Indexes

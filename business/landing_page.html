@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SoulServe – NGO Donation & Volunteer Management | Where Technology Meets Compassion</title>
+<meta name="description" content="Replace your Excel spreadsheets with SoulServe. Complete NGO management platform. Donor tracking, volunteer coordination, Kanban distribution. From ₹999/month.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<style>
+:root{--g:#1DB954;--b:#1A3C6B;--o:#F47C3C;--dark:#0a0a14;--card:rgba(255,255,255,.04);--border:rgba(255,255,255,.08);--text:#f1f5f9;--muted:#94a3b8;}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden}
+canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 6%;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,20,.7);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);transition:.3s}
+.nav-brand{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:800;color:#fff;text-decoration:none}
+.nav-brand-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--g),#0ea5e9);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:.2s}
+.nav-links a:hover{color:#fff}
+.nav-cta{display:flex;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:50px;font-size:14px;font-weight:700;text-decoration:none;cursor:pointer;border:none;transition:.25s}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.2)}
+.btn-outline:hover{border-color:var(--g);color:var(--g)}
+.btn-primary{background:linear-gradient(135deg,var(--g),#0ea5e9);color:#fff;box-shadow:0 6px 20px rgba(29,185,84,.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(29,185,84,.5)}
+.btn-lg{padding:14px 32px;font-size:16px;border-radius:50px}
+.btn-danger{background:linear-gradient(135deg,#ef4444,#f97316);color:#fff;box-shadow:0 6px 20px rgba(239,68,68,.35)}
+/* SECTIONS */
+section{position:relative;z-index:1}
+.container{max-width:1100px;margin:0 auto;padding:0 24px}
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:100px 6% 60px;text-align:center}
+.hero-content{max-width:780px;margin:0 auto}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 18px;border-radius:50px;background:rgba(29,185,84,.12);border:1px solid rgba(29,185,84,.3);font-size:13px;font-weight:600;color:var(--g);margin-bottom:28px}
+h1.hero-title{font-size:clamp(36px,6vw,68px);font-weight:900;line-height:1.08;letter-spacing:-.5px;margin-bottom:24px}
+h1.hero-title span{background:linear-gradient(135deg,var(--g),#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:clamp(16px,2vw,20px);color:var(--muted);line-height:1.7;margin-bottom:40px;max-width:600px;margin-left:auto;margin-right:auto}
+.hero-btns{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-bottom:52px}
+.hero-stats{display:flex;flex-wrap:wrap;gap:32px;justify-content:center}
+.hero-stat-num{font-size:32px;font-weight:900;background:linear-gradient(135deg,var(--g),#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-stat-lbl{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px}
+</style>
+<style>
+/* PROBLEM / SOLUTION */
+.section{padding:96px 6%}
+.section-badge{display:inline-block;padding:5px 16px;border-radius:50px;font-size:12px;font-weight:700;margin-bottom:16px;border:1px solid}
+.section-title{font-size:clamp(28px,4vw,44px);font-weight:800;line-height:1.15;margin-bottom:16px}
+.section-sub{font-size:16px;color:var(--muted);line-height:1.7;max-width:560px}
+/* FEATURE GRID */
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;margin-top:52px}
+.feat-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;transition:.3s}
+.feat-card:hover{transform:translateY(-6px);border-color:rgba(29,185,84,.3);box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.feat-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:20px}
+.feat-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.feat-desc{font-size:14px;color:var(--muted);line-height:1.7}
+/* COMPARE TABLE */
+.compare-wrap{margin-top:52px;overflow-x:auto}
+.compare-table{width:100%;border-collapse:collapse;font-size:14px}
+.compare-table th{padding:14px 20px;text-align:left;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);border-bottom:1px solid var(--border)}
+.compare-table td{padding:14px 20px;border-bottom:1px solid var(--border);vertical-align:middle}
+.compare-table tr:hover td{background:rgba(255,255,255,.02)}
+.compare-table .col-ss{background:rgba(29,185,84,.04)}
+.tick{color:var(--g);font-size:16px}
+.cross{color:#ef4444;font-size:16px}
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:24px;margin-top:52px}
+.testi-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;transition:.3s}
+.testi-card:hover{transform:translateY(-4px)}
+.testi-stars{color:#f59e0b;font-size:13px;margin-bottom:14px}
+.testi-text{font-size:14px;color:var(--muted);line-height:1.75;margin-bottom:20px;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:12px}
+.testi-avatar{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:#fff}
+.testi-name{font-size:13px;font-weight:700}
+.testi-role{font-size:12px;color:var(--muted)}
+/* PRICING PREVIEW */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;margin-top:52px}
+.price-card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:36px;transition:.3s;position:relative}
+.price-card.popular{border-color:var(--g);box-shadow:0 0 0 1px var(--g),0 20px 60px rgba(29,185,84,.2)}
+.popular-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--g),#0ea5e9);color:#fff;font-size:11px;font-weight:800;padding:5px 18px;border-radius:50px;white-space:nowrap}
+.price-name{font-size:14px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:16px}
+.price-amount{font-size:44px;font-weight:900;line-height:1;margin-bottom:6px}
+.price-period{font-size:14px;color:var(--muted)}
+.price-features{list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:10px}
+.price-features li{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.price-features li i{color:var(--g);font-size:12px;width:14px}
+/* FAQ */
+.faq-list{margin-top:44px;display:flex;flex-direction:column;gap:12px;max-width:760px;margin-left:auto;margin-right:auto}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.faq-q{padding:20px 24px;font-size:15px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:.2s}
+.faq-q:hover{background:rgba(255,255,255,.04)}
+.faq-q i{transition:.3s;color:var(--g)}
+.faq-a{padding:0 24px;max-height:0;overflow:hidden;transition:all .35s ease;font-size:14px;color:var(--muted);line-height:1.75}
+.faq-item.open .faq-a{max-height:200px;padding:0 24px 20px}
+.faq-item.open .faq-q i{transform:rotate(45deg)}
+/* CTA SECTION */
+.cta-section{padding:100px 6%;text-align:center}
+.cta-box{background:linear-gradient(135deg,rgba(29,185,84,.12),rgba(14,165,233,.1));border:1px solid rgba(29,185,84,.25);border-radius:32px;padding:80px 40px}
+/* FOOTER */
+footer{padding:60px 6% 32px;border-top:1px solid var(--border)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.footer-brand-name{font-size:18px;font-weight:800;margin-bottom:12px}
+.footer-brand-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px}
+.footer-social{display:flex;gap:12px}
+.footer-social a{width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.06);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);text-decoration:none;transition:.2s}
+.footer-social a:hover{background:rgba(29,185,84,.15);border-color:rgba(29,185,84,.3);color:var(--g)}
+.footer-heading{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:16px}
+.footer-links{display:flex;flex-direction:column;gap:10px}
+.footer-links a{font-size:13px;color:var(--muted);text-decoration:none;transition:.2s}
+.footer-links a:hover{color:#fff}
+.footer-bottom{border-top:1px solid var(--border);padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--muted)}
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.fade-up{animation:fadeUp .6s ease both}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
+[data-reveal]{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}
+[data-reveal].revealed{opacity:1;transform:none}
+/* Responsive */
+@media(max-width:768px){.nav-links,.nav-cta{display:none}.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.footer-grid{grid-template-columns:1fr}.hero-stats{gap:16px}}
+</style>
+
+<canvas id="c"></canvas>
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-brand"><div class="nav-brand-icon">🌿</div>SoulServe</a>
+  <div class="nav-links">
+    <a href="#features">Features</a><a href="#compare">Why Us</a>
+    <a href="#pricing">Pricing</a><a href="#testimonials">Reviews</a><a href="#faq">FAQ</a>
+  </div>
+  <div class="nav-cta">
+    <a href="pricing_page.html" class="btn btn-outline">See Pricing</a>
+    <a href="#cta" class="btn btn-primary">Start Free Trial</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge fade-up"><i class="fas fa-star" style="color:#f59e0b"></i> Trusted by 50+ NGOs across India</div>
+    <h1 class="hero-title fade-up d1">Run Your NGO Like a Pro.<br><span>Not Like a Spreadsheet.</span></h1>
+    <p class="hero-sub fade-up d2">SoulServe replaces your messy Excel files, WhatsApp groups, and paper registers with one beautiful platform — built exclusively for NGOs, charitable trusts, and social organizations.</p>
+    <div class="hero-btns fade-up d3">
+      <a href="#cta" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i> Start Free 14-Day Trial</a>
+      <a href="#features" class="btn btn-outline btn-lg"><i class="fas fa-play-circle"></i> See How It Works</a>
+    </div>
+    <div class="hero-stats fade-up d4">
+      <div><div class="hero-stat-num" data-count="50">0</div><div class="hero-stat-lbl">NGOs Active</div></div>
+      <div style="width:1px;background:var(--border)"></div>
+      <div><div class="hero-stat-num" data-count="2400">0</div><div class="hero-stat-lbl">Donations Tracked</div></div>
+      <div style="width:1px;background:var(--border)"></div>
+      <div><div class="hero-stat-num" data-count="180">0</div><div class="hero-stat-lbl">Volunteers Managed</div></div>
+      <div style="width:1px;background:var(--border)"></div>
+      <div><div class="hero-stat-num" data-count="1200">0</div><div class="hero-stat-lbl">Hours Saved</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="section" style="background:rgba(255,255,255,.015);border-top:1px solid var(--border);border-bottom:1px solid var(--border)" id="problem">
+  <div class="container" style="text-align:center">
+    <div class="section-badge" style="color:#ef4444;border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.08)">The Problem</div>
+    <h2 class="section-title" data-reveal>Does This Sound Familiar?</h2>
+    <p class="section-sub" style="margin:0 auto 48px" data-reveal>Every NGO director we speak to tells us the same thing: manual coordination is killing their impact.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;margin-top:40px">
+      <div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:16px;padding:24px;text-align:left" data-reveal>
+        <div style="font-size:28px;margin-bottom:12px">📋</div>
+        <div style="font-weight:700;margin-bottom:8px">Donor data in 3 Excel files</div>
+        <div style="font-size:13px;color:var(--muted)">Scattered across laptops, no backups, crashes when you need it most.</div>
+      </div>
+      <div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:16px;padding:24px;text-align:left" data-reveal>
+        <div style="font-size:28px;margin-bottom:12px">📞</div>
+        <div style="font-weight:700;margin-bottom:8px">Calling volunteers manually</div>
+        <div style="font-size:13px;color:var(--muted)">WhatsApp at 11pm to confirm pickups. No-shows because messages get buried.</div>
+      </div>
+      <div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:16px;padding:24px;text-align:left" data-reveal>
+        <div style="font-size:28px;margin-bottom:12px">📊</div>
+        <div style="font-weight:700;margin-bottom:8px">Month-end reports = 2 days</div>
+        <div style="font-size:13px;color:var(--muted)">Manually compiling FCRA reports. Donors asking for impact data you can't produce.</div>
+      </div>
+      <div style="background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:16px;padding:24px;text-align:left" data-reveal>
+        <div style="font-size:28px;margin-bottom:12px">❌</div>
+        <div style="font-weight:700;margin-bottom:8px">No donation receipts</div>
+        <div style="font-size:13px;color:var(--muted)">Donors never get automatic acknowledgements. Trust erodes silently.</div>
+      </div>
+    </div>
+    <div style="margin-top:40px;font-size:18px;font-weight:700;color:var(--g)" data-reveal>
+      You're not failing at your mission. You're failing at paperwork. We fix that. 🌿
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:0">
+      <div class="section-badge" style="color:var(--g);border-color:rgba(29,185,84,.3);background:rgba(29,185,84,.08)">Platform Features</div>
+      <h2 class="section-title" data-reveal>One Platform. Complete Control.</h2>
+      <p class="section-sub" style="margin:0 auto" data-reveal>Everything your NGO needs, built by people who actually understand the social sector.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card" data-reveal><div class="feat-icon" style="background:linear-gradient(135deg,#1DB954,#0ea5e9)"><i class="fas fa-bowl-food" style="color:#fff"></i></div><h3 class="feat-title">Donation Management</h3><p class="feat-desc">Food and clothing donations through a 7-stage tracked pipeline. From submission to delivery — every step visible.</p></div>
+      <div class="feat-card" data-reveal><div class="feat-icon" style="background:linear-gradient(135deg,#f59e0b,#ef4444)"><i class="fas fa-columns" style="color:#fff"></i></div><h3 class="feat-title">Kanban Distribution Board</h3><p class="feat-desc">Visual pipeline board showing every donation's status in real time. Unique in the market — no competitor offers this for NGOs.</p></div>
+      <div class="feat-card" data-reveal><div class="feat-icon" style="background:linear-gradient(135deg,#7c3aed,#ec4899)"><i class="fas fa-person-walking" style="color:#fff"></i></div><h3 class="feat-title">Volunteer Coordination</h3><p class="feat-desc">Assign verified volunteers with one click. Set date, time, and contact. No more WhatsApp chaos at midnight.</p></div>
+      <div class="feat-card" data-reveal><div class="feat-icon" style="background:linear-gradient(135deg,#0ea5e9,#7c3aed)"><i class="fas fa-gauge-high" style="color:#fff"></i></div><h3 class="feat-title">Admin Dashboard</h3><p class="feat-desc">Live counts of food, clothing, and pending donations. Know your numbers without opening a single spreadsheet.</p></div>
+      <div class="feat-card" data-reveal><div class="feat-icon" style="background:linear-gradient(135deg,#10b981,#0ea5e9)"><i class="fas fa-file-export" style="color:#fff"></i></div><h3 class="feat-title">CSV Export</h3><p class="feat-desc">One-click export for FCRA filing, board reports, and donor audits. What took 2 days now takes 10 seconds.</p></div>
+      <div class="feat-card" data-reveal><div class="feat-icon" style="background:linear-gradient(135deg,#F47C3C,#ef4444)"><i class="fas fa-shield-halved" style="color:#fff"></i></div><h3 class="feat-title">Enterprise Security</h3><p class="feat-desc">bcrypt passwords, CSRF protection, prepared SQL statements, OTP email verification, Google OAuth 2.0.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" style="background:rgba(255,255,255,.015);border-top:1px solid var(--border);border-bottom:1px solid var(--border)" id="how">
+  <div class="container" style="text-align:center">
+    <div class="section-badge" style="color:#0ea5e9;border-color:rgba(14,165,233,.3);background:rgba(14,165,233,.08)">Simple Process</div>
+    <h2 class="section-title" data-reveal>From Surplus to Smiles in 4 Steps</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:52px">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px 24px;text-align:center" data-reveal>
+        <div style="width:56px;height:56px;border-radius:16px;background:rgba(29,185,84,.12);border:2px solid rgba(29,185,84,.3);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 20px"><i class="fas fa-plus-circle" style="color:var(--g)"></i></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;margin:0 auto 14px">01</div>
+        <h4 style="font-size:15px;font-weight:700;margin-bottom:8px">Post Donation</h4>
+        <p style="font-size:13px;color:var(--muted)">Upload food or items with photo, quantity, and location. Under 2 minutes.</p>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px 24px;text-align:center" data-reveal>
+        <div style="width:56px;height:56px;border-radius:16px;background:rgba(14,165,233,.12);border:2px solid rgba(14,165,233,.3);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 20px"><i class="fas fa-check-circle" style="color:#0ea5e9"></i></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:#0ea5e9;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;margin:0 auto 14px">02</div>
+        <h4 style="font-size:15px;font-weight:700;margin-bottom:8px">Admin Approves</h4>
+        <p style="font-size:13px;color:var(--muted)">One-click review, schedule pickup with date, time, and volunteer.</p>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px 24px;text-align:center" data-reveal>
+        <div style="width:56px;height:56px;border-radius:16px;background:rgba(245,158,11,.12);border:2px solid rgba(245,158,11,.3);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 20px"><i class="fas fa-motorcycle" style="color:#f59e0b"></i></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:#f59e0b;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;margin:0 auto 14px">03</div>
+        <h4 style="font-size:15px;font-weight:700;margin-bottom:8px">Volunteer Picks Up</h4>
+        <p style="font-size:13px;color:var(--muted)">Verified volunteer gets notified, goes to address, marks collected.</p>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px 24px;text-align:center" data-reveal>
+        <div style="width:56px;height:56px;border-radius:16px;background:rgba(16,185,129,.12);border:2px solid rgba(16,185,129,.3);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 20px"><i class="fas fa-star" style="color:#10b981"></i></div>
+        <div style="width:26px;height:26px;border-radius:50%;background:#10b981;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;margin:0 auto 14px">04</div>
+        <h4 style="font-size:15px;font-weight:700;margin-bottom:8px">Impact Certified</h4>
+        <p style="font-size:13px;color:var(--muted)">Donor receives digital certificate. Impact logged forever.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE TABLE -->
+<section class="section" id="compare">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:52px">
+      <div class="section-badge" style="color:var(--g);border-color:rgba(29,185,84,.3);background:rgba(29,185,84,.08)">Why SoulServe</div>
+      <h2 class="section-title" data-reveal>We Win On Everything That Matters</h2>
+    </div>
+    <div class="compare-wrap">
+      <table class="compare-table">
+        <thead><tr><th>Feature</th><th>Excel / Paper</th><th>Salesforce NPSP</th><th>NGO Connect</th><th style="color:var(--g)">✦ SoulServe</th></tr></thead>
+        <tbody>
+          <tr><td>Donation Tracking</td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td><td class="col-ss"><i class="fas fa-check tick"></i></td></tr>
+          <tr><td>Volunteer Management</td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-minus" style="color:#94a3b8"></i> Limited</td><td><i class="fas fa-minus" style="color:#94a3b8"></i> Limited</td><td class="col-ss"><i class="fas fa-check tick"></i> Full</td></tr>
+          <tr><td>Kanban Distribution Board</td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-times cross"></i></td><td class="col-ss"><i class="fas fa-check tick"></i> Unique</td></tr>
+          <tr><td>India-First Design</td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-check tick"></i></td><td class="col-ss"><i class="fas fa-check tick"></i></td></tr>
+          <tr><td>Affordable (&lt; ₹3,000/mo)</td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-minus" style="color:#94a3b8"></i></td><td class="col-ss"><i class="fas fa-check tick"></i></td></tr>
+          <tr><td>Self-Hosted Option</td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-times cross"></i></td><td class="col-ss"><i class="fas fa-check tick"></i></td></tr>
+          <tr><td>One-Time License</td><td>N/A</td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-times cross"></i></td><td class="col-ss"><i class="fas fa-check tick"></i></td></tr>
+          <tr><td>CSV Export</td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-times cross"></i></td><td class="col-ss"><i class="fas fa-check tick"></i></td></tr>
+          <tr><td style="font-weight:700">Starting Price</td><td>Free</td><td>$$$</td><td>₹2,000+/mo</td><td class="col-ss" style="font-weight:800;color:var(--g)">₹999/mo</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="section" style="background:rgba(255,255,255,.015);border-top:1px solid var(--border)" id="testimonials">
+  <div class="container" style="text-align:center">
+    <div class="section-badge" style="color:#f59e0b;border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.08)">Testimonials</div>
+    <h2 class="section-title" data-reveal>What NGO Directors Are Saying</h2>
+    <div class="testi-grid">
+      <div class="testi-card" data-reveal><div class="testi-stars">★★★★★</div><p class="testi-text">"We used to spend 3 hours every Sunday updating donor spreadsheets. Now it's done automatically. SoulServe paid for itself in the first week."</p><div class="testi-author"><div class="testi-avatar" style="background:linear-gradient(135deg,#1DB954,#0ea5e9)">S</div><div><div class="testi-name">Sunita Nair</div><div class="testi-role">Director, Asha Foundation, Mumbai</div></div></div></div>
+      <div class="testi-card" data-reveal><div class="testi-stars">★★★★★</div><p class="testi-text">"The Kanban board changed how our team operates. Everyone knows exactly which donation is where and who's picking it up."</p><div class="testi-author"><div class="testi-avatar" style="background:linear-gradient(135deg,#7c3aed,#ec4899)">R</div><div><div class="testi-name">Rahul Verma</div><div class="testi-role">Operations Head, GreenHope Society</div></div></div></div>
+      <div class="testi-card" data-reveal><div class="testi-stars">★★★★★</div><p class="testi-text">"Our FCRA annual return used to take 3 days. Now we export CSV in 10 seconds and we're done. Absolute game changer."</p><div class="testi-author"><div class="testi-avatar" style="background:linear-gradient(135deg,#F47C3C,#ef4444)">P</div><div><div class="testi-name">Priya Iyer</div><div class="testi-role">Admin, Seva Trust, Chennai</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING PREVIEW -->
+<section class="section" id="pricing">
+  <div class="container" style="text-align:center">
+    <div class="section-badge" style="color:var(--g);border-color:rgba(29,185,84,.3);background:rgba(29,185,84,.08)">Pricing</div>
+    <h2 class="section-title" data-reveal>Pricing That Respects Your Mission</h2>
+    <p class="section-sub" style="margin:0 auto 52px" data-reveal>Registered NGOs get <strong style="color:var(--g)">40% off</strong> every plan. Students get <strong style="color:#0ea5e9">60% off</strong>. No hidden fees.</p>
+    <div class="pricing-grid">
+      <div class="price-card" data-reveal>
+        <div class="price-name">Seed</div>
+        <div class="price-amount">₹999</div>
+        <div class="price-period">/ month · billed monthly</div>
+        <ul class="price-features">
+          <li><i class="fas fa-check"></i> Up to 100 donors</li>
+          <li><i class="fas fa-check"></i> 200 donations/month</li>
+          <li><i class="fas fa-check"></i> 1 admin account</li>
+          <li><i class="fas fa-check"></i> CSV export</li>
+          <li><i class="fas fa-check"></i> yourname.soulserve.io</li>
+          <li style="color:#475569"><i class="fas fa-times" style="color:#475569"></i> Custom domain</li>
+          <li style="color:#475569"><i class="fas fa-times" style="color:#475569"></i> Email notifications</li>
+        </ul>
+        <a href="pricing_page.html" class="btn btn-outline" style="width:100%;justify-content:center">Get Started</a>
+      </div>
+      <div class="price-card popular" data-reveal>
+        <span class="popular-badge">★ Most Popular</span>
+        <div class="price-name">Grow</div>
+        <div class="price-amount" style="background:linear-gradient(135deg,var(--g),#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent">₹2,499</div>
+        <div class="price-period">/ month · billed monthly</div>
+        <ul class="price-features">
+          <li><i class="fas fa-check"></i> Up to 500 donors</li>
+          <li><i class="fas fa-check"></i> Unlimited donations</li>
+          <li><i class="fas fa-check"></i> 3 admin accounts</li>
+          <li><i class="fas fa-check"></i> Email notifications</li>
+          <li><i class="fas fa-check"></i> Custom domain</li>
+          <li><i class="fas fa-check"></i> Analytics dashboard</li>
+          <li><i class="fas fa-check"></i> Daily backups</li>
+        </ul>
+        <a href="pricing_page.html" class="btn btn-primary" style="width:100%;justify-content:center">Start Free Trial</a>
+      </div>
+      <div class="price-card" data-reveal>
+        <div class="price-name">Impact</div>
+        <div class="price-amount">₹5,999</div>
+        <div class="price-period">/ month · billed monthly</div>
+        <ul class="price-features">
+          <li><i class="fas fa-check"></i> Unlimited donors</li>
+          <li><i class="fas fa-check"></i> Unlimited everything</li>
+          <li><i class="fas fa-check"></i> 10 admin accounts</li>
+          <li><i class="fas fa-check"></i> Email + SMS alerts</li>
+          <li><i class="fas fa-check"></i> White-label branding</li>
+          <li><i class="fas fa-check"></i> PDF reports + API</li>
+          <li><i class="fas fa-check"></i> Dedicated manager</li>
+        </ul>
+        <a href="pricing_page.html" class="btn btn-outline" style="width:100%;justify-content:center">Contact Sales</a>
+      </div>
+    </div>
+    <div style="margin-top:28px;font-size:14px;color:var(--muted)">Or buy a <a href="pricing_page.html" style="color:var(--g);font-weight:700">one-time license</a> from ₹4,999 → self-host on your own server</div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="background:rgba(255,255,255,.015);border-top:1px solid var(--border)" id="faq">
+  <div class="container" style="text-align:center">
+    <div class="section-badge" style="color:var(--g);border-color:rgba(29,185,84,.3);background:rgba(29,185,84,.08)">FAQ</div>
+    <h2 class="section-title" data-reveal>Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is SoulServe free to use?<i class="fas fa-plus"></i></div><div class="faq-a">Yes, we offer a free community edition for personal/educational use. For commercial NGO use, paid plans start at ₹999/month. Registered NGOs get 40% off — verified by 12A/80G certificate.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I self-host SoulServe on my own server?<i class="fas fa-plus"></i></div><div class="faq-a">Absolutely. One-time licenses (₹4,999–₹24,999) let you deploy on any LAMP/cPanel server. Your data stays on your server — no vendor lock-in.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How long does setup take?<i class="fas fa-plus"></i></div><div class="faq-a">Most NGOs are live within 60 minutes. Import the database, edit 2 config files, create admin account. Our detailed guide walks through every step.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What technology does it use?<i class="fas fa-plus"></i></div><div class="faq-a">PHP 8+, MySQL 8+, Bootstrap 5, JavaScript. Runs on any shared hosting or VPS. No special requirements — if you can run WordPress, you can run SoulServe.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Do you support multiple donation types?<i class="fas fa-plus"></i></div><div class="faq-a">Yes — food donations (with freshness/safe-hours tracking) and clothing donations (with condition/type classification). Both use the same 7-stage tracked pipeline.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is there a white-label option for agencies?<i class="fas fa-plus"></i></div><div class="faq-a">Yes. The Agency License (₹24,999 one-time) gives unlimited deployments with full white-label rights — replace SoulServe branding with your client's name and logo.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="container"><div class="cta-box">
+    <h2 style="font-size:clamp(28px,4vw,48px);font-weight:900;margin-bottom:16px" data-reveal>Your NGO Deserves Better<br><span style="background:linear-gradient(135deg,var(--g),#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Than Excel.</span></h2>
+    <p style="font-size:17px;color:var(--muted);margin-bottom:40px;max-width:480px;margin-left:auto;margin-right:auto" data-reveal>Join 50+ organizations already running on SoulServe. Start your free trial today.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center" data-reveal>
+      <a href="pricing_page.html" class="btn btn-primary btn-lg"><i class="fas fa-rocket"></i> Start Free 14-Day Trial</a>
+      <a href="client_proposal.html" class="btn btn-outline btn-lg"><i class="fas fa-file-lines"></i> Request a Proposal</a>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-top:20px">No credit card · Setup in 60 min · NGOs get 40% off</p>
+  </div></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div><div class="footer-brand-name">🌿 SoulServe</div><p class="footer-brand-desc">AI-powered humanitarian platform connecting donors, NGOs, and volunteers. Built for India's 3.3 million NGOs.</p>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-twitter"></i></a><a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-github"></i></a>
+      </div></div>
+      <div><div class="footer-heading">Platform</div><div class="footer-links"><a href="#features">Features</a><a href="pricing_page.html">Pricing</a><a href="#compare">Why SoulServe</a><a href="#faq">FAQ</a></div></div>
+      <div><div class="footer-heading">Resources</div><div class="footer-links"><a href="../README.md">Documentation</a><a href="../CHANGELOG.md">Changelog</a><a href="client_proposal.html">Request Demo</a><a href="pitch_deck.html">Pitch Deck</a></div></div>
+      <div><div class="footer-heading">Legal</div><div class="footer-links"><a href="08_legal_documents.md">Privacy Policy</a><a href="08_legal_documents.md">Terms of Service</a><a href="08_legal_documents.md">Refund Policy</a><a href="08_legal_documents.md">EULA</a></div></div>
+    </div>
+    <div class="footer-bottom"><span>© 2025 SoulServe · AADHAR – The SoulServe. All Rights Reserved.</span><span>Built with ❤️ for humanity · Made in India 🇮🇳</span></div>
+  </div>
+</footer>
+
+<script>
+// Particle canvas
+(function(){const c=document.getElementById('c'),x=c.getContext('2d');let W,H,pts=[];function init(){W=c.width=innerWidth;H=c.height=innerHeight;pts=[];for(let i=0;i<70;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.6+.5});}function draw(){x.clearRect(0,0,W,H);pts.forEach((a,i)=>{pts.slice(i+1).forEach(b=>{const d=Math.hypot(a.x-b.x,a.y-b.y);if(d<120){x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.strokeStyle=`rgba(29,185,84,${.15*(1-d/120)})`;x.lineWidth=.7;x.stroke();}});x.beginPath();x.arc(a.x,a.y,a.r,0,Math.PI*2);x.fillStyle='rgba(29,185,84,.4)';x.fill();a.x+=a.vx;a.y+=a.vy;if(a.x<0||a.x>W)a.vx*=-1;if(a.y<0||a.y>H)a.vy*=-1;});requestAnimationFrame(draw);}window.addEventListener('resize',init);init();draw();})();
+// Counter animation
+const countObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,target=+el.dataset.count,dur=1800,step=target/dur*16;let cur=0;const t=setInterval(()=>{cur+=step;if(cur>=target){cur=target;clearInterval(t);}el.textContent=cur>=1000?Math.round(cur).toLocaleString('en-IN'):Math.round(cur);},16);countObs.unobserve(el);});},{threshold:.3});
+document.querySelectorAll('[data-count]').forEach(el=>countObs.observe(el));
+// Scroll reveal
+const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');ro.unobserve(e.target);}});},{threshold:.12});
+document.querySelectorAll('[data-reveal]').forEach(el=>ro.observe(el));
+// FAQ toggle
+function toggleFaq(btn){const item=btn.parentElement;const isOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!isOpen)item.classList.add('open');}
+// Nav shrink on scroll
+window.addEventListener('scroll',()=>{document.getElementById('nav').style.padding=window.scrollY>50?'10px 6%':'16px 6%';});
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}});});
+</script>
+</body></html>

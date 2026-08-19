@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pricing – SoulServe NGO Management Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<style>
+:root{--g:#1DB954;--b:#1A3C6B;--o:#F47C3C;--dark:#0a0a14;--card:rgba(255,255,255,.04);--border:rgba(255,255,255,.08);--text:#f1f5f9;--muted:#94a3b8;}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;min-height:100vh}
+canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+.z1{position:relative;z-index:1}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 6%;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,20,.8);backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+.nav-brand{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:800;color:#fff;text-decoration:none}
+.nav-brand-icon{width:34px;height:34px;background:linear-gradient(135deg,var(--g),#0ea5e9);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 20px;border-radius:50px;font-size:13.5px;font-weight:700;text-decoration:none;cursor:pointer;border:none;transition:.25s;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,var(--g),#0ea5e9);color:#fff;box-shadow:0 5px 18px rgba(29,185,84,.35)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(29,185,84,.5)}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--g);color:var(--g)}
+.btn-danger{background:linear-gradient(135deg,#ef4444,#f97316);color:#fff}
+/* HERO */
+.hero{padding:130px 6% 60px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:7px;padding:6px 16px;border-radius:50px;font-size:12px;font-weight:700;margin-bottom:20px;border:1px solid}
+h1{font-size:clamp(32px,5vw,58px);font-weight:900;line-height:1.1;margin-bottom:16px;letter-spacing:-.5px}
+.grad{background:linear-gradient(135deg,var(--g),#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{font-size:17px;color:var(--muted);max-width:540px;margin:0 auto 36px;line-height:1.7}
+/* Toggle */
+.billing-toggle{display:inline-flex;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:50px;padding:5px;gap:4px;margin-bottom:52px}
+.toggle-btn{padding:9px 24px;border-radius:50px;font-size:13px;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--muted);transition:.25s;font-family:inherit}
+.toggle-btn.active{background:linear-gradient(135deg,var(--g),#0ea5e9);color:#fff;box-shadow:0 4px 14px rgba(29,185,84,.35)}
+.save-pill{display:inline-block;background:rgba(29,185,84,.12);border:1px solid rgba(29,185,84,.3);color:var(--g);font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle}
+/* Pricing grid */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:24px;max-width:1080px;margin:0 auto}
+.price-card{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:24px;padding:36px;transition:.35s;position:relative;overflow:hidden}
+.price-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.price-card.popular{border-color:var(--g);box-shadow:0 0 0 1px var(--g),0 20px 60px rgba(29,185,84,.18);background:rgba(29,185,84,.04)}
+.popular-badge{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--g),#0ea5e9);color:#fff;font-size:11px;font-weight:800;padding:5px 20px;border-radius:0 0 14px 14px;white-space:nowrap}
+.price-name{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.9px;margin-bottom:18px}
+.price-amount{font-size:52px;font-weight:900;line-height:1;transition:.3s}
+.price-amount.grad{font-size:52px;font-weight:900}
+.price-period{font-size:13px;color:var(--muted);margin-top:4px;margin-bottom:6px}
+.original-price{font-size:14px;color:#475569;text-decoration:line-through;margin-bottom:4px}
+.ngo-price{font-size:13px;color:var(--g);font-weight:700;margin-bottom:20px}
+hr.divider{border:none;border-top:1px solid var(--border);margin:20px 0}
+.feat-list{list-style:none;display:flex;flex-direction:column;gap:11px;margin-bottom:28px}
+.feat-list li{font-size:13.5px;color:var(--muted);display:flex;align-items:center;gap:9px}
+.feat-list li i.yes{color:var(--g);font-size:12px;width:14px;flex-shrink:0}
+.feat-list li i.no{color:#475569;font-size:12px;width:14px;flex-shrink:0}
+.btn-full{width:100%;justify-content:center;padding:13px;font-size:14px;border-radius:14px}
+/* Discount banner */
+.discount-banner{background:linear-gradient(135deg,rgba(29,185,84,.12),rgba(14,165,233,.1));border:1px solid rgba(29,185,84,.25);border-radius:20px;padding:28px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;max-width:1080px;margin:40px auto 0}
+/* One-time license */
+.license-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:1080px;margin:0 auto}
+.lic-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;transition:.3s}
+.lic-card:hover{transform:translateY(-4px);border-color:rgba(29,185,84,.3)}
+.lic-name{font-size:14px;font-weight:700;margin-bottom:8px}
+.lic-price{font-size:32px;font-weight:900;margin-bottom:4px}
+.lic-sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+.lic-feat{display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
+.lic-feat div{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:7px}
+.lic-feat i{color:var(--g);font-size:11px;width:12px}
+/* Feature table */
+.feat-table{width:100%;border-collapse:collapse;font-size:13.5px;max-width:1080px;margin:0 auto}
+.feat-table th{padding:14px 18px;background:rgba(255,255,255,.04);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);border-bottom:1px solid var(--border);text-align:center}
+.feat-table th:first-child{text-align:left}
+.feat-table td{padding:13px 18px;border-bottom:1px solid var(--border);text-align:center;color:var(--muted)}
+.feat-table td:first-child{text-align:left;font-weight:600;color:var(--text)}
+.feat-table tr:hover td{background:rgba(255,255,255,.02)}
+.tick{color:var(--g);font-size:15px}
+.cross{color:#475569;font-size:15px}
+/* Section */
+.section{padding:80px 6%;position:relative;z-index:1}
+.section-title{font-size:clamp(24px,3vw,38px);font-weight:800;margin-bottom:12px;text-align:center}
+.section-sub{font-size:15px;color:var(--muted);text-align:center;margin-bottom:44px;max-width:520px;margin-left:auto;margin-right:auto}
+/* FAQ */
+.faq-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.faq-item{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.faq-q{padding:18px 22px;font-size:14px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:.2s}
+.faq-q:hover{background:rgba(255,255,255,.04)}
+.faq-q i{transition:.3s;color:var(--g);flex-shrink:0}
+.faq-a{padding:0 22px;max-height:0;overflow:hidden;transition:all .35s;font-size:13.5px;color:var(--muted);line-height:1.75}
+.faq-item.open .faq-a{max-height:180px;padding:0 22px 18px}
+.faq-item.open .faq-q i{transform:rotate(45deg)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+[data-r]{opacity:0;transform:translateY(20px);transition:opacity .55s,transform .55s}
+[data-r].in{opacity:1;transform:none}
+footer{text-align:center;padding:32px 24px;border-top:1px solid var(--border);font-size:13px;color:var(--muted)}
+@media(max-width:680px){.discount-banner{flex-direction:column;text-align:center}}
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-brand"><div class="nav-brand-icon">🌿</div>SoulServe</a>
+  <div style="display:flex;gap:10px">
+    <a href="landing_page.html" class="btn btn-outline">← Back</a>
+    <a href="client_proposal.html" class="btn btn-primary">Request Demo</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero z1">
+  <div class="badge" style="color:var(--g);border-color:rgba(29,185,84,.3);background:rgba(29,185,84,.08)"><i class="fas fa-tag"></i> Transparent Pricing</div>
+  <h1>Simple Pricing.<br><span class="grad">Built for NGOs.</span></h1>
+  <p class="sub">No hidden fees. No lock-in. Registered NGOs get <strong style="color:var(--g)">40% off</strong>. Students get <strong style="color:#0ea5e9">60% off</strong>. Cancel anytime.</p>
+  <!-- Billing toggle -->
+  <div class="billing-toggle" id="billingToggle">
+    <button class="toggle-btn active" id="btnMonthly" onclick="setBilling('monthly')">Monthly</button>
+    <button class="toggle-btn" id="btnAnnual" onclick="setBilling('annual')">Annual <span class="save-pill">Save 17%</span></button>
+  </div>
+  <!-- Pricing Cards -->
+  <div class="pricing-grid">
+    <div class="price-card" data-r>
+      <div class="price-name">Seed</div>
+      <div class="original-price" id="seed-orig" style="visibility:hidden">₹11,988/yr</div>
+      <div class="price-amount" id="seed-price">₹999</div>
+      <div class="price-period" id="seed-period">per month</div>
+      <div class="ngo-price">NGO price: <span id="seed-ngo">₹599/mo</span></div>
+      <hr class="divider">
+      <ul class="feat-list">
+        <li><i class="fas fa-check yes"></i>Up to 100 donors</li>
+        <li><i class="fas fa-check yes"></i>200 donations/month</li>
+        <li><i class="fas fa-check yes"></i>1 admin account</li>
+        <li><i class="fas fa-check yes"></i>CSV export</li>
+        <li><i class="fas fa-check yes"></i>yourname.soulserve.io</li>
+        <li><i class="fas fa-check yes"></i>SSL included</li>
+        <li><i class="fas fa-times no"></i>Custom domain</li>
+        <li><i class="fas fa-times no"></i>Email notifications</li>
+        <li><i class="fas fa-times no"></i>Analytics</li>
+      </ul>
+      <a href="#contact" class="btn btn-outline btn-full">Start Free Trial</a>
+    </div>
+    <div class="price-card popular" data-r>
+      <span class="popular-badge">★ Most Popular</span>
+      <div class="price-name">Grow</div>
+      <div class="original-price" id="grow-orig" style="visibility:hidden">₹29,988/yr</div>
+      <div class="price-amount grad" id="grow-price">₹2,499</div>
+      <div class="price-period" id="grow-period">per month</div>
+      <div class="ngo-price">NGO price: <span id="grow-ngo">₹1,499/mo</span></div>
+      <hr class="divider">
+      <ul class="feat-list">
+        <li><i class="fas fa-check yes"></i>Up to 500 donors</li>
+        <li><i class="fas fa-check yes"></i>Unlimited donations</li>
+        <li><i class="fas fa-check yes"></i>3 admin accounts</li>
+        <li><i class="fas fa-check yes"></i>Email notifications</li>
+        <li><i class="fas fa-check yes"></i>Custom domain</li>
+        <li><i class="fas fa-check yes"></i>Basic analytics charts</li>
+        <li><i class="fas fa-check yes"></i>Daily backups</li>
+        <li><i class="fas fa-check yes"></i>48h support</li>
+        <li><i class="fas fa-times no"></i>White-label branding</li>
+      </ul>
+      <a href="#contact" class="btn btn-primary btn-full"><i class="fas fa-rocket"></i>Start Free Trial</a>
+    </div>
+    <div class="price-card" data-r>
+      <div class="price-name">Impact</div>
+      <div class="original-price" id="impact-orig" style="visibility:hidden">₹71,988/yr</div>
+      <div class="price-amount" id="impact-price">₹5,999</div>
+      <div class="price-period" id="impact-period">per month</div>
+      <div class="ngo-price">NGO price: <span id="impact-ngo">₹3,599/mo</span></div>
+      <hr class="divider">
+      <ul class="feat-list">
+        <li><i class="fas fa-check yes"></i>Unlimited donors</li>
+        <li><i class="fas fa-check yes"></i>Unlimited everything</li>
+        <li><i class="fas fa-check yes"></i>10 admin accounts</li>
+        <li><i class="fas fa-check yes"></i>Email + SMS alerts</li>
+        <li><i class="fas fa-check yes"></i>White-label branding</li>
+        <li><i class="fas fa-check yes"></i>Advanced analytics</li>
+        <li><i class="fas fa-check yes"></i>PDF report generation</li>
+        <li><i class="fas fa-check yes"></i>REST API access</li>
+        <li><i class="fas fa-check yes"></i>Dedicated manager</li>
+      </ul>
+      <a href="#contact" class="btn btn-outline btn-full">Contact Sales</a>
+    </div>
+  </div>
+  <!-- Discount banner -->
+  <div class="discount-banner" data-r>
+    <div>
+      <div style="font-size:16px;font-weight:800;margin-bottom:4px">🏛️ Registered NGO? Get 40% Off Every Plan</div>
+      <div style="font-size:13px;color:var(--muted)">Upload your 12A/80G certificate at checkout. Verified within 24 hours.</div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a href="#contact" class="btn btn-primary"><i class="fas fa-graduation-cap"></i>NGO Discount</a>
+      <a href="#contact" class="btn btn-outline" style="border-color:rgba(14,165,233,.4);color:#0ea5e9"><i class="fas fa-university"></i>Student 60% Off</a>
+    </div>
+  </div>
+</div>
+
+<!-- ONE-TIME LICENSES -->
+<section class="section" style="border-top:1px solid var(--border)">
+  <h2 class="section-title" data-r>Or Buy a One-Time License</h2>
+  <p class="section-sub" data-r>Self-host on your own server. Your data, your rules. No monthly fees.</p>
+  <div class="license-grid">
+    <div class="lic-card" data-r>
+      <div class="lic-name" style="color:var(--g)">Starter License</div>
+      <div class="lic-price">₹4,999</div>
+      <div class="lic-sub">$59 · Single domain · One-time</div>
+      <div class="lic-feat">
+        <div><i class="fas fa-check"></i>Full source code</div>
+        <div><i class="fas fa-check"></i>1 domain deployment</div>
+        <div><i class="fas fa-check"></i>6 months support</div>
+        <div><i class="fas fa-check"></i>All core features</div>
+      </div>
+      <a href="#contact" class="btn btn-outline" style="width:100%;justify-content:center;border-radius:10px">Buy Now</a>
+    </div>
+    <div class="lic-card" style="border-color:rgba(14,165,233,.3)" data-r>
+      <div class="lic-name" style="color:#0ea5e9">Professional License</div>
+      <div class="lic-price">₹12,999</div>
+      <div class="lic-sub">$149 · 3 domains · One-time</div>
+      <div class="lic-feat">
+        <div><i class="fas fa-check"></i>Everything in Starter</div>
+        <div><i class="fas fa-check"></i>Remove SoulServe branding</div>
+        <div><i class="fas fa-check"></i>1 year support</div>
+        <div><i class="fas fa-check"></i>Priority bug fixes</div>
+      </div>
+      <a href="#contact" class="btn" style="width:100%;justify-content:center;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#7c3aed);color:#fff">Buy Now</a>
+    </div>
+    <div class="lic-card" style="border-color:rgba(245,158,11,.3)" data-r>
+      <div class="lic-name" style="color:#f59e0b">Agency License</div>
+      <div class="lic-price">₹24,999</div>
+      <div class="lic-sub">$299 · Unlimited clients · One-time</div>
+      <div class="lic-feat">
+        <div><i class="fas fa-check"></i>Unlimited deployments</div>
+        <div><i class="fas fa-check"></i>Full white-label rights</div>
+        <div><i class="fas fa-check"></i>Resell to clients</div>
+        <div><i class="fas fa-check"></i>2 years priority support</div>
+      </div>
+      <a href="#contact" class="btn" style="width:100%;justify-content:center;border-radius:10px;background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff">Buy Now</a>
+    </div>
+    <div class="lic-card" data-r>
+      <div class="lic-name" style="color:#ec4899">Lifetime License</div>
+      <div class="lic-price">₹19,999</div>
+      <div class="lic-sub">$229 · Up to 5 domains · Lifetime</div>
+      <div class="lic-feat">
+        <div><i class="fas fa-check"></i>Professional features</div>
+        <div><i class="fas fa-check"></i>Lifetime v1.x updates</div>
+        <div><i class="fas fa-check"></i>3 years support</div>
+        <div><i class="fas fa-check"></i>Limited slots only</div>
+      </div>
+      <a href="#contact" class="btn" style="width:100%;justify-content:center;border-radius:10px;background:linear-gradient(135deg,#ec4899,#7c3aed);color:#fff">Grab Lifetime Deal</a>
+    </div>
+  </div>
+</section>
+
+<!-- FULL FEATURE TABLE -->
+<section class="section" style="border-top:1px solid var(--border)">
+  <h2 class="section-title" data-r>Full Feature Comparison</h2>
+  <div style="overflow-x:auto">
+    <table class="feat-table">
+      <thead><tr><th style="text-align:left;width:35%">Feature</th><th>Seed</th><th style="color:var(--g)">Grow ★</th><th>Impact</th></tr></thead>
+      <tbody>
+        <tr><td colspan="4" style="background:rgba(255,255,255,.03);font-weight:700;color:var(--text);padding:12px 18px;font-size:12px;text-transform:uppercase;letter-spacing:.7px">Donor Management</td></tr>
+        <tr><td>Donor registration &amp; OTP</td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td></tr>
+        <tr><td>Max donors</td><td style="color:var(--muted)">100</td><td style="color:var(--muted)">500</td><td style="color:var(--g);font-weight:700">Unlimited</td></tr>
+        <tr><td>Donation history</td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td></tr>
+        <tr><td>Google OAuth login</td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td></tr>
+        <tr><td colspan="4" style="background:rgba(255,255,255,.03);font-weight:700;color:var(--text);padding:12px 18px;font-size:12px;text-transform:uppercase;letter-spacing:.7px">Donations &amp; Distribution</td></tr>
+        <tr><td>Food + clothing donations</td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td></tr>
+        <tr><td>Donations per month</td><td style="color:var(--muted)">200</td><td style="color:var(--g);font-weight:700">Unlimited</td><td style="color:var(--g);font-weight:700">Unlimited</td></tr>
+        <tr><td>Kanban distribution board</td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td></tr>
+        <tr><td>Volunteer assignment</td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td></tr>
+        <tr><td>CSV data export</td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td></tr>
+        <tr><td colspan="4" style="background:rgba(255,255,255,.03);font-weight:700;color:var(--text);padding:12px 18px;font-size:12px;text-transform:uppercase;letter-spacing:.7px">Platform &amp; Customisation</td></tr>
+        <tr><td>Custom domain</td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td></tr>
+        <tr><td>Remove SoulServe branding</td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-check tick"></i></td></tr>
+        <tr><td>Email notifications</td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td></tr>
+        <tr><td>SMS notifications</td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-check tick"></i></td></tr>
+        <tr><td>Analytics dashboard</td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-check tick"></i> Basic</td><td><i class="fas fa-check tick"></i> Advanced</td></tr>
+        <tr><td>PDF report generation</td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-check tick"></i></td></tr>
+        <tr><td>REST API access</td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-check tick"></i></td></tr>
+        <tr><td>Admin accounts</td><td style="color:var(--muted)">1</td><td style="color:var(--muted)">3</td><td style="color:var(--muted)">10</td></tr>
+        <tr><td colspan="4" style="background:rgba(255,255,255,.03);font-weight:700;color:var(--text);padding:12px 18px;font-size:12px;text-transform:uppercase;letter-spacing:.7px">Support &amp; SLA</td></tr>
+        <tr><td>Support channel</td><td style="color:var(--muted)">Email 5d</td><td style="color:var(--muted)">Email 48h</td><td style="color:var(--muted)">24h + Phone</td></tr>
+        <tr><td>Uptime SLA</td><td style="color:var(--muted)">99%</td><td style="color:var(--muted)">99.5%</td><td style="color:var(--muted)">99.9%</td></tr>
+        <tr><td>Daily backups</td><td><i class="fas fa-times cross"></i></td><td><i class="fas fa-check tick"></i></td><td><i class="fas fa-check tick"></i></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="border-top:1px solid var(--border)">
+  <h2 class="section-title" data-r>Pricing FAQ</h2>
+  <div class="faq-list">
+    <div class="faq-item"><div class="faq-q" onclick="faq(this)">Is there a free trial?<i class="fas fa-plus"></i></div><div class="faq-a">Yes — 14-day free trial on the Grow plan. No credit card required. Full access to all Grow features.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="faq(this)">How does NGO discounting work?<i class="fas fa-plus"></i></div><div class="faq-a">Upload your 12A/80G registration certificate at checkout. We verify within 24 hours and apply 40% off permanently to your plan.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="faq(this)">Can I switch plans later?<i class="fas fa-plus"></i></div><div class="faq-a">Yes. Upgrade or downgrade anytime from your account settings. Upgrades are prorated immediately. Downgrades take effect at the next billing cycle.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="faq(this)">What's the difference between SaaS and a one-time license?<i class="fas fa-plus"></i></div><div class="faq-a">SaaS = we host it, you log in via browser. One-time license = you download the source code and install on your own server. You own it forever.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="faq(this)">Do you offer refunds?<i class="fas fa-plus"></i></div><div class="faq-a">Yes — 7-day money-back on one-time licenses (if not deployed). Monthly SaaS: cancel anytime, access continues till end of period. Annual: 30-day full refund.</div></div>
+  </div>
+</section>
+
+<!-- CONTACT CTA -->
+<section id="contact" style="padding:60px 6%;position:relative;z-index:1;text-align:center;border-top:1px solid var(--border)">
+  <h2 style="font-size:32px;font-weight:800;margin-bottom:12px">Ready to Get Started?</h2>
+  <p style="color:var(--muted);margin-bottom:32px;font-size:15px">Start your free trial today or request a demo call.</p>
+  <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
+    <a href="mailto:hello@soulserve.io?subject=Free Trial Request" class="btn btn-primary" style="padding:14px 32px;border-radius:50px;font-size:15px"><i class="fas fa-rocket"></i>Start Free Trial</a>
+    <a href="client_proposal.html" class="btn btn-outline" style="padding:14px 32px;border-radius:50px;font-size:15px"><i class="fas fa-calendar"></i>Book Demo Call</a>
+  </div>
+</section>
+<footer class="z1">© 2025 SoulServe · All prices in INR · GST extra</footer>
+
+<script>
+(function(){const c=document.getElementById('c'),x=c.getContext('2d');let W,H,p=[];function init(){W=c.width=innerWidth;H=c.height=innerHeight;p=[];for(let i=0;i<55;i++)p.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*1.5+.5});}function draw(){x.clearRect(0,0,W,H);p.forEach((a,i)=>{p.slice(i+1).forEach(b=>{const d=Math.hypot(a.x-b.x,a.y-b.y);if(d<120){x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.strokeStyle=`rgba(29,185,84,${.14*(1-d/120)})`;x.lineWidth=.7;x.stroke();}});x.beginPath();x.arc(a.x,a.y,a.r,0,Math.PI*2);x.fillStyle='rgba(29,185,84,.4)';x.fill();a.x+=a.vx;a.y+=a.vy;if(a.x<0||a.x>W)a.vx*=-1;if(a.y<0||a.y>H)a.vy*=-1;});requestAnimationFrame(draw);}window.addEventListener('resize',init);init();draw();})();
+// Scroll reveal
+const ro=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target);}});},{threshold:.1});
+document.querySelectorAll('[data-r]').forEach(el=>ro.observe(el));
+// Billing toggle
+const prices={seed:{m:'₹999',a:'₹9,999',ngoM:'₹599/mo',ngoA:'₹5,999/yr',orig:'₹11,988/yr'},grow:{m:'₹2,499',a:'₹24,999',ngoM:'₹1,499/mo',ngoA:'₹14,999/yr',orig:'₹29,988/yr'},impact:{m:'₹5,999',a:'₹59,999',ngoM:'₹3,599/mo',ngoA:'₹35,999/yr',orig:'₹71,988/yr'}};
+function setBilling(type){
+  const isA=type==='annual';
+  document.getElementById('btnMonthly').classList.toggle('active',!isA);
+  document.getElementById('btnAnnual').classList.toggle('active',isA);
+  ['seed','grow','impact'].forEach(k=>{
+    document.getElementById(k+'-price').textContent=isA?prices[k].a:prices[k].m;
+    document.getElementById(k+'-period').textContent=isA?'per year · 2 months free':'per month';
+    document.getElementById(k+'-ngo').textContent=isA?prices[k].ngoA:prices[k].ngoM;
+    const origEl=document.getElementById(k+'-orig');
+    origEl.textContent=prices[k].orig;origEl.style.visibility=isA?'visible':'hidden';
+  });
+}
+function faq(btn){const item=btn.parentElement;const was=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!was)item.classList.add('open');}
+</script>
+</body></html>

@@ -1,0 +1,528 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SoulServe — Endless Service. Infinite Impact.</title>
+<meta name="description" content="SoulServe is a technology-powered platform connecting people, resources and communities to create meaningful social impact.">
+<meta property="og:title" content="SoulServe — Endless Service. Infinite Impact.">
+<meta property="og:description" content="Together, We Create Infinite Impact. Donate food, clothing, volunteer, and shop from rural artisans.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ══ NAVBAR ══ -->
+<header class="header" id="header">
+  <div class="nav-container">
+    <a href="index.html" class="logo-box">
+      <div class="logo-mark">
+        <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FF8A00"/>
+              <stop offset="25%" stop-color="#F72585"/>
+              <stop offset="50%" stop-color="#7B2CBF"/>
+              <stop offset="75%" stop-color="#2563EB"/>
+              <stop offset="100%" stop-color="#2E8B57"/>
+            </linearGradient>
+          </defs>
+          <path d="M21 36s-1.5-1.2-4-3.3C10.5 27.4 5 22.5 5 16.5A8.5 8.5 0 0121 11a8.5 8.5 0 0116 5c0 6-5.5 10.9-12 16.2-2.5 2.1-4 3.3-4 3.3z" fill="url(#lg1)" opacity=".9"/>
+          <path d="M9 21c3-2 6-1 8 1s3 5 4 5 2-3 4-5 5-3 8-1" stroke="url(#lg1)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+      <div class="logo-text">SoulServe<span>Endless Service. Infinite Impact.</span></div>
+    </a>
+    <nav class="nav" id="mobileMenu">
+      <a href="index.html" class="nav-link active">Home</a>
+      <a href="pages/about.html" class="nav-link">About</a>
+      <a href="pages/activities.php" class="nav-link">Activities</a>
+      <a href="pages/impact.php" class="nav-link">Impact</a>
+      <a href="pages/donate.html" class="nav-link">Donate</a>
+      <a href="shop/shop.php" class="nav-link">Shop</a>
+      <a href="pages/contact.html" class="nav-link">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="auth/login.php" class="btn-nav">Login</a>
+      <a href="auth/register.php" class="btn-nav">Sign Up</a>
+      <a href="pages/donate.html" class="btn-nav-primary">Donate Now</a>
+    </div>
+    <div class="menu-icon" id="menuToggle">&#9776;</div>
+  </div>
+</header>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="home">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div class="hero-content" style="animation:fadeUp .8s ease">
+      <div class="hero-badge">&#10022; Social Impact Platform</div>
+      <h1 class="hero-headline">
+        Together, We Create<br>
+        <span class="highlight">Infinite Impact.</span>
+      </h1>
+      <p class="hero-sub">SoulServe connects people, resources and communities through technology, compassion and meaningful action. Every act of service creates an endless ripple of change.</p>
+      <div class="hero-ctas">
+        <a href="pages/donate.html" class="btn btn-brand btn-lg">Donate Now</a>
+        <a href="#volunteer" class="btn btn-ghost btn-lg">Become a Volunteer</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-num animated" id="stat-donations">0</span>
+          <span class="hero-stat-label">Donations</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num animated" id="stat-volunteers">0</span>
+          <span class="hero-stat-label">Volunteers</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-num animated" id="stat-lives">0</span>
+          <span class="hero-stat-label">Lives Impacted</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-img-placeholder">
+        <svg width="160" height="160" viewBox="0 0 160 160" fill="none">
+          <defs>
+            <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FF8A00"/>
+              <stop offset="50%" stop-color="#F72585"/>
+              <stop offset="100%" stop-color="#2E8B57"/>
+            </linearGradient>
+          </defs>
+          <path d="M80 140s-8-6-20-16C30 106 10 88 10 64a40 40 0 0170-26 40 40 0 0170 26c0 24-20 42-50 60-12 10-20 16-20 16z" fill="url(#hg)" opacity=".8"/>
+          <path d="M30 80c15-10 30-5 38 7s10 22 12 22 4-10 12-22 23-17 38-7" stroke="white" stroke-width="4" stroke-linecap="round" fill="none" opacity=".7"/>
+        </svg>
+      </div>
+      <div class="floating-card fc1">
+        <div class="fc-icon">&#127869;</div>
+        <div><div class="fc-num" id="fc-meals">0+</div><div class="fc-lbl">Meals Shared</div></div>
+      </div>
+      <div class="floating-card fc2">
+        <div class="fc-icon" style="background:linear-gradient(135deg,#F72585,#7B2CBF)">&#128640;</div>
+        <div><div class="fc-num" id="fc-vols">0+</div><div class="fc-lbl">Active Volunteers</div></div>
+      </div>
+      <div class="floating-card fc3">
+        <div class="fc-icon" style="background:linear-gradient(135deg,#2563EB,#06B6D4)">&#127758;</div>
+        <div><div class="fc-num">15+</div><div class="fc-lbl">Areas Covered</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BRAND STORY ══ -->
+<section class="brand-story section reveal">
+  <div class="container text-center">
+    <span class="section-label">Our Identity</span>
+    <h2 class="heading" style="font-size:clamp(1.8rem,3vw,2.6rem);color:var(--navy);margin-bottom:14px">More Than a Platform.<br><span class="gradient-text">A Movement of Humanity.</span></h2>
+    <p style="color:var(--text-muted);max-width:580px;margin:0 auto;font-size:1rem;line-height:1.8">The SoulServe logo tells our story — a heart and infinity loop combined, rendered in every color of the human rainbow, finally uniting into pure white.</p>
+    <div class="brand-pillars">
+      <div class="pillar reveal">
+        <div class="pillar-icon orange">&#8734;</div>
+        <h3>Infinity</h3>
+        <p>Endless service — no beginning, no end. Every act creates the next. Service flows in a loop of purpose.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-icon pink">&#9829;</div>
+        <h3>Heart</h3>
+        <p>Love, compassion and empathy at the core. Every donation, every delivery — powered by genuine human care.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-icon blue">&#127752;</div>
+        <h3>All Colors</h3>
+        <p>Different people, different communities — united by purpose. Diversity is our strength, inclusion is our promise.</p>
+      </div>
+      <div class="pillar reveal">
+        <div class="pillar-icon green">&#9728;</div>
+        <h3>Pure White</h3>
+        <p>When every color comes together through love and service, they create pure white — representing humanity and soul.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ IMPACT STATS ══ -->
+<section class="impact-strip">
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat-item reveal">
+        <span class="stat-num" id="s1">0</span>
+        <span class="stat-label">Meals Delivered</span>
+        <span class="stat-desc">Hot food to families in need</span>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-num" id="s2">0</span>
+        <span class="stat-label">Clothing Kits</span>
+        <span class="stat-desc">Dignity restored with every piece</span>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-num" id="s3">0</span>
+        <span class="stat-label">Volunteers Active</span>
+        <span class="stat-desc">Changemakers in your community</span>
+      </div>
+      <div class="stat-item reveal">
+        <span class="stat-num" id="s4">0+</span>
+        <span class="stat-label">Villages Reached</span>
+        <span class="stat-desc">Rural impact through technology</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHAT WE DO ══ -->
+<section class="section bg-white">
+  <div class="container text-center">
+    <span class="section-label reveal">What We Do</span>
+    <h2 class="heading reveal" style="font-size:clamp(1.8rem,3vw,2.6rem);color:var(--navy);margin-bottom:14px">Give What You Can.<br>Receive What You Need.</h2>
+    <p class="reveal" style="color:var(--text-muted);max-width:560px;margin:0 auto 56px;font-size:1rem">SoulServe is a complete social impact platform — donation, marketplace and volunteer management powered by AI.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;margin-top:0">
+      <div class="card card-bordered reveal" style="padding:36px 28px;text-align:center">
+        <div style="width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,rgba(255,138,0,.12),rgba(255,138,0,.06));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:32px">&#127869;</div>
+        <h3 style="font-size:18px;font-weight:800;color:var(--navy);margin-bottom:10px">Food Donation</h3>
+        <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:20px">Surplus cooked food collected, verified and delivered fresh to families before it spoils.</p>
+        <a href="pages/donate.html" class="btn btn-primary btn-sm" style="margin:0 auto">Donate Food</a>
+      </div>
+      <div class="card card-bordered reveal" style="padding:36px 28px;text-align:center">
+        <div style="width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(37,99,235,.06));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:32px">&#128248;</div>
+        <h3 style="font-size:18px;font-weight:800;color:var(--navy);margin-bottom:10px">Clothing Drive</h3>
+        <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:20px">Clean, wearable clothing collected and sorted — delivered with dignity to communities that need it.</p>
+        <a href="pages/donate.html" class="btn btn-secondary btn-sm" style="margin:0 auto">Donate Clothes</a>
+      </div>
+      <div class="card card-bordered reveal" style="padding:36px 28px;text-align:center">
+        <div style="width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,rgba(123,44,191,.12),rgba(123,44,191,.06));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:32px">&#127881;</div>
+        <h3 style="font-size:18px;font-weight:800;color:var(--navy);margin-bottom:10px">Rural Marketplace</h3>
+        <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:20px">Every purchase supports rural artisans and self-help groups. Shop handmade, buy with purpose.</p>
+        <a href="shop/shop.php" class="btn btn-sm" style="margin:0 auto;background:linear-gradient(135deg,#7B2CBF,#2563EB);color:#fff">Shop Now</a>
+      </div>
+      <div class="card card-bordered reveal" style="padding:36px 28px;text-align:center">
+        <div style="width:72px;height:72px;border-radius:20px;background:linear-gradient(135deg,rgba(46,139,87,.12),rgba(46,139,87,.06));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:32px">&#129309;</div>
+        <h3 style="font-size:18px;font-weight:800;color:var(--navy);margin-bottom:10px">Volunteer Network</h3>
+        <p style="font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:20px">Join our volunteer network — pick up donations, deliver to beneficiaries, track every step.</p>
+        <a href="#volunteer" class="btn btn-sm" style="margin:0 auto;background:linear-gradient(135deg,#2E8B57,#006D77);color:#fff">Join Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section class="section bg-soft">
+  <div class="how-inner text-center">
+    <span class="section-label reveal">The Process</span>
+    <h2 class="heading reveal" style="font-size:clamp(1.8rem,3vw,2.6rem);color:var(--navy)">How a Donation <span class="gradient-text-teal">Creates Impact</span></h2>
+    <div class="steps-grid">
+      <div class="step reveal"><div class="step-num">1</div><div class="step-icon">&#128221;</div><h4>Submit</h4><p>Fill a simple form with photo, quantity and pickup address.</p></div>
+      <div class="step reveal"><div class="step-num">2</div><div class="step-icon">&#128737;</div><h4>Verify</h4><p>Admin reviews and approves your donation for quality.</p></div>
+      <div class="step reveal"><div class="step-num">3</div><div class="step-icon">&#128197;</div><h4>Schedule</h4><p>AI assigns the best volunteer. Pickup time confirmed by email.</p></div>
+      <div class="step reveal"><div class="step-num">4</div><div class="step-icon">&#128665;</div><h4>Pickup</h4><p>Volunteer collects from your address, tracked in real-time.</p></div>
+      <div class="step reveal"><div class="step-num">5</div><div class="step-icon">&#128247;</div><h4>Proof</h4><p>Delivery photo uploaded. You receive an email with proof.</p></div>
+      <div class="step reveal"><div class="step-num">6</div><div class="step-icon">&#129309;</div><h4>Impact</h4><p>Donation delivered with dignity. Full record kept.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ STORIES SLIDER ══ -->
+<section class="stories-section">
+  <div class="container">
+    <div class="text-center reveal" style="margin-bottom:48px">
+      <span class="section-label">Impact Stories</span>
+      <h2 class="heading" style="font-size:clamp(1.8rem,3vw,2.6rem);color:var(--navy)">Real People. Real Change.</h2>
+    </div>
+    <div style="overflow:hidden;position:relative">
+      <div class="stories-track" id="storiesTrack">
+        <div class="story-card c1">
+          <div class="story-quote">&#8220;</div>
+          <p class="story-text">I had 40 kg of food left from my son's wedding. SoulServe picked it up within 2 hours. Knowing it fed 60 families instead of going to waste — that feeling is priceless.</p>
+          <div class="story-author"><div class="story-avatar">P</div><div><div class="story-name">Priya M.</div><div class="story-role">Donor, Pune</div></div></div>
+        </div>
+        <div class="story-card c2">
+          <div class="story-quote">&#8220;</div>
+          <p class="story-text">Volunteering with SoulServe changed how I see my city. Every weekend pickup reminds me that small actions create infinite impact. I've delivered 200+ donations now.</p>
+          <div class="story-author"><div class="story-avatar">R</div><div><div class="story-name">Rahul K.</div><div class="story-role">Volunteer, Mumbai</div></div></div>
+        </div>
+        <div class="story-card c3">
+          <div class="story-quote">&#8220;</div>
+          <p class="story-text">Through SoulServe Marketplace, my handloom sarees now reach customers across India. My income doubled in 6 months. This platform truly empowers artisans like me.</p>
+          <div class="story-author"><div class="story-avatar">S</div><div><div class="story-name">Savita D.</div><div class="story-role">Rural Artisan, Nashik</div></div></div>
+        </div>
+        <div class="story-card c4">
+          <div class="story-quote">&#8220;</div>
+          <p class="story-text">The AI-powered delivery tracking gave our NGO complete visibility. We now coordinate 10x more donations with half the effort. SoulServe is infrastructure for impact.</p>
+          <div class="story-author"><div class="story-avatar">A</div><div><div class="story-name">Anand N.</div><div class="story-role">NGO Coordinator</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-controls">
+      <button class="slider-btn" onclick="slideStories(-1)">&#8592;</button>
+      <div class="slider-dots" id="storyDots">
+        <div class="slider-dot active" onclick="goToStory(0)"></div>
+        <div class="slider-dot" onclick="goToStory(1)"></div>
+        <div class="slider-dot" onclick="goToStory(2)"></div>
+        <div class="slider-dot" onclick="goToStory(3)"></div>
+      </div>
+      <button class="slider-btn" onclick="slideStories(1)">&#8594;</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ AI SECTION ══ -->
+<section class="section bg-soft">
+  <div class="container text-center">
+    <span class="section-label reveal">Technology</span>
+    <h2 class="heading reveal" style="font-size:clamp(1.8rem,3vw,2.6rem);color:var(--navy);margin-bottom:14px">AI-Powered Impact Intelligence</h2>
+    <p class="reveal" style="color:var(--text-muted);max-width:560px;margin:0 auto 56px">Our machine learning models make every donation more efficient, every volunteer assignment smarter.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px" class="reveal">
+      <div style="background:#fff;border-radius:20px;padding:28px 22px;text-align:left;box-shadow:var(--shadow-sm);border-top:3px solid var(--teal)">
+        <div style="font-size:28px;margin-bottom:14px">&#129302;</div>
+        <h4 style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px">Smart Donation Matching</h4>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.65">Matches donors to the most suitable beneficiary based on category, location and urgency.</p>
+        <div class="badge badge-teal" style="margin-top:12px">76% Accuracy</div>
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:28px 22px;text-align:left;box-shadow:var(--shadow-sm);border-top:3px solid var(--orange)">
+        <div style="font-size:28px;margin-bottom:14px">&#127919;</div>
+        <h4 style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px">Volunteer Recommendation</h4>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.65">Picks the best volunteer based on location, availability, skills and past performance.</p>
+        <div class="badge badge-orange" style="margin-top:12px">80% Accuracy</div>
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:28px 22px;text-align:left;box-shadow:var(--shadow-sm);border-top:3px solid var(--purple)">
+        <div style="font-size:28px;margin-bottom:14px">&#128241;</div>
+        <h4 style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px">Product Recommendation</h4>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.65">KNN-based product suggestions from browsing history, purchases and interests.</p>
+        <div class="badge badge-purple" style="margin-top:12px">92% Accuracy</div>
+      </div>
+      <div style="background:#fff;border-radius:20px;padding:28px 22px;text-align:left;box-shadow:var(--shadow-sm);border-top:3px solid var(--blue)">
+        <div style="font-size:28px;margin-bottom:14px">&#128200;</div>
+        <h4 style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:8px">Impact Prediction</h4>
+        <p style="font-size:13px;color:var(--text-muted);line-height:1.65">Predicts donation trends, demand forecasts and high-impact areas with R²=0.98.</p>
+        <div class="badge badge-blue" style="margin-top:12px">R² = 0.98</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VOLUNTEER SECTION ══ -->
+<section class="volunteer-section" id="volunteer">
+  <div class="container">
+    <div class="volunteer-inner">
+      <div class="reveal-l">
+        <span class="section-label">Join Our Network</span>
+        <h2 class="heading" style="font-size:clamp(1.8rem,3vw,2.6rem);color:var(--navy);margin-bottom:14px">Your Time Can Create<br><span class="gradient-text-teal">Infinite Impact.</span></h2>
+        <p style="color:var(--text-muted);font-size:1rem;line-height:1.8;margin-bottom:8px">Become part of SoulServe's volunteer network. Pick up donations, deliver to families, track your impact and earn trust badges.</p>
+        <div class="volunteer-features">
+          <div class="vf-item"><div class="vf-icon">&#128205;</div><div><div class="vf-title">Location-Based Tasks</div><div class="vf-desc">AI assigns pickups near you — minimal travel, maximum impact.</div></div></div>
+          <div class="vf-item"><div class="vf-icon" style="background:linear-gradient(135deg,#F72585,#7B2CBF)">&#127942;</div><div><div class="vf-title">Trust Badges &amp; Recognition</div><div class="vf-desc">Earn badges as you complete deliveries. Your impact is visible.</div></div></div>
+          <div class="vf-item"><div class="vf-icon" style="background:linear-gradient(135deg,#2563EB,#06B6D4)">&#128202;</div><div><div class="vf-title">Real-Time Tracking</div><div class="vf-desc">Every pickup tracked. Donors notified with your delivery photo.</div></div></div>
+        </div>
+      </div>
+      <div class="vol-form reveal-r">
+        <h3>Register as Volunteer</h3>
+        <p class="sub">Takes 2 minutes. Start making a difference today.</p>
+        <form method="POST" action="api/volunteer.php" id="volForm">
+          <input type="hidden" name="csrf_token" id="volCsrf" value="">
+          <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" type="text" name="name" placeholder="Your full name" required></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" name="email" placeholder="you@email.com" required></div>
+            <div class="form-group"><label class="form-label">Phone</label><input class="form-input" type="tel" name="phone" placeholder="+91 "></div>
+          </div>
+          <div class="form-group"><label class="form-label">Your City</label><input class="form-input" type="text" name="city" placeholder="City/Town" required></div>
+          <div class="form-group"><label class="form-label">Area of Interest</label>
+            <select class="form-select" name="interest" required>
+              <option value="">Select...</option>
+              <option value="food_pickup">Food Pickup &amp; Delivery</option>
+              <option value="cloth_collection">Clothing Collection</option>
+              <option value="community_outreach">Community Outreach</option>
+              <option value="marketplace_support">Marketplace Support</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Why do you want to volunteer?</label><textarea class="form-textarea" name="message" rows="3" placeholder="Tell us about your motivation..." required></textarea></div>
+          <button type="submit" class="btn btn-primary w-full" style="margin-top:8px">Join as Volunteer &#8594;</button>
+        </form>
+        <div id="volSuccess" style="display:none;background:#d1fae5;border-radius:12px;padding:18px;text-align:center;margin-top:16px;color:#065f46;font-weight:700">
+          &#10003; Application submitted! We'll contact you soon.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SHOP PREVIEW ══ -->
+<section class="section bg-white">
+  <div class="container text-center">
+    <span class="section-label reveal">Marketplace</span>
+    <h2 class="heading reveal" style="font-size:clamp(1.8rem,3vw,2.6rem);color:var(--navy);margin-bottom:14px">SoulServe Marketplace</h2>
+    <p class="reveal" style="color:var(--text-muted);max-width:520px;margin:0 auto 48px">Every purchase supports rural livelihoods. Shop handmade, organic and traditional products — direct from artisans.</p>
+    <div class="product-grid reveal" id="shopPreview">
+      <div style="background:var(--soft-bg);border-radius:20px;height:300px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:14px;border:1px dashed var(--border)">Loading products...</div>
+    </div>
+    <a href="shop/shop.php" class="btn btn-primary" style="margin:48px auto 0;display:inline-flex">Browse All Products &#8594;</a>
+  </div>
+</section>
+
+<!-- ══ CTA STRIP ══ -->
+<section style="background:var(--gradient-hero);padding:96px 0;position:relative;overflow:hidden;text-align:center">
+  <div style="position:absolute;inset:0;background:var(--gradient-brand);opacity:.06"></div>
+  <div class="container" style="position:relative;z-index:1">
+    <h2 class="heading reveal" style="font-size:clamp(2rem,4vw,3rem);color:#fff;margin-bottom:16px">Different Colors. One Humanity.<br><span class="gradient-text">Endless Service. Infinite Impact.</span></h2>
+    <p class="reveal" style="color:rgba(255,255,255,.7);font-size:1.05rem;max-width:540px;margin:0 auto 40px;line-height:1.8">Join thousands of donors, volunteers and sellers already creating change. Your contribution — no matter how small — creates a ripple that never ends.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap" class="reveal">
+      <a href="pages/donate.html" class="btn btn-brand btn-xl">Start Donating</a>
+      <a href="auth/register.php" class="btn btn-ghost btn-xl">Create Account</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-box" style="margin-bottom:14px">
+          <div class="logo-mark" style="width:36px;height:36px">
+            <svg viewBox="0 0 42 42" fill="none"><defs><linearGradient id="flg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF8A00"/><stop offset="50%" stop-color="#F72585"/><stop offset="100%" stop-color="#2E8B57"/></linearGradient></defs><path d="M21 36s-1.5-1.2-4-3.3C10.5 27.4 5 22.5 5 16.5A8.5 8.5 0 0121 11a8.5 8.5 0 0116 5c0 6-5.5 10.9-12 16.2-2.5 2.1-4 3.3-4 3.3z" fill="url(#flg)"/></svg>
+          </div>
+          <span style="font-size:18px;font-weight:900;color:#fff">SoulServe</span>
+        </div>
+        <p>A technology-powered platform connecting people, resources and communities to create meaningful social impact.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn">&#128222;</a>
+          <a href="#" class="social-btn">&#128140;</a>
+          <a href="#" class="social-btn">&#127909;</a>
+          <a href="#" class="social-btn">&#128231;</a>
+        </div>
+      </div>
+      <div>
+        <h4>Platform</h4>
+        <div class="footer-links">
+          <a href="pages/donate.html">Donate Food</a>
+          <a href="pages/donate.html">Donate Clothing</a>
+          <a href="shop/shop.php">Marketplace</a>
+          <a href="#volunteer">Volunteer</a>
+          <a href="pages/impact.php">Impact</a>
+        </div>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <div class="footer-links">
+          <a href="pages/about.html">About Us</a>
+          <a href="pages/activities.php">Activities</a>
+          <a href="pages/contact.html">Contact</a>
+          <a href="auth/register.php">Register</a>
+          <a href="auth/login.php">Login</a>
+        </div>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <div class="footer-links">
+          <a href="tel:+918237917354">+91 82379 17354</a>
+          <a href="mailto:adhaarsoulserve@gmail.com">adhaarsoulserve@gmail.com</a>
+          <a href="#">Kopargaon, Maharashtra</a>
+          <a href="#">India</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&#169; 2026 SoulServe. All rights reserved.</p>
+      <p style="background:var(--gradient-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700">"Different Colors. One Humanity."</p>
+    </div>
+  </div>
+  <div class="footer-rainbow"></div>
+</footer>
+
+<script src="js/script.js"></script>
+<script>
+// ── CSRF Injection ──
+fetch('api/get_csrf.php').then(r=>r.json()).then(d=>{
+  document.querySelectorAll('[name="csrf_token"]').forEach(el=>el.value=d.token||'');
+  const volCsrf = document.getElementById('volCsrf');
+  if(volCsrf && d.token) volCsrf.value = d.token;
+}).catch(()=>{});
+
+// ── Navbar scroll ──
+const header = document.getElementById('header');
+window.addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>60),{passive:true});
+
+// ── Mobile menu ──
+const menuToggle = document.getElementById('menuToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+if(menuToggle&&mobileMenu){
+  menuToggle.addEventListener('click',()=>{
+    mobileMenu.classList.toggle('show');
+    menuToggle.textContent = mobileMenu.classList.contains('show') ? '✕' : '☰';
+  });
+  mobileMenu.querySelectorAll('.nav-link').forEach(l=>l.addEventListener('click',()=>{
+    mobileMenu.classList.remove('show');
+    menuToggle.textContent='☰';
+  }));
+}
+
+// ── Scroll reveal ──
+const ro = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');ro.unobserve(e.target)}});
+},{threshold:.12});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>ro.observe(el));
+
+// ── Live stats from API ──
+fetch('api/ai_stats.php').then(r=>r.json()).then(d=>{
+  const anim = (el,target,suffix='')=>{
+    if(!el)return;
+    let start=0,dur=2000,step=dur/60;
+    const timer=setInterval(()=>{
+      start+=target/60;
+      el.textContent=Math.min(Math.floor(start),target)+suffix;
+      if(start>=target)clearInterval(timer);
+    },step);
+  };
+  const fd=d.food_delivered||0, cd=d.cloth_delivered||0, vols=d.volunteers||0;
+  anim(document.getElementById('stat-donations'),fd+cd,'+');
+  anim(document.getElementById('stat-volunteers'),vols,'+');
+  anim(document.getElementById('stat-lives'),Math.round((fd+cd)*3.2),'+');
+  anim(document.getElementById('s1'),fd,'+');
+  anim(document.getElementById('s2'),cd,'+');
+  anim(document.getElementById('s3'),vols,'+');
+  document.getElementById('s4').textContent='15+';
+  anim(document.getElementById('fc-meals'),fd,'+');
+  anim(document.getElementById('fc-vols'),vols,'+');
+}).catch(()=>{
+  ['stat-donations','stat-volunteers','stat-lives','s1','s2','s3'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.textContent=el.id.includes('vols')||el.id==='s3'?'50+':'100+';
+  });
+});
+
+// ── Volunteer form ──
+document.getElementById('volForm')?.addEventListener('submit',function(e){
+  e.preventDefault();
+  const btn=this.querySelector('button[type=submit]');
+  btn.textContent='Submitting...';btn.disabled=true;
+  fetch('api/volunteer.php',{method:'POST',body:new FormData(this)})
+    .then(()=>{
+      document.getElementById('volSuccess').style.display='block';
+      this.style.display='none';
+    }).catch(()=>{btn.textContent='Join as Volunteer →';btn.disabled=false;});
+});
+
+// ── Stories slider ──
+let sIdx=0;
+const track=document.getElementById('storiesTrack');
+const dots=document.querySelectorAll('#storyDots .slider-dot');
+function goToStory(i){
+  sIdx=i;
+  const w=track?.firstElementChild?.offsetWidth+24||364;
+  if(track) track.style.transform=`translateX(-${i*w}px)`;
+  dots.forEach((d,j)=>d.classList.toggle('active',j===i));
+}
+function slideStories(dir){
+  const max=dots.length-1;
+  sIdx=Math.max(0,Math.min(max,sIdx+dir));
+  goToStory(sIdx);
+}
+setInterval(()=>goToStory((sIdx+1)%dots.length),5000);
+
+// ── Shop preview ──
+fetch('shop/shop.php').catch(()=>{});
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+# ═══════════════════════════════════════════════════════════════
+#  Adhaar – The SoulServe  |  Render Blueprint
+#  Two services:
+#    1. adhaar-php   — Apache + PHP 8.2 (Web App)
+#    2. adhaar-ai    — Python Flask AI API
+#
+#  Deploy: render.com → New → Blueprint → connect GitHub repo
+# ═══════════════════════════════════════════════════════════════
+
+services:
+
+  # ── Service 1: PHP Web Application ─────────────────────────
+  - type: web
+    name: adhaar-php
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /index.html
+    envVars:
+      # App URL — update after first deploy with actual Render URL
+      - key: APP_URL
+        value: https://soulserves.onrender.com
+
+      # Railway MySQL credentials (set manually in Render dashboard)
+      - key: DB_HOST
+        sync: false        # Set to Railway public proxy host
+      - key: DB_PORT
+        sync: false        # Set to Railway public proxy port
+      - key: DB_USER
+        value: root
+      - key: DB_PASS
+        sync: false        # Set to: sKZSsTGAzOPyCjNXyzEoeMfjbTkviytz
+      - key: DB_NAME
+        value: railway
+
+      # Mail
+      - key: MAIL_USERNAME
+        value: rtkarle03@gmail.com
+      - key: MAIL_PASSWORD
+        sync: false        # Set to app password in Render dashboard
+
+      # Cloudinary
+      - key: CLOUDINARY_CLOUD_NAME
+        value: soulserves
+      - key: CLOUDINARY_API_KEY
+        value: "221996235797964"
+      - key: CLOUDINARY_API_SECRET
+        sync: false        # Set in Render dashboard
+
+      # Flask AI URL — update after adhaar-ai is deployed
+      - key: AI_FLASK_URL
+        value: https://adhaar-ai.onrender.com
+
+  # ── Service 2: Python Flask AI API ─────────────────────────
+  - type: web
+    name: adhaar-ai
+    runtime: docker
+    dockerfilePath: ./ai_python/Dockerfile
+    plan: free
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: PORT
+        value: "5000"
+      - key: GEMINI_API_KEY
+        sync: false        # Optional — set if using Gemini chat

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Donate — SoulServe</title>
+<meta name="description" content="Donate surplus food or clothing through SoulServe. Every donation creates infinite impact.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+<style>
+.tab-panel{display:none}.tab-panel.active{display:block}
+.guideline-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
+.guideline-box{background:#fff;border-radius:var(--r-lg);padding:28px;box-shadow:var(--shadow-sm)}
+.guideline-box h4{font-size:15px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.guideline-box ul{display:flex;flex-direction:column;gap:8px}
+.guideline-box li{font-size:13px;color:var(--text-muted);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.guideline-box li::before{content:'✓';font-weight:800;flex-shrink:0}
+.guideline-box.dont li::before{content:'✗';color:#ef4444}
+.guideline-box.dont{border-left:3px solid #ef4444}
+.guideline-box.do{border-left:3px solid var(--teal)}
+.guideline-box.dont li::before{color:#ef4444}
+.guideline-box.do li::before{color:var(--teal)}
+</style>
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="nav-container">
+    <a href="../index.html" class="logo-box">
+      <div class="logo-mark">
+        <svg viewBox="0 0 42 42" fill="none"><defs><linearGradient id="dlg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF8A00"/><stop offset="50%" stop-color="#F72585"/><stop offset="100%" stop-color="#2E8B57"/></linearGradient></defs><path d="M21 36s-1.5-1.2-4-3.3C10.5 27.4 5 22.5 5 16.5A8.5 8.5 0 0121 11a8.5 8.5 0 0116 5c0 6-5.5 10.9-12 16.2-2.5 2.1-4 3.3-4 3.3z" fill="url(#dlg)"/></svg>
+      </div>
+      <div class="logo-text">SoulServe<span>Endless Service. Infinite Impact.</span></div>
+    </a>
+    <nav class="nav" id="mobileMenu">
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="donate.html" class="nav-link active">Donate</a>
+      <a href="impact.php" class="nav-link">Impact</a>
+      <a href="../shop/shop.php" class="nav-link">Shop</a>
+      <a href="contact.html" class="nav-link">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="../auth/login.php" class="btn-nav">Login</a>
+      <a href="../auth/register.php" class="btn-nav">Sign Up</a>
+      <a href="donate.html" class="btn-nav-primary">Donate Now</a>
+    </div>
+    <div class="menu-icon" id="menuToggle">&#9776;</div>
+  </div>
+</header>
+
+<!-- ══ HERO ══ -->
+<section class="page-hero">
+  <div class="container" style="position:relative;z-index:1">
+    <span class="section-label" style="background:rgba(255,255,255,.15);color:#fff;margin-bottom:20px">Make a Difference</span>
+    <h1 class="reveal" style="font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,3.6rem);font-weight:900;color:#fff;margin-bottom:20px">What Would You<br><span style="background:linear-gradient(135deg,#FF8A00,#F72585,#06B6D4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Like to Give?</span></h1>
+    <p class="reveal" style="font-size:1.05rem;color:rgba(255,255,255,.75);max-width:520px;margin:0 auto;line-height:1.8">Every donation — food, clothing or your time — creates infinite impact. Let's turn your surplus into someone's necessity.</p>
+  </div>
+</section>
+
+<!-- ══ WHY DONATE CARDS ══ -->
+<section class="section-sm bg-soft">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px" class="reveal">
+      <div style="background:#fff;border-radius:var(--r-lg);padding:28px;text-align:center;box-shadow:var(--shadow-sm);border-top:3px solid var(--teal)">
+        <div style="font-size:2.5rem;margin-bottom:12px">&#9200;</div>
+        <h4 style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:6px">Fast Pickup</h4>
+        <p style="font-size:13px;color:var(--text-muted)">Food collected within 2–4 hours. Clothing within 24 hours. Zero delay.</p>
+      </div>
+      <div style="background:#fff;border-radius:var(--r-lg);padding:28px;text-align:center;box-shadow:var(--shadow-sm);border-top:3px solid var(--orange)">
+        <div style="font-size:2.5rem;margin-bottom:12px">&#128247;</div>
+        <h4 style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:6px">Proof of Delivery</h4>
+        <p style="font-size:13px;color:var(--text-muted)">You receive an email with a photo when your donation is delivered.</p>
+      </div>
+      <div style="background:#fff;border-radius:var(--r-lg);padding:28px;text-align:center;box-shadow:var(--shadow-sm);border-top:3px solid var(--purple)">
+        <div style="font-size:2.5rem;margin-bottom:12px">&#128202;</div>
+        <h4 style="font-size:15px;font-weight:800;color:var(--navy);margin-bottom:6px">Live Tracking</h4>
+        <p style="font-size:13px;color:var(--text-muted)">Track every status from submission to delivery in real-time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DONATION FORMS ══ -->
+<section class="section bg-white">
+  <div class="container-sm">
+    <!-- Login gate — shown for guests -->
+    <div class="login-gate reveal" id="loginBanner">
+      <div>
+        <strong>Sign in to donate.</strong>
+        <p style="margin-top:4px">Create a free account to track your donation from pickup to delivery.</p>
+      </div>
+      <div style="display:flex;gap:10px;flex-shrink:0">
+        <a href="../auth/login.php" class="btn btn-secondary btn-sm">Login</a>
+        <a href="../auth/register.php" class="btn btn-primary btn-sm">Register Free</a>
+      </div>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="donate-tab-bar reveal">
+      <div class="donate-tab active" onclick="switchTab('food',this)" id="tab-btn-food">&#127869; Food Donation</div>
+      <div class="donate-tab" onclick="switchTab('cloth',this)" id="tab-btn-cloth">&#128248; Clothing Donation</div>
+    </div>
+
+    <!-- ── FOOD FORM ── -->
+    <div id="tab-food" class="tab-panel active reveal">
+      <div style="background:#fff;border-radius:var(--r-xl);padding:48px;box-shadow:var(--shadow-md);border:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px">
+          <div style="width:56px;height:56px;border-radius:var(--r-md);background:linear-gradient(135deg,rgba(255,138,0,.15),rgba(255,138,0,.05));display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">&#127869;</div>
+          <div><h2 style="font-size:22px;font-weight:900;color:var(--navy)">Food Donation</h2><p style="font-size:14px;color:var(--text-muted)">Donate surplus cooked food — collected fresh and delivered same-day</p></div>
+        </div>
+        <form method="POST" action="../api/food_donate.php" enctype="multipart/form-data" id="foodForm">
+          <input type="hidden" name="csrf_token" id="foodCsrf">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div class="form-group">
+              <label class="form-label">Food Prepared At</label>
+              <input class="form-input" type="datetime-local" name="food_time" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Safe for (hours)</label>
+              <input class="form-input" type="number" name="safe_hours" min="1" max="24" placeholder="e.g. 4" required>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div class="form-group">
+              <label class="form-label">Quantity (people/servings)</label>
+              <input class="form-input" type="number" name="quantity" min="1" placeholder="e.g. 50" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Priority</label>
+              <select class="form-select" name="priority" required>
+                <option value="low">&#129001; Low — can wait a few hours</option>
+                <option value="medium" selected>&#129000; Medium — pickup within 3 hours</option>
+                <option value="high">&#128997; High — urgent, perishable</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Pickup Address</label>
+            <input class="form-input" type="text" name="pickup_address" placeholder="Full address with landmark" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contact Number</label>
+            <input class="form-input" type="tel" name="contact" placeholder="+91 98765 43210" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Food Photo <span style="color:var(--text-muted);font-weight:400;font-size:11px">(helps with quality check)</span></label>
+            <label class="upload-zone" for="foodImg" style="cursor:pointer;display:block">
+              <div class="upload-icon">&#128247;</div>
+              <div style="font-size:14px;font-weight:600;color:var(--text-muted)">Click to upload photo</div>
+              <div style="font-size:12px;color:var(--text-light);margin-top:4px">JPG, PNG, WEBP — max 8MB</div>
+              <div id="foodImgName" style="font-size:12px;color:var(--teal);margin-top:8px;font-weight:600"></div>
+            </label>
+            <input type="file" name="image" id="foodImg" accept="image/*" required style="display:none" onchange="document.getElementById('foodImgName').textContent=this.files[0]?.name||''">
+          </div>
+          <button type="submit" class="btn btn-primary w-full" style="justify-content:center;margin-top:8px;padding:16px">
+            &#127869; Submit Food Donation
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ── CLOTH FORM ── -->
+    <div id="tab-cloth" class="tab-panel reveal">
+      <div style="background:#fff;border-radius:var(--r-xl);padding:48px;box-shadow:var(--shadow-md);border:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px">
+          <div style="width:56px;height:56px;border-radius:var(--r-md);background:linear-gradient(135deg,rgba(37,99,235,.15),rgba(37,99,235,.05));display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0">&#128248;</div>
+          <div><h2 style="font-size:22px;font-weight:900;color:var(--navy)">Clothing Donation</h2><p style="font-size:14px;color:var(--text-muted)">Donate clean, wearable clothing — sorted and delivered with dignity</p></div>
+        </div>
+        <form method="POST" action="../api/cloth_donate.php" enctype="multipart/form-data" id="clothForm">
+          <input type="hidden" name="csrf_token" id="clothCsrf">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div class="form-group">
+              <label class="form-label">Cloth Type</label>
+              <select class="form-select" name="cloth_type" required>
+                <option value="">Select type...</option>
+                <option value="shirts">Shirts / T-Shirts</option>
+                <option value="pants">Pants / Trousers</option>
+                <option value="sarees">Sarees / Salwar Suits</option>
+                <option value="kids">Kids Clothing</option>
+                <option value="winter">Winter Wear</option>
+                <option value="mixed">Mixed / Assorted</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Quantity (pieces)</label>
+              <input class="form-input" type="number" name="quantity" min="1" placeholder="e.g. 20" required>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div class="form-group">
+              <label class="form-label">Condition</label>
+              <select class="form-select" name="condition_type" required>
+                <option value="new">New / Unused</option>
+                <option value="good" selected>Good — lightly used</option>
+                <option value="fair">Fair — wearable</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Are clothes clean?</label>
+              <select class="form-select" name="is_clean" required>
+                <option value="1">Yes, freshly washed</option>
+                <option value="0">No — will wash before pickup</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">When were they purchased/used?</label>
+            <input class="form-input" type="text" name="purchase_time" placeholder="e.g. Less than 2 years ago">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Pickup Address</label>
+            <input class="form-input" type="text" name="pickup_address" placeholder="Full address with landmark" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contact Number</label>
+            <input class="form-input" type="tel" name="contact" placeholder="+91 98765 43210" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Photo <span style="color:var(--text-muted);font-weight:400;font-size:11px">(helps with sorting)</span></label>
+            <label class="upload-zone" for="clothImg" style="cursor:pointer;display:block">
+              <div class="upload-icon">&#128247;</div>
+              <div style="font-size:14px;font-weight:600;color:var(--text-muted)">Click to upload photo</div>
+              <div id="clothImgName" style="font-size:12px;color:var(--teal);margin-top:8px;font-weight:600"></div>
+            </label>
+            <input type="file" name="image" id="clothImg" accept="image/*" required style="display:none" onchange="document.getElementById('clothImgName').textContent=this.files[0]?.name||''">
+          </div>
+          <button type="submit" class="btn w-full" style="justify-content:center;margin-top:8px;padding:16px;background:linear-gradient(135deg,#2563EB,#06B6D4);color:#fff">
+            &#128248; Submit Clothing Donation
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Guidelines -->
+    <div class="reveal" style="margin-top:48px">
+      <h3 style="font-size:18px;font-weight:800;color:var(--navy);margin-bottom:24px;text-align:center">Donation Guidelines</h3>
+      <div class="guideline-row">
+        <div class="guideline-box do">
+          <h4 style="color:var(--teal)">&#10003; What we accept</h4>
+          <ul>
+            <li>Freshly cooked food (within 4 hours)</li>
+            <li>Clean, wearable clothing in good condition</li>
+            <li>Kids clothes, winter wear, daily wear</li>
+            <li>Food prepared in hygienic conditions</li>
+            <li>Bulk donations welcome</li>
+          </ul>
+        </div>
+        <div class="guideline-box dont">
+          <h4 style="color:#ef4444">&#10007; What we cannot accept</h4>
+          <ul>
+            <li>Stale, spoiled or contaminated food</li>
+            <li>Torn, dirty or unwearable clothing</li>
+            <li>Items that cannot be distributed safely</li>
+            <li>Non-food perishables without packaging</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Track CTA -->
+<section style="background:var(--soft-bg);padding:64px 0;text-align:center">
+  <div class="container reveal">
+    <h3 style="font-size:22px;font-weight:800;color:var(--navy);margin-bottom:10px">Already donated?</h3>
+    <p style="color:var(--text-muted);margin-bottom:24px">Track your donation status in real-time from pickup to delivery.</p>
+    <a href="../donor/track.php" class="btn btn-primary">Track My Donation &#8594;</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><div style="font-size:20px;font-weight:900;color:#fff;margin-bottom:14px">SoulServe</div><p>A technology-powered platform connecting communities to create meaningful social impact.</p></div>
+      <div><h4>Platform</h4><div class="footer-links"><a href="donate.html">Donate</a><a href="../shop/shop.php">Shop</a><a href="impact.php">Impact</a></div></div>
+      <div><h4>Company</h4><div class="footer-links"><a href="about.html">About</a><a href="contact.html">Contact</a></div></div>
+      <div><h4>Account</h4><div class="footer-links"><a href="../auth/login.php">Login</a><a href="../auth/register.php">Register</a><a href="../donor/track.php">Track Donation</a></div></div>
+    </div>
+    <div class="footer-bottom"><p>&#169; 2026 SoulServe.</p></div>
+  </div>
+  <div class="footer-rainbow"></div>
+</footer>
+
+<script>
+const header=document.getElementById('header');
+window.addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>60),{passive:true});
+const mt=document.getElementById('menuToggle'),mm=document.getElementById('mobileMenu');
+if(mt&&mm){mt.addEventListener('click',()=>{mm.classList.toggle('show');mt.textContent=mm.classList.contains('show')?'✕':'☰';});}
+const ro=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('show');ro.unobserve(x.target)}})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+// CSRF
+fetch('../api/get_csrf.php').then(r=>r.json()).then(d=>{
+  ['foodCsrf','clothCsrf'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=d.token||'';});
+}).catch(()=>{});
+
+// Tab switch
+function switchTab(name, btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.donate-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name)?.classList.add('active');
+  btn.classList.add('active');
+}
+
+// Login gate visibility
+fetch('../api/get_csrf.php').then(r=>r.json()).then(d=>{
+  if(d.logged_in) document.getElementById('loginBanner').style.display='none';
+}).catch(()=>{});
+</script>
+</body>
+</html>

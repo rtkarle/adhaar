@@ -1,0 +1,60 @@
+# ═══════════════════════════════════════════════════════
+#  Adhaar – The SoulServe  |  .gitignore
+# ═══════════════════════════════════════════════════════
+
+# ── Local uploads (images go to Cloudinary on production) ──
+uploads/*.jpg
+uploads/*.jpeg
+uploads/*.png
+uploads/*.webp
+uploads/*.gif
+# Keep the .htaccess in uploads/
+!uploads/.htaccess
+
+# ── PHP/Composer vendor ─────────────────────────────────
+vendor/
+composer.phar
+
+# ── Python cache ────────────────────────────────────────
+ai_python/__pycache__/
+ai_python/**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+ai_python/.env
+
+# ── Python virtual environment ──────────────────────────
+venv/
+.venv/
+env/
+.env/
+
+# ── AI datasets (large CSV files — not needed in prod) ──
+ai_python/datasets/*.csv
+
+# ── Trained model files — KEEP these (needed at runtime) ─
+# ai_python/models/*.joblib   ← DO push these
+
+# ── XAMPP / local dev ───────────────────────────────────
+*.log
+error_log
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ── IDE ─────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Secrets — never commit these ────────────────────────
+.env
+.env.local
+.env.production
+secrets.php
+
+# ── Temp / test files ───────────────────────────────────
+test_mail.php
+test_*.php
