@@ -32,7 +32,8 @@ $featured=$conn->query("SELECT p.*, s.store_name FROM products p JOIN seller_sto
 // ── AI Suggestions (personalised) ────────────────────────────
 require_once __DIR__ . '/../api/ai_engine.php';
 $ai_suggestions = adhaar_ai()->getDonorSuggestions($email);
-$ai_impact      = adhaar_ai()->predictImpact();
+$ai_products = adhaar_ai()->getProductRecommendations($email, 0, 4);
+$ai_impact = adhaar_ai()->predictImpact();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -208,6 +209,23 @@ $ai_impact      = adhaar_ai()->predictImpact();
       <a href="../shop/shop.php" class="shop-promo-btn">Browse Shop →</a>
     </div>
 
+    <?php if(!empty($ai_products)): ?>
+    <div class="section-title">✨ AI Recommended Products</div>
+    <div class="product-mini-grid">
+      <?php foreach($ai_products as $p): $img=!empty($p['image1'])?image_url($p['image1']):null; ?>
+      <div class="pm-card" onclick="location.href='../shop/product.php?id=<?=(int)$p['id']?>'">
+        <?php if($img): ?><img src="<?=htmlspecialchars($img)?>" class="pm-img" alt="">
+        <?php else: ?><div class="pm-img-ph">🛍️</div><?php endif; ?>
+        <div class="pm-body">
+          <div class="pm-name"><?=htmlspecialchars($p['name'])?></div>
+          <div class="pm-store">🏪 <?=htmlspecialchars($p['store_name'])?></div>
+          <div class="pm-price">₹<?=number_format((float)$p['price'],2)?></div>
+        </div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+
     <?php if(!empty($featured)): ?>
     <div class="section-title">⭐ Featured Products</div>
     <div class="product-mini-grid">
@@ -218,7 +236,7 @@ $ai_impact      = adhaar_ai()->predictImpact();
         <div class="pm-body">
           <div class="pm-name"><?=htmlspecialchars($p['name'])?></div>
           <div class="pm-store">🏪 <?=htmlspecialchars($p['store_name'])?></div>
-          <div class="pm-price">₹<?=number_format($p['price'],2)?></div>
+          <div class="pm-price">₹<?=number_format((float)$p['price'],2)?></div>
         </div>
       </div>
       <?php endforeach; ?>

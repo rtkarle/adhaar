@@ -61,7 +61,7 @@ $status_counts = array_column($status_dist,'c');
 <link rel="stylesheet" href="../css/style.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
 <style>
-:root{--accent:#7a7d3f;--accent2:#9a8f5c;--bg:#f6f5f0;--text:#2f2e26;--muted:#5a594d;--shadow:0 16px 48px rgba(60,55,35,.11);--radius:22px}
+:root{--accent:#006D77;--accent2:#2E8B57;--bg:#f5f8f4;--text:#102A43;--muted:#5A7184;--shadow:0 16px 48px rgba(16,42,67,.11);--radius:22px}
 *{margin:0;padding:0;box-sizing:border-box}
 .page-wrap{padding-top:82px}
 section{padding:5.5rem 2rem}
@@ -74,10 +74,10 @@ section{padding:5.5rem 2rem}
 .live-dot{width:8px;height:8px;border-radius:50%;background:#10b981;animation:livePulse 1.5s ease-in-out infinite}
 @keyframes livePulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
 /* Hero */
-.imp-hero{background:linear-gradient(135deg,#1e1d18,#2f2e26 50%,#3d3c30);padding:6rem 2rem 5rem;text-align:center;position:relative;overflow:hidden}
-.imp-hero::before{content:"";position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(122,125,63,.3),transparent 65%);top:-150px;right:-100px;filter:blur(80px)}
+.imp-hero{background:linear-gradient(135deg,#102A43 0%,#006D77 55%,#2E8B57 100%);padding:6rem 2rem 5rem;text-align:center;position:relative;overflow:hidden}
+.imp-hero::before{content:"";position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(255,255,255,.15),transparent 65%);top:-150px;right:-100px;filter:blur(80px)}
 .imp-hero h1{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:900;color:#fff;line-height:1.1;margin-bottom:1rem;position:relative;z-index:1}
-.imp-hero h1 span{background:linear-gradient(135deg,#9a8f5c,#c2b280);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.imp-hero h1 span{background:linear-gradient(135deg,#7ad5cf,#d7f5d2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .imp-hero p{font-size:1.05rem;color:rgba(255,255,255,.72);max-width:560px;margin:0 auto 1.5rem;line-height:1.8;position:relative;z-index:1}
 /* AI impact cards */
 .ai-impact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.4rem;margin-top:2rem}

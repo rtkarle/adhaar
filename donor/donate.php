@@ -20,18 +20,18 @@ $success = $_GET['success'] ?? '';
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f6f5f0;--accent:#7a7d3f;--accent2:#9a8f5c;--text:#2f2e26;--muted:#5a594d;--card:#fff;--shadow:0 20px 60px rgba(60,55,35,.12);--radius:24px}
+:root{--bg:#f5f8f4;--accent:#006D77;--accent2:#2E8B57;--text:#102A43;--muted:#5A7184;--card:#fff;--shadow:0 20px 60px rgba(16,42,67,.12);--radius:24px}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text);min-height:100vh}
-header{position:fixed;top:0;width:100%;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);box-shadow:0 2px 20px rgba(0,0,0,.07);z-index:999}
+body{background:linear-gradient(180deg,#f5f8f4 0%,#edf4f1 42%,#f8f3ee 100%);color:var(--text);min-height:100vh}
+header{position:fixed;top:0;width:100%;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);box-shadow:0 2px 20px rgba(16,42,67,.07);z-index:999}
 .nav-container{max-width:1150px;margin:auto;padding:0 24px;height:76px;display:flex;justify-content:space-between;align-items:center}
 .logo-text{font-size:22px;font-weight:900;color:var(--accent);text-decoration:none}
 .nav a{margin-left:22px;font-weight:600;color:var(--text);text-decoration:none;font-size:14px;transition:.2s}
 .nav a:hover{color:var(--accent)}
 .btn-nav{border:2px solid var(--accent);padding:8px 16px;border-radius:8px;color:var(--accent)}
-.btn-nav:hover{background:var(--accent);color:#fff!important}
+.btn-nav:hover{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff!important}
 .menu-icon{display:none;font-size:28px;color:var(--accent);cursor:pointer}
-@media(max-width:850px){.menu-icon{display:block}.nav{display:none}.nav.show{display:flex;position:fixed;top:76px;right:0;width:230px;height:100vh;flex-direction:column;padding:24px;background:rgba(255,255,255,.97);border-left:3px solid var(--accent);box-shadow:-4px 0 20px rgba(0,0,0,.12)}}
+@media(max-width:850px){.menu-icon{display:block}.nav{display:none}.nav.show{display:flex;position:fixed;top:76px;right:0;width:230px;height:100vh;flex-direction:column;padding:24px;background:rgba(255,255,255,.97);border-left:3px solid var(--accent);box-shadow:-4px 0 20px rgba(16,42,67,.12)}}
 .page{padding-top:100px;padding-bottom:80px}
 .container{max-width:720px;margin:auto;padding:0 20px}
 .success-banner{background:linear-gradient(135deg,#d1fae5,#a7f3d0);border:1.5px solid #6ee7b7;color:#065f46;padding:16px 24px;border-radius:14px;font-weight:600;font-size:14px;margin-bottom:28px;display:flex;align-items:center;gap:10px}
@@ -47,7 +47,7 @@ header{position:fixed;top:0;width:100%;background:rgba(255,255,255,.92);backdrop
 .choice-card p{color:var(--muted);font-size:14px;margin-bottom:32px}
 .choice-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
 .choice-btn{padding:16px 36px;border-radius:50px;border:2px solid var(--accent);background:transparent;color:var(--accent);font-weight:700;font-size:15px;cursor:pointer;transition:.3s}
-.choice-btn:hover{background:var(--accent);color:#fff;transform:translateY(-2px)}
+.choice-btn:hover{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;transform:translateY(-2px)}
 .form-card{background:var(--card);padding:44px 40px;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:28px}
 .form-card h2{font-size:22px;font-weight:800;margin-bottom:6px}
 .form-note{font-size:13px;color:var(--muted);margin-bottom:28px}
@@ -58,8 +58,8 @@ header{position:fixed;top:0;width:100%;background:rgba(255,255,255,.92);backdrop
 .checkbox-row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);margin-bottom:20px}
 .checkbox-row input{width:auto;accent-color:var(--accent)}
 .impact-msg{text-align:center;font-size:13px;color:var(--accent);font-weight:600;margin-bottom:20px;background:#f0f0e4;padding:10px;border-radius:10px}
-.submit-btn{width:100%;padding:15px;border:none;border-radius:50px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 12px 30px rgba(122,125,63,.4);transition:.3s}
-.submit-btn:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(122,125,63,.55)}
+.submit-btn{width:100%;padding:15px;border:none;border-radius:50px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 12px 30px rgba(0,109,119,.22);transition:.3s}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(46,139,87,.24)}
 .back-link{display:block;text-align:center;margin-top:16px;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;transition:.2s}
 .back-link:hover{color:var(--accent)}
 .rules-card{background:var(--card);padding:32px 36px;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:28px}

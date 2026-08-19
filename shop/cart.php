@@ -24,12 +24,12 @@ $total    = $subtotal + $shipping;
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--accent:#7a7d3f;--accent2:#9a8f5c;--bg:#f6f5f0;--card:#fff;--text:#2f2e26;--muted:#5a594d;--shadow:0 8px 24px rgba(0,0,0,.08)}
+:root{--accent:#006D77;--accent2:#2E8B57;--bg:#f5f8f4;--card:#fff;--text:#102A43;--muted:#5A7184;--shadow:0 8px 24px rgba(16,42,67,.08)}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text)}
-header{background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.06);position:sticky;top:0;z-index:100}
+body{background:linear-gradient(180deg,#f5f8f4 0%,#edf4f1 42%,#f8f3ee 100%);color:var(--text)}
+header{background:#fff;box-shadow:0 2px 12px rgba(16,42,67,.06);position:sticky;top:0;z-index:100}
 .nav{max-width:1100px;margin:auto;padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:18px;font-weight:800;color:var(--accent);text-decoration:none}
+.logo{font-size:18px;font-weight:900;color:var(--accent);text-decoration:none;letter-spacing:-.25px}
 .nav-links{display:flex;gap:12px;align-items:center}
 .nav-links a{color:var(--muted);font-size:13px;font-weight:600;text-decoration:none;padding:8px 12px;border-radius:8px;transition:.2s}
 .nav-links a:hover{color:var(--accent)}
@@ -64,8 +64,8 @@ header{background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.06);position:sticky;top
 .sum-row{display:flex;justify-content:space-between;font-size:14px;margin-bottom:12px;color:var(--muted)}
 .sum-row.total{font-size:16px;font-weight:800;color:var(--text);margin-top:12px;padding-top:12px;border-top:2px solid #ede9df}
 .free-ship{background:#d1fae5;color:#065f46;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:700;margin-bottom:16px;text-align:center}
-.checkout-btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:.3s;box-shadow:0 6px 20px rgba(122,125,63,.35)}
-.checkout-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(122,125,63,.45)}
+.checkout-btn{width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:.3s;box-shadow:0 6px 20px rgba(0,109,119,.18)}
+.checkout-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(46,139,87,.22)}
 .checkout-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .secure-note{font-size:11px;color:var(--muted);text-align:center;margin-top:10px}
 .continue-link{display:block;text-align:center;margin-top:12px;color:var(--accent);font-size:13px;font-weight:600;text-decoration:none}

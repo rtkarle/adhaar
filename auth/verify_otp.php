@@ -118,7 +118,7 @@ if(isset($_POST['resend'])){
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--accent:#7a7d3f;--accent2:#9a8f5c;--text:#2f2e26;--muted:#5a594d}
+:root{--accent:#006D77;--accent2:#2E8B57;--text:#102A43;--muted:#5A7184}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
 body{
   min-height:100vh;
@@ -193,10 +193,10 @@ body{
 // Show OTP on screen — works even when email fails (local dev)
 $devOtp = $_SESSION['regdata']['otp'] ?? null;
 if ($devOtp): ?>
-<div style="background:#f6f5f0;border:2px dashed #9a8f5c;border-radius:14px;padding:18px;text-align:center;margin-bottom:20px;">
-  <p style="font-size:11px;font-weight:700;color:#9a8f5c;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Your OTP Code</p>
-  <p style="font-size:36px;font-weight:900;color:#7a7d3f;letter-spacing:10px;margin:0;"><?= htmlspecialchars($devOtp) ?></p>
-  <p style="font-size:11px;color:#9a8f5c;margin-top:8px;">Copy this code into the field below</p>
+<div style="background:#f6f5f0;border:2px dashed #2E8B57;border-radius:14px;padding:18px;text-align:center;margin-bottom:20px;">
+  <p style="font-size:11px;font-weight:700;color:#2E8B57;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Your OTP Code</p>
+  <p style="font-size:36px;font-weight:900;color:#006D77;letter-spacing:10px;margin:0;"><?= htmlspecialchars($devOtp) ?></p>
+  <p style="font-size:11px;color:#2E8B57;margin-top:8px;">Copy this code into the field below</p>
 </div>
 <?php endif; ?>
 

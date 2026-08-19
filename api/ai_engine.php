@@ -270,6 +270,77 @@ class AdhaarAI {
         return $suggestions;
     }
 
+    /* ── 7. SELLER RECOMMENDATIONS ─────────────────────────
+     * AI-powered suggestions for a seller's store performance.
+     */
+    public function getSellerRecommendations(string $seller_email): array {
+        $email = mysqli_real_escape_string($this->conn, $seller_email);
+        $product_count = (int)$this->conn->query("SELECT COUNT(*) c FROM products WHERE seller_email='$email'")->fetch_assoc()['c'];
+        $pending_orders = (int)$this->conn->query("SELECT COUNT(*) c FROM orders WHERE seller_email='$email' AND order_status IN ('placed','packed','shipped')")->fetch_assoc()['c'];
+        $low_stock = (int)$this->conn->query("SELECT COUNT(*) c FROM products WHERE seller_email='$email' AND stock_quantity <= 5 AND is_active=1")->fetch_assoc()['c'];
+        $top_cat = $this->conn->query("SELECT category, COUNT(*) c FROM products WHERE seller_email='$email' GROUP BY category ORDER BY c DESC LIMIT 1")->fetch_assoc();
+
+        $recs = [];
+        if ($product_count === 0) {
+            $recs[] = ['icon' => '✨', 'text' => 'Your store is blank. Add your first product to start selling and build an artisan brand.'];
+        } else {
+            $recs[] = ['icon' => '📦', 'text' => "You currently have <strong>$product_count live products</strong> in your catalog."];
+        }
+
+        if ($pending_orders > 0) {
+            $recs[] = ['icon' => '🚚', 'text' => "You have <strong>$pending_orders active orders</strong> awaiting attention. Faster fulfillment boosts trust and repeat buyers."];
+        } else {
+            $recs[] = ['icon' => '✅', 'text' => 'Your order pipeline is healthy. Focus on product photography and bundles to improve conversion.'];
+        }
+
+        if ($low_stock > 0) {
+            $recs[] = ['icon' => '⚠️', 'text' => "<strong>$low_stock products</strong> are low in stock. Refill popular items to avoid lost sales."];
+        }
+
+        if ($top_cat) {
+            $recs[] = ['icon' => '📈', 'text' => "Your best-performing category is <strong>{$top_cat['category']}</strong>. Reuse that theme for launches and bundles."];
+        } else {
+            $recs[] = ['icon' => '💡', 'text' => 'AI recommends focusing on handmade, seasonal, and premium local products with sharper imagery.'];
+        }
+
+        return $recs;
+    }
+
+    /* ── 8. VOLUNTEER RECOMMENDATIONS ───────────────────────
+     * AI suggestions for volunteers based on workload, task history, and preferred donation type.
+     */
+    public function getVolunteerRecommendations(string $volunteer_email): array {
+        $email = mysqli_real_escape_string($this->conn, $volunteer_email);
+        $completed = (int)$this->conn->query("SELECT COUNT(*) c FROM food_donations WHERE volunteer_email='$email' AND status='delivered' UNION SELECT COUNT(*) c FROM cloth_donations WHERE volunteer_email='$email' AND status='delivered'")->fetch_assoc()['c'];
+
+        $food_completed = (int)$this->conn->query("SELECT COUNT(*) c FROM food_donations WHERE volunteer_email='$email' AND status='delivered'")->fetch_assoc()['c'];
+        $cloth_completed = (int)$this->conn->query("SELECT COUNT(*) c FROM cloth_donations WHERE volunteer_email='$email' AND status='delivered'")->fetch_assoc()['c'];
+        $pending = (int)$this->conn->query("SELECT COUNT(*) c FROM volunteer_tasks WHERE volunteer_email='$email' AND task_status='pending_acceptance'")->fetch_assoc()['c'];
+
+        $recs = [];
+
+        if ($food_completed >= $cloth_completed) {
+            $recs[] = ['icon' => '🍱', 'text' => 'Your strongest area is <strong>food pickups</strong>. Stay available for nearby urgent food donation windows.'];
+        } else {
+            $recs[] = ['icon' => '👕', 'text' => 'Your strongest area is <strong>clothing pickups</strong>. High-volume textile drives often need quick response.'];
+        }
+
+        if ($pending > 0) {
+            $recs[] = ['icon' => '📋', 'text' => "You have <strong>$pending task requests</strong> waiting for acceptance. Review them to keep the pickup pipeline moving."];
+        } else {
+            $recs[] = ['icon' => '✅', 'text' => 'Your queue is free. Keep your location and contact details updated for better auto-assignment.'];
+        }
+
+        $total_completed = $food_completed + $cloth_completed;
+        if ($total_completed === 0) {
+            $recs[] = ['icon' => '🚀', 'text' => 'You are new to volunteering. Accept the first nearby task and build a strong delivery record.'];
+        } else {
+            $recs[] = ['icon' => '🏆', 'text' => "You have completed <strong>$total_completed pickups</strong> so far. Consistency in timely delivery creates faster future assignments."];
+        }
+
+        return $recs;
+    }
+
     /* ── 8. PRODUCT RECOMMENDATIONS ────────────────────────
      * Returns personalised product recommendations for a user
      * based on: search history, view history, purchase history, and category preference.

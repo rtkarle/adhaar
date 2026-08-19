@@ -136,9 +136,9 @@ $max_u  = max(1, $stats['total_users']);
 <link rel="stylesheet" href="../css/dashboard.css">
 <style>
 /* ─── Admin-specific styles ─── */
-:root{ --accent:#7a7d3f; --accent2:#9a8f5c; --bg:#f0efe9; --card:#fff;
-  --text:#2f2e26; --muted:#5a594d; --radius:16px; --shadow:0 4px 24px rgba(47,46,38,.09);
-  --shadow-lg:0 12px 40px rgba(47,46,38,.15); --sidebar-w:250px; --topbar-h:60px; }
+:root{ --accent:#006D77; --accent2:#2E8B57; --bg:#edf4f1; --card:#fff;
+  --text:#102A43; --muted:#5A7184; --radius:16px; --shadow:0 4px 24px rgba(16,42,67,.09);
+  --shadow-lg:0 12px 40px rgba(16,42,67,.15); --sidebar-w:250px; --topbar-h:60px; }
 *{ margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
 body{ background:var(--bg); color:var(--text); min-height:100vh; }
 
@@ -503,7 +503,7 @@ body{ background:var(--bg); color:var(--text); min-height:100vh; }
     <div class="chart-card">
       <h4>📊 User Distribution</h4>
       <?php foreach([
-        ['🎁 Donors',    $stats['donors'],    '#7a7d3f'],
+        ['🎁 Donors',    $stats['donors'],    '#006D77'],
         ['🤝 Volunteers',$stats['volunteers'],'#3b82f6'],
         ['🏪 Sellers',   $stats['sellers'],   '#8b5cf6'],
       ] as [$lbl,$val,$col]): ?>
@@ -574,7 +574,7 @@ body{ background:var(--bg); color:var(--text); min-height:100vh; }
         $total_del = $stats['food_delivered'] + $stats['cloth_delivered'];
         $del_rate  = $total_don > 0 ? round($total_del/$total_don*100) : 0;
         foreach([
-          ['Total Donations', $total_don,          '#7a7d3f'],
+          ['Total Donations', $total_don,          '#006D77'],
           ['Delivery Rate',   $del_rate.'%',        '#059669'],
           ['Shop Revenue',    '₹'.number_format($stats['revenue'],0), '#3b82f6'],
           ['Active Sellers',  $stats['sellers'],    '#8b5cf6'],
@@ -1328,7 +1328,7 @@ function buildAdminChart() {
     data:{
       labels: <?=json_encode($w_labels)?>,
       datasets:[
-        {label:'Food',data:<?=json_encode($w_food)?>,borderColor:'#7a7d3f',backgroundColor:'rgba(122,125,63,.12)',tension:.4,fill:true,pointRadius:4},
+        {label:'Food',data:<?=json_encode($w_food)?>,borderColor:'#006D77',backgroundColor:'rgba(0,109,119,.12)',tension:.4,fill:true,pointRadius:4},
         {label:'Clothing',data:<?=json_encode($w_cloth)?>,borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.08)',tension:.4,fill:true,pointRadius:4}
       ]
     },

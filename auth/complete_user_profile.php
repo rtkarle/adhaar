@@ -47,7 +47,7 @@ if (isset($_POST['role'])) {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--accent:#7a7d3f;--accent2:#9a8f5c;--text:#2f2e26;--muted:#5a594d}
+:root{--accent:#006D77;--accent2:#2E8B57;--text:#102A43;--muted:#5A7184}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
 body{
   min-height:100vh;
@@ -83,7 +83,7 @@ h1{font-size:22px;font-weight:800;color:var(--text);margin-bottom:6px}
 }
 .role-btn:hover{
   border-color:var(--accent);
-  background:linear-gradient(135deg,#7a7d3f,#9a8f5c);
+  background:linear-gradient(135deg,#006D77,#2E8B57);
   color:#fff;transform:translateX(4px);
 }
 .role-icon{font-size:1.6rem;flex-shrink:0}

@@ -68,10 +68,10 @@ while($r=$rrev->fetch_assoc()) $reviewed[$r['order_id'].'_'.$r['product_id']] = 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--accent:#7a7d3f;--accent2:#9a8f5c;--bg:#f6f5f0;--card:#fff;--text:#2f2e26;--muted:#5a594d;--shadow:0 8px 24px rgba(0,0,0,.08)}
+:root{--accent:#006D77;--accent2:#2E8B57;--bg:#f5f8f4;--card:#fff;--text:#102A43;--muted:#5A7184;--shadow:0 8px 24px rgba(16,42,67,.08)}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text)}
-header{background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.06);position:sticky;top:0;z-index:100}
+body{background:linear-gradient(180deg,#f5f8f4 0%,#edf4f1 42%,#f8f3ee 100%);color:var(--text)}
+header{background:#fff;box-shadow:0 2px 12px rgba(16,42,67,.06);position:sticky;top:0;z-index:100}
 .nav{max-width:1000px;margin:auto;padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between}
 .logo{font-size:18px;font-weight:800;color:var(--accent);text-decoration:none}
 .nav-links a{color:var(--muted);font-size:13px;font-weight:600;text-decoration:none;padding:8px 12px;border-radius:8px;transition:.2s}

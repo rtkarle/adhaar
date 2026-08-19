@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $body = '<!DOCTYPE html><html><body style="margin:0;padding:0;background:#f6f5f0;font-family:Inter,Arial,sans-serif;">
 <table width="100%" cellpadding="0" cellspacing="0" style="background:#f6f5f0;padding:40px 20px;"><tr><td align="center">
 <table width="100%" style="max-width:520px;background:#fff;border-radius:24px;overflow:hidden;">
-<tr><td style="background:linear-gradient(135deg,#7a7d3f,#9a8f5c);padding:32px 40px;text-align:center;">
+<tr><td style="background:linear-gradient(135deg,#006D77,#2E8B57);padding:32px 40px;text-align:center;">
 <h1 style="margin:0;color:#fff;font-size:22px;font-weight:800;">🌿 Adhaar – The SoulServe</h1>
 <p style="margin:8px 0 0;color:rgba(255,255,255,.85);font-size:13px;">Password Reset Request</p></td></tr>
 <tr><td style="padding:36px 40px;">
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--accent:#7a7d3f;--accent2:#9a8f5c;--text:#2f2e26;--muted:#5a594d}
+:root{--accent:#006D77;--accent2:#2E8B57;--text:#102A43;--muted:#5A7184}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
 body{min-height:100vh;background:linear-gradient(135deg,#2f2e26,#4a4a30,#2f2e26);display:flex;align-items:center;justify-content:center;padding:20px}
 .card{background:#fff;width:100%;max-width:420px;padding:48px 44px;border-radius:28px;box-shadow:0 40px 100px rgba(0,0,0,.35);animation:fadeUp .5s ease}

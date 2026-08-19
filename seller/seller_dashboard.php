@@ -37,6 +37,10 @@ $tab     = $_GET['tab']     ?? 'overview';
 $success = $_GET['success'] ?? '';
 $err     = $_GET['err']     ?? '';
 
+require_once __DIR__ . '/../api/ai_engine.php';
+$ai_recommendations = adhaar_ai()->getSellerRecommendations($email);
+$ai_product_recs = adhaar_ai()->getProductRecommendations($email, 0, 4);
+
 $cats = ['handicraft'=>'Handicraft','textile'=>'Textile','food_product'=>'Food Product',
          'jewelry'=>'Jewelry','art'=>'Art','pottery'=>'Pottery','organic'=>'Organic','other'=>'Other'];
 ?>
@@ -178,6 +182,43 @@ $cats = ['handicraft'=>'Handicraft','textile'=>'Textile','food_product'=>'Food P
         <h3>🌿 Empowering You to Sell</h3>
         <p>Adhaar Shop connects your handmade, organic, and local products directly to buyers across India. No middlemen. Pure impact.</p>
       </div>
+
+      <div class="card" style="margin-bottom:24px; background:linear-gradient(135deg,#0d2338,#006d77); color:#fff; border:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:12px;">
+          <div>
+            <div style="font-size:11px; font-weight:800; letter-spacing:.6px; text-transform:uppercase; opacity:.8;">🤖 AI Seller Insights</div>
+            <h3 style="font-size:18px; font-weight:800; margin-top:6px;">Smart growth recommendations</h3>
+          </div>
+          <span style="padding:6px 12px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); border-radius:999px; font-size:11px; font-weight:700;">Live</span>
+        </div>
+        <div style="display:grid; gap:10px;">
+          <?php foreach($ai_recommendations as $rec): ?>
+            <div style="display:flex; align-items:flex-start; gap:12px; padding:12px 14px; border-radius:12px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);">
+              <span style="font-size:1.2rem; flex-shrink:0;"><?=$rec['icon']?></span>
+              <span style="font-size:13px; line-height:1.6; color:rgba(255,255,255,.9);"><?=$rec['text']?></span>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+
+      <?php if(!empty($ai_product_recs)): ?>
+      <div style="margin-bottom:22px;">
+        <div class="section-title">✨ AI Recommended Products</div>
+        <div class="product-grid">
+          <?php foreach($ai_product_recs as $p): $img = !empty($p['image1']) ? image_url($p['image1']) : null; ?>
+            <div class="prod-card" onclick="location.href='../shop/product.php?id=<?=(int)$p['id']?>'">
+              <?php if($img): ?><img class="prod-img" src="<?=htmlspecialchars($img)?>" alt="<?=htmlspecialchars($p['name'])?>">
+              <?php else: ?><div class="prod-img-ph">🛍️</div><?php endif; ?>
+              <div class="prod-body">
+                <div class="prod-name"><?=htmlspecialchars($p['name'])?></div>
+                <div class="prod-price">₹<?=number_format((float)$p['price'],2)?> <span class="prod-mrp">₹<?=number_format((float)$p['mrp'],2)?></span></div>
+                <div class="prod-meta">📍 <?=htmlspecialchars($p['store_name'])?> · ⭐ <?=number_format((float)($p['avg_rating'] ?? 0), 1)?> / 5</div>
+              </div>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      </div>
+      <?php endif; ?>
 
       <div class="section-title">📋 What You Can Do</div>
       <div class="info-grid">

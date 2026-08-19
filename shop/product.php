@@ -55,10 +55,10 @@ $discount   = ($p['mrp'] && $p['mrp']>$p['price']) ? round((($p['mrp']-$p['price
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--accent:#7a7d3f;--accent2:#9a8f5c;--bg:#f6f5f0;--card:#fff;--text:#2f2e26;--muted:#5a594d;--shadow:0 8px 24px rgba(0,0,0,.08)}
+:root{--accent:#006D77;--accent2:#2E8B57;--bg:#f5f8f4;--card:#fff;--text:#102A43;--muted:#5A7184;--shadow:0 8px 24px rgba(16,42,67,.08)}
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-body{background:var(--bg);color:var(--text)}
-header{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);box-shadow:0 2px 16px rgba(0,0,0,.07);z-index:100}
+body{background:linear-gradient(180deg,#f5f8f4 0%,#edf4f1 42%,#f8f3ee 100%);color:var(--text)}
+header{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);box-shadow:0 2px 16px rgba(16,42,67,.07);z-index:100}
 .nav{max-width:1200px;margin:auto;padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .logo{font-size:18px;font-weight:800;color:var(--accent);text-decoration:none}
 .nav-links{display:flex;align-items:center;gap:12px}
@@ -101,7 +101,7 @@ header{position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:bl
 .qty-ctrl input{width:52px;height:36px;border:1.5px solid #e0ddd5;border-left:none;border-right:none;text-align:center;font-size:15px;font-weight:700;outline:none}
 .action-btns{display:flex;gap:12px;margin-bottom:24px}
 .btn-cart{flex:2;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:15px;font-weight:700;cursor:pointer;transition:.3s}
-.btn-cart:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(122,125,63,.4)}
+.btn-cart:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,109,119,.18)}
 .btn-cart:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .delivery-info{background:#f8f7f0;border-radius:12px;padding:16px;margin-bottom:16px}
 .delivery-info h4{font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text)}

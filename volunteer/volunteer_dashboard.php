@@ -22,6 +22,8 @@ if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['task_action'])){
 }
 
 $tab = $_GET['tab'] ?? 'assigned';
+require_once __DIR__ . '/../api/ai_engine.php';
+$ai_recommendations = adhaar_ai()->getVolunteerRecommendations($email);
 
 // Assigned donations
 $af=$conn->prepare("SELECT id,'Food' AS type,quantity,pickup_address,contact,status,created_at,image,donor_email,notes FROM food_donations WHERE volunteer_email=? AND status NOT IN ('delivered','rejected') ORDER BY created_at DESC");
@@ -151,6 +153,24 @@ $orders_count = (int)$conn->query("SELECT COUNT(*) c FROM orders WHERE buyer_ema
       <div class="stat-chip"><p>Completed</p><h2><?=count($completed)?></h2></div>
       <div class="stat-chip"><p>Task Requests</p><h2><?=count($pending_tasks)?></h2></div>
       <div class="stat-chip"><p>Peer Volunteers</p><h2><?=count($peers)?></h2></div>
+    </div>
+
+    <div class="card" style="margin-bottom:24px; background:linear-gradient(135deg,#0d2338,#006d77); color:#fff; border:none;">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:12px;">
+        <div>
+          <div style="font-size:11px; font-weight:800; letter-spacing:.6px; text-transform:uppercase; opacity:.8;">🤖 AI Volunteer Guide</div>
+          <h3 style="font-size:18px; font-weight:800; margin-top:6px;">Smart assistance for fast pickups</h3>
+        </div>
+        <span style="padding:6px 12px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); border-radius:999px; font-size:11px; font-weight:700;">Live</span>
+      </div>
+      <div style="display:grid; gap:10px;">
+        <?php foreach($ai_recommendations as $rec): ?>
+          <div style="display:flex; align-items:flex-start; gap:12px; padding:12px 14px; border-radius:12px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);">
+            <span style="font-size:1.2rem; flex-shrink:0;"><?=$rec['icon']?></span>
+            <span style="font-size:13px; line-height:1.6; color:rgba(255,255,255,.9);"><?=$rec['text']?></span>
+          </div>
+        <?php endforeach; ?>
+      </div>
     </div>
 
     <!-- ══ TAB: ASSIGNED ══ -->
