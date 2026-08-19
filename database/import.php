@@ -3,14 +3,14 @@
  * Adhaar – One-time Database Import Tool
  * Run this ONCE after deploy to create all tables on Railway MySQL.
  *
- * URL: https://adhaar-php.onrender.com/database/import.php?key=adhaar_import_2026
+ * URL: https://adhaar-php.onrender.com/database/import.php?key=YOUR_DB_IMPORT_KEY
  *
  * DELETE this file after import is complete!
  */
 
-// Security key — prevents unauthorized access
-$SECRET_KEY = 'adhaar_import_2026';
-if (($_GET['key'] ?? '') !== $SECRET_KEY) {
+// The import endpoint is disabled until an explicit deployment secret exists.
+$secret_key = (string) getenv('DB_IMPORT_KEY');
+if ($secret_key === '' || !hash_equals($secret_key, (string) ($_GET['key'] ?? ''))) {
     http_response_code(403);
     die('<h2 style="color:red">403 Forbidden — invalid key</h2>');
 }

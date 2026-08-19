@@ -88,8 +88,12 @@ git push -u origin main
 | `DB_USER` | Your MySQL user |
 | `DB_PASS` | Your MySQL password |
 | `DB_NAME` | `adhaar_db` |
-| `MAIL_PASSWORD` | `pmuydxdnocglibrg` |
-| `CLOUDINARY_API_SECRET` | `Y6N3TcJQjxNEODoiyJotuNPkwCs` |
+| `MAIL_USERNAME` | Your SMTP username |
+| `MAIL_PASSWORD` | Your SMTP app password |
+| `CLOUDINARY_API_KEY` | Your Cloudinary API key |
+| `CLOUDINARY_API_SECRET` | Your Cloudinary API secret |
+| `ADMIN_REGISTRATION_KEY` | A newly generated admin-registration key |
+| `DB_IMPORT_KEY` | A temporary database-import key; remove after import |
 | `AI_FLASK_URL` | `https://adhaar-ai.onrender.com` |
 
 ### adhaar-ai service — set these:
