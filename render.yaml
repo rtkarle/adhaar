@@ -1,59 +1,64 @@
 # ═══════════════════════════════════════════════════════════════
-#  Adhaar – The SoulServe  |  Render Blueprint
-#  Two services:
-#    1. adhaar-php   — Apache + PHP 8.2 (Web App)
-#    2. adhaar-ai    — Python Flask AI API
+#  SoulServe | Render Blueprint
+#  Services:
+#    1. soulserves     — PHP 8.2 + Apache (Web App)
+#    2. soulserves-ai  — Python Flask AI API
 #
-#  Deploy: render.com → New → Blueprint → connect GitHub repo
+#  Deploy: Render Dashboard → New → Blueprint → connect GitHub repo
 # ═══════════════════════════════════════════════════════════════
-
 services:
 
-  # ── Service 1: PHP Web Application ─────────────────────────
+  # ── Service 1: PHP Web Application ───────────────────────────
   - type: web
-    name: adhaar-php
+    name: soulserves
     runtime: docker
     dockerfilePath: ./Dockerfile
     plan: free
-    healthCheckPath: /index.html
+    # Render routes external traffic → this internal port
+    # docker-entrypoint.sh sets Apache to listen on $PORT
+    healthCheckPath: /health.php
     envVars:
-      # App URL — update after first deploy with actual Render URL
       - key: APP_URL
         value: https://soulserves.onrender.com
 
-      # Railway MySQL credentials (set manually in Render dashboard)
+      # ── Railway MySQL ──────────────────────────────────────
+      # Set these in Render Dashboard → soulserves → Environment
       - key: DB_HOST
-        sync: false        # Set to Railway public proxy host
+        value: sakura.proxy.rlwy.net
       - key: DB_PORT
-        sync: false        # Set to Railway public proxy port
+        value: "20090"
       - key: DB_USER
         value: root
       - key: DB_PASS
-        sync: false        # Set to: sKZSsTGAzOPyCjNXyzEoeMfjbTkviytz
+        sync: false          # Set in Render Dashboard (never commit)
       - key: DB_NAME
-        value: railway
+        value: adhaar_db     # Fixed: was 'railway', correct is 'adhaar_db'
 
-      # Mail
+      # ── Mail ──────────────────────────────────────────────
+      - key: MAIL_HOST
+        value: smtp.gmail.com
+      - key: MAIL_PORT
+        value: "587"
       - key: MAIL_USERNAME
         value: rtkarle03@gmail.com
       - key: MAIL_PASSWORD
-        sync: false        # Set to app password in Render dashboard
+        sync: false          # Set in Render Dashboard
 
-      # Cloudinary
+      # ── Cloudinary ────────────────────────────────────────
       - key: CLOUDINARY_CLOUD_NAME
         value: soulserves
       - key: CLOUDINARY_API_KEY
-        value: "221996235797964"
+        value: "221996235797965"
       - key: CLOUDINARY_API_SECRET
-        sync: false        # Set in Render dashboard
+        sync: false          # Set in Render Dashboard
 
-      # Flask AI URL — update after adhaar-ai is deployed
+      # ── Flask AI (soulserves-ai service) ──────────────────
       - key: AI_FLASK_URL
-        value: https://adhaar-ai.onrender.com
+        value: https://soulserves-ai.onrender.com   # Fixed: correct service name
 
-  # ── Service 2: Python Flask AI API ─────────────────────────
+  # ── Service 2: Python Flask AI API ───────────────────────────
   - type: web
-    name: adhaar-ai
+    name: soulserves-ai
     runtime: docker
     dockerfilePath: ./ai_python/Dockerfile
     plan: free
@@ -62,4 +67,4 @@ services:
       - key: PORT
         value: "5000"
       - key: GEMINI_API_KEY
-        sync: false        # Optional — set if using Gemini chat
+        sync: false          # Optional — set in Render Dashboard
