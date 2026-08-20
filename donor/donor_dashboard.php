@@ -78,7 +78,7 @@ $ai_impact = adhaar_ai()->predictImpact();
 <body>
 <!-- Mobile topbar -->
 <div class="mobile-topbar">
-  <span class="m-logo">🌿 Adhaar</span>
+  <span class="m-logo"><img src="../assets/logo.png" alt="SoulServe" style="height:32px;object-fit:contain;vertical-align:middle"></span>
   <button class="hamburger" id="hamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
@@ -87,7 +87,7 @@ $ai_impact = adhaar_ai()->predictImpact();
 
 <div class="app">
   <aside class="sidebar" id="sidebar">
-    <div class="logo">🌿 Adhaar<span class="logo-sub">Donor Portal</span></div>
+    <div class="logo"><img src="../assets/logo.png" alt="SoulServe" style="height:36px;object-fit:contain;margin-bottom:4px;display:block"><span class="logo-sub">Donor Portal</span></div>
     <a href="donor_dashboard.php" class="nav-btn active">🏠 Dashboard</a>
     <a href="donate.php" class="nav-btn">🎁 Donate</a>
     <a href="history.php" class="nav-btn">📋 History</a>

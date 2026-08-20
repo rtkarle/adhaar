@@ -80,15 +80,8 @@ html,body{height:100%}
   <!-- Left brand panel -->
   <div class="auth-brand">
     <div class="auth-brand-logo">
-      <svg width="64" height="64" viewBox="0 0 42 42" fill="none">
-        <defs><linearGradient id="alg" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#FF8A00"/><stop offset="50%" stop-color="#F72585"/>
-          <stop offset="100%" stop-color="#2E8B57"/>
-        </linearGradient></defs>
-        <path d="M21 36s-1.5-1.2-4-3.3C10.5 27.4 5 22.5 5 16.5A8.5 8.5 0 0121 11a8.5 8.5 0 0116 5c0 6-5.5 10.9-12 16.2-2.5 2.1-4 3.3-4 3.3z" fill="url(#alg)"/>
-        <path d="M9 21c3-2 6-1 8 1s3 5 4 5 2-3 4-5 5-3 8-1" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" opacity=".7"/>
-      </svg>
-      <div class="logo-text" style="font-size:28px;color:#fff;margin-top:12px">SoulServe<span style="color:rgba(255,255,255,.55)">Endless Service. Infinite Impact.</span></div>
+      <img src="../assets/logo.png" alt="SoulServe" style="width:90px;object-fit:contain;display:block;margin:0 auto">
+      <div style="font-size:18px;font-weight:900;color:#fff;margin-top:10px;text-align:center">SoulServe<span style="display:block;font-size:11px;font-weight:500;color:rgba(255,255,255,.6);margin-top:2px;letter-spacing:.5px">Endless Service. Infinite Impact.</span></div>
     </div>
     <h2 class="auth-brand-headline">Welcome<br>Back.</h2>
     <p class="auth-brand-sub">Every login is a step toward more impact. Donate, volunteer, track — all in one place.</p>

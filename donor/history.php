@@ -83,7 +83,7 @@ tbody tr:nth-child(3){animation-delay:.12s}tbody tr:nth-child(n+4){animation-del
 <div class="top-header">
   <div class="top-header-inner">
     <a href="donor_dashboard.php" class="back-btn">← Back</a>
-    <span class="page-logo">📋 Donation History</span>
+    <span class="page-logo"><img src="../assets/logo.png" alt="SoulServe" style="height:28px;object-fit:contain;vertical-align:middle;margin-right:6px">Donation History</span>
     <a href="donate.php" style="padding:8px 16px;border-radius:9px;background:var(--accent);color:#fff;font-size:13px;font-weight:700;text-decoration:none">+ Donate</a>
   </div>
 </div>

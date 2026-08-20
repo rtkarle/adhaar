@@ -135,9 +135,7 @@ section{padding:5.5rem 2rem}
 <header class="header" id="header">
   <div class="nav-container">
     <a href="../index.html" class="logo-box">
-      <div class="logo-mark">
-        <svg viewBox="0 0 42 42" fill="none"><defs><linearGradient id="ilg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF8A00"/><stop offset="50%" stop-color="#F72585"/><stop offset="100%" stop-color="#2E8B57"/></linearGradient></defs><path d="M21 36s-1.5-1.2-4-3.3C10.5 27.4 5 22.5 5 16.5A8.5 8.5 0 0121 11a8.5 8.5 0 0116 5c0 6-5.5 10.9-12 16.2-2.5 2.1-4 3.3-4 3.3z" fill="url(#ilg)"/><path d="M9 21c3-2 6-1 8 1s3 5 4 5 2-3 4-5 5-3 8-1" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" opacity=".7"/></svg>
-      </div>
+      <div class="logo-mark"><img src="../assets/logo.png" alt="SoulServe" style="width:42px;height:42px;object-fit:contain;border-radius:6px;display:block"></div>
       <div class="logo-text">SoulServe<span>Endless Service. Infinite Impact.</span></div>
     </a>
     <nav class="nav" id="mobileMenu">

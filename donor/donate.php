@@ -75,7 +75,7 @@ header{position:fixed;top:0;width:100%;background:rgba(255,255,255,.92);backdrop
   <div class="nav-container">
     <div style="display:flex;align-items:center;gap:12px">
       <a href="donor_dashboard.php" style="display:inline-flex;align-items:center;gap:6px;color:var(--accent);font-weight:700;font-size:13px;text-decoration:none;padding:6px 12px;border:1.5px solid rgba(122,125,63,.3);border-radius:8px">← Dashboard</a>
-      <a href="../index.html" class="logo-text">🌿 Adhaar</a>
+      <a href="../index.html" class="logo-text"><img src="../assets/logo.png" alt="SoulServe" style="height:34px;object-fit:contain;vertical-align:middle"></a>
     </div>
     <nav class="nav" id="mobileMenu">
       <a href="../index.html">Home</a>

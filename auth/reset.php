@@ -75,7 +75,7 @@ body{min-height:100vh;background:linear-gradient(135deg,#2f2e26,#4a4a30,#2f2e26)
 <body>
 <div class="card">
   <div class="brand">
-    <div class="brand-icon">🔑</div>
+    <div class="brand-icon"><img src="../assets/logo.png" alt="SoulServe" style="width:52px;height:52px;object-fit:contain;border-radius:0"></div>
     <h1>Set New Password</h1>
     <p>Choose a strong new password for your account.</p>
   </div>

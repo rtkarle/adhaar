@@ -176,7 +176,7 @@ body{
 
 <div class="card">
   <div class="brand">
-    <div class="brand-icon">📧</div>
+    <div class="brand-icon"><img src="../assets/logo.png" alt="SoulServe" style="width:52px;height:52px;object-fit:contain;border-radius:0"></div>
     <h1>Verify OTP</h1>
     <p>
       6-digit code sent to<br>

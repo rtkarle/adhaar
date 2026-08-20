@@ -118,7 +118,7 @@ header{position:sticky;top:0;background:rgba(255,255,255,.9);backdrop-filter:blu
 <body>
 <header>
   <div class="nav">
-    <a href="../index.html" class="logo">🌿 Adhaar</a>
+    <a href="../index.html" class="logo"><img src="../assets/logo.png" alt="SoulServe" style="height:36px;object-fit:contain;vertical-align:middle"></a>
     <form class="search-bar" method="GET">
       <input type="text" name="q" value="<?=htmlspecialchars($search)?>" placeholder="Search handmade products...">
       <button type="submit">🔍</button>

@@ -117,7 +117,7 @@ $cats = ['handicraft'=>'Handicraft','textile'=>'Textile','food_product'=>'Food P
 <body>
 <!-- Mobile topbar -->
 <div class="mobile-topbar">
-  <span class="m-logo">🏪 Seller Hub</span>
+  <span class="m-logo"><img src="../assets/logo.png" alt="SoulServe" style="height:32px;object-fit:contain;vertical-align:middle"></span>
   <button class="hamburger" id="hamburger" aria-label="Open menu">
     <span></span><span></span><span></span>
   </button>
@@ -127,7 +127,7 @@ $cats = ['handicraft'=>'Handicraft','textile'=>'Textile','food_product'=>'Food P
 <div class="app">
   <!-- ══ SIDEBAR ══ -->
   <aside class="sidebar" id="sidebar">
-    <div class="logo">🏪 Seller Hub<span class="logo-sub">Adhaar – The SoulServe</span></div>
+    <div class="logo"><img src="../assets/logo.png" alt="SoulServe" style="height:36px;object-fit:contain;margin-bottom:4px;display:block"><span class="logo-sub">Seller Portal</span></div>
 
     <button class="nav-btn <?=$tab==='overview'?'active':''?>"     onclick="goTab('overview')">📊 Overview</button>
     <button class="nav-btn <?=$tab==='store'?'active':''?>"        onclick="goTab('store')">🏬 My Store</button>

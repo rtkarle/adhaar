@@ -109,7 +109,7 @@ if(isset($_GET['export'])){
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="app">
   <aside class="sidebar" id="sidebar">
-    <div class="logo">🌿 Adhaar<span class="logo-sub">Admin Panel</span></div>
+    <div class="logo"><img src="../assets/logo.png" alt="SoulServe" style="height:36px;object-fit:contain;display:block;margin-bottom:4px"><span class="logo-sub">Admin Panel</span></div>
     <a href="admin_dashboard.php"     class="nav-btn">🏠 Dashboard</a>
     <a href="distribution_system.php" class="nav-btn active">🚚 Distribution</a>
     <div class="sidebar-footer">

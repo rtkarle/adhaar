@@ -71,6 +71,12 @@ body{min-height:100vh;background:var(--bg);display:flex;align-items:center;justi
 </style>
 </head>
 <body>
+<div style="max-width:520px;margin:20px auto 0;padding:0 16px;display:flex;align-items:center;justify-content:space-between">
+  <a href="donor_dashboard.php" style="display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--accent);text-decoration:none">
+    <img src="../assets/logo.png" alt="SoulServe" style="height:32px;object-fit:contain">
+  </a>
+  <a href="donor_dashboard.php" style="font-size:13px;font-weight:600;color:var(--muted);text-decoration:none">← Back to Dashboard</a>
+</div>
 <div class="card">
   <div class="card-header">
     <div class="avatar"><?=strtoupper(substr($user['name'],0,1))?></div>

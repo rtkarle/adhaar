@@ -110,7 +110,7 @@ $orders_count = (int)$conn->query("SELECT COUNT(*) c FROM orders WHERE buyer_ema
 <body>
 <!-- Mobile topbar -->
 <div class="mobile-topbar">
-  <span class="m-logo">🌿 Adhaar</span>
+  <span class="m-logo"><img src="../assets/logo.png" alt="SoulServe" style="height:32px;object-fit:contain;vertical-align:middle"></span>
   <button class="hamburger" id="hamburger" aria-label="Open menu">
     <span></span><span></span><span></span>
   </button>
@@ -120,7 +120,7 @@ $orders_count = (int)$conn->query("SELECT COUNT(*) c FROM orders WHERE buyer_ema
 <div class="app">
   <!-- ══ SIDEBAR ══ -->
   <aside class="sidebar" id="sidebar">
-    <div class="logo">🌿 Adhaar<span class="logo-sub">Volunteer Portal</span></div>
+    <div class="logo"><img src="../assets/logo.png" alt="SoulServe" style="height:36px;object-fit:contain;margin-bottom:4px;display:block"><span class="logo-sub">Volunteer Portal</span></div>
 
     <button class="nav-btn <?=$tab==='assigned'?'active':''?>" onclick="openTab('assigned')">📦 Assigned Pickups<?php if(count($assigned)>0):?><span class="nav-badge green"><?=count($assigned)?></span><?php endif;?></button>
     <button class="nav-btn <?=$tab==='tasks'?'active':''?>" onclick="openTab('tasks')">📋 Task Requests<?php if(count($pending_tasks)>0):?><span class="nav-badge"><?=count($pending_tasks)?></span><?php endif;?></button>

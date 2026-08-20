@@ -247,9 +247,9 @@ body{
 
 <div class="card" id="loginCard">
   <div class="brand">
-    <div class="brand-ring">🌿</div>
+    <div class="brand-ring"><img src="../assets/logo.png" alt="SoulServe" style="width:64px;height:64px;object-fit:contain;border-radius:0;display:block;margin:0 auto"></div>
     <h1>Admin Login</h1>
-    <p>Adhaar – The SoulServe</p>
+    <p>SoulServe — Management Portal</p>
   </div>
 
   <?php if ($registered): ?>

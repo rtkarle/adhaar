@@ -358,7 +358,7 @@ body{ background:var(--bg); color:var(--text); min-height:100vh; }
 
 <!-- Mobile topbar -->
 <div class="mobile-topbar">
-  <span class="m-logo">🌿 Admin</span>
+  <span class="m-logo"><img src="../assets/logo.png" alt="SoulServe" style="height:32px;object-fit:contain;vertical-align:middle"></span>
   <button class="hamburger" id="hamburger" aria-label="Open menu">
     <span></span><span></span><span></span>
   </button>
@@ -368,7 +368,7 @@ body{ background:var(--bg); color:var(--text); min-height:100vh; }
 <div class="app">
 <!-- ══ SIDEBAR ══ -->
 <aside class="sidebar" id="sidebar">
-  <div class="sidebar-logo">🌿 Adhaar Admin<span>Management Panel</span></div>
+  <div class="sidebar-logo"><img src="../assets/logo.png" alt="SoulServe" style="height:36px;object-fit:contain;display:block;margin-bottom:4px"><span>Management Panel</span></div>
 
   <button class="nav-item <?=$tab==='overview'?'active':''?>" onclick="sw('overview',this)">📊 Overview</button>
 

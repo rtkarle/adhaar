@@ -69,7 +69,7 @@ body{background:var(--bg);color:var(--text);min-height:100vh}
 <body>
 <div class="top-header">
   <div class="top-header-inner">
-    <a href="donor_dashboard.php" class="back-btn">← Dashboard</a>
+    <a href="../index.html" style="display:inline-flex;align-items:center"><img src="../assets/logo.png" alt="SoulServe" style="height:28px;object-fit:contain"></a> <a href="donor_dashboard.php" class="back-btn">← Dashboard</a>
     <div class="live-badge"><span class="live-dot"></span>Live Tracking</div>
     <a href="donate.php" style="padding:8px 16px;border-radius:9px;background:var(--accent);color:#fff;font-size:13px;font-weight:700;text-decoration:none">+ Donate</a>
   </div>

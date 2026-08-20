@@ -169,7 +169,7 @@ header{background:#fff;box-shadow:0 2px 12px rgba(16,42,67,.06);position:sticky;
 <body>
 <header>
   <div class="nav">
-    <a href="../index.html" class="logo">🌿 Adhaar</a>
+    <a href="../index.html" class="logo"><img src="../assets/logo.png" alt="SoulServe" style="height:36px;object-fit:contain;vertical-align:middle"></a>
     <a href="cart.php" class="back-link">← Back to Cart</a>
   </div>
 </header>
