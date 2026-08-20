@@ -1375,5 +1375,6 @@ async function aiAssign(id, type, btn) {
   }
 }
 </script>
+<script src="../js/script.js"></script>
 </body>
 </html>

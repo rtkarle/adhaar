@@ -409,5 +409,6 @@ requestAnimationFrame(()=>{
 setTimeout(()=>card.classList.remove('shake'), 500);
 <?php endif; ?>
 </script>
+<script src="../js/script.js"></script>
 </body>
 </html>

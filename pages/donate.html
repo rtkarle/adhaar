@@ -36,8 +36,9 @@
     <nav class="nav" id="mobileMenu">
       <a href="../index.html" class="nav-link">Home</a>
       <a href="about.html" class="nav-link">About</a>
-      <a href="donate.html" class="nav-link active">Donate</a>
+      <a href="activities.php" class="nav-link">Activities</a>
       <a href="impact.php" class="nav-link">Impact</a>
+      <a href="donate.html" class="nav-link active">Donate</a>
       <a href="../shop/shop.php" class="nav-link">Shop</a>
       <a href="contact.html" class="nav-link">Contact</a>
     </nav>
@@ -283,31 +284,6 @@
   <div class="footer-rainbow"></div>
 </footer>
 
-<script>
-const header=document.getElementById('header');
-window.addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>60),{passive:true});
-const mt=document.getElementById('menuToggle'),mm=document.getElementById('mobileMenu');
-if(mt&&mm){mt.addEventListener('click',()=>{mm.classList.toggle('show');mt.textContent=mm.classList.contains('show')?'✕':'☰';});}
-const ro=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('show');ro.unobserve(x.target)}})},{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
-
-// CSRF
-fetch('../api/get_csrf.php').then(r=>r.json()).then(d=>{
-  ['foodCsrf','clothCsrf'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=d.token||'';});
-}).catch(()=>{});
-
-// Tab switch
-function switchTab(name, btn){
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.donate-tab').forEach(b=>b.classList.remove('active'));
-  document.getElementById('tab-'+name)?.classList.add('active');
-  btn.classList.add('active');
-}
-
-// Login gate visibility
-fetch('../api/get_csrf.php').then(r=>r.json()).then(d=>{
-  if(d.logged_in) document.getElementById('loginBanner').style.display='none';
-}).catch(()=>{});
-</script>
+<script src="../js/script.js"></script>
 </body>
 </html>

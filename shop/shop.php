@@ -299,5 +299,6 @@ function showToast(msg) {
   setTimeout(()=>t.classList.remove('show'), 3000);
 }
 </script>
+<script src="../js/script.js"></script>
 </body>
 </html>

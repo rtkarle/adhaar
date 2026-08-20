@@ -1,126 +1,271 @@
-/* ================= MOBILE MENU ================= */
-const menuToggle = document.getElementById("menuToggle");
-const nav = document.getElementById("mobileMenu");
+/* ================================================================
+   SoulServe Global Script v4.0
+   - Toast notifications
+   - Navbar scroll + mobile menu
+   - Scroll reveal (IntersectionObserver)
+   - Counter animation (countUp)
+   - Stories slider
+   - CSRF fetch
+   - Form AJAX helpers
+   ================================================================ */
 
-if (menuToggle && nav) {
-  menuToggle.addEventListener("click", () => {
-    nav.classList.toggle("show");
+/* ── TOAST SYSTEM ── */
+(function(){
+  const container = document.createElement('div');
+  container.className = 'toast-container';
+  document.body.appendChild(container);
+
+  window.showToast = function(msg, type='info', duration=3200){
+    const icons = { success:'✓', error:'✕', info:'ℹ' };
+    const t = document.createElement('div');
+    t.className = `toast toast-${type}`;
+    t.innerHTML = `<span class="toast-icon">${icons[type]||'ℹ'}</span><span style="flex:1">${msg}</span><button class="toast-close" onclick="this.parentElement.remove()">✕</button>`;
+    container.appendChild(t);
+    setTimeout(()=>{ if(t.parentElement) t.remove(); }, duration);
+  };
+})();
+
+/* ── NAVBAR: scroll shadow ── */
+const _hdr = document.getElementById('header');
+if(_hdr){
+  window.addEventListener('scroll', ()=> _hdr.classList.toggle('scrolled', scrollY > 60), {passive:true});
+}
+
+/* ── MOBILE MENU ── */
+const _toggle = document.getElementById('menuToggle');
+const _menu   = document.getElementById('mobileMenu');
+if(_toggle && _menu){
+  _toggle.addEventListener('click', ()=>{
+    const open = _menu.classList.toggle('show');
+    _toggle.textContent = open ? '✕' : '☰';
   });
+  _menu.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', ()=>{
+    _menu.classList.remove('show');
+    _toggle.textContent = '☰';
+  }));
 }
 
-/* ================= STORY SLIDER DATA & BUILD ================= */
-const storyData = [
-  { img: "🍱", tag: "Food Rescue",    title: "A Meal That Restored Hope",    text: "A single donation from a local event fed a family of five that hadn't eaten properly in two days — delivered within hours, with dignity intact." },
-  { img: "👕", tag: "Clothing Drive", title: "Warm Clothes Before Winter",   text: "Donated clothes reached children in a rural area just before the cold season. Timing and care made all the difference." },
-  { img: "🤝", tag: "Volunteer Story",title: "Volunteers on the Ground",     text: "Our volunteers don't just deliver supplies — they build trust, empathy, and lasting human connections in every community." },
-  { img: "🌱", tag: "Sustainability", title: "Zero Waste, Real Impact",      text: "What would have been thrown away became someone's lifeline. Responsible redistribution is at the heart of everything we do." },
-  { img: "🏘️", tag: "Community",     title: "Reaching the Unreached",       text: "We expanded to 3 new areas in 2026, connecting with communities that had never received organised support before." },
-  { img: "🛍️", tag: "Empowerment",   title: "Rural Artisans Now Selling",   text: "Adhaar Shop connected a women's self-help group in Kopargaon to buyers across Maharashtra — income, not charity." },
-];
-
-const sliderEl = document.getElementById("storySlider");
-if (sliderEl) {
-  sliderEl.innerHTML = storyData.map(s => `
-    <div class="story-card">
-      <div style="width:100%;height:170px;background:linear-gradient(135deg,#f0ede5,#e8e4d8);display:flex;align-items:center;justify-content:center;font-size:56px">${s.img}</div>
-      <div class="story-desc"><strong style="display:block;font-size:11px;letter-spacing:2px;color:#7a7d3f;text-transform:uppercase;margin-bottom:8px">${s.tag}</strong><strong style="display:block;font-size:15px;color:#2f2e26;margin-bottom:8px">${s.title}</strong>${s.text}</div>
-    </div>`).join("");
-
-  const prev = document.querySelector(".story-prev");
-  const next = document.querySelector(".story-next");
-  if (prev) prev.addEventListener("click", () => { sliderEl.scrollBy({ left: -300, behavior: "smooth" }); });
-  if (next) next.addEventListener("click", () => { sliderEl.scrollBy({ left:  300, behavior: "smooth" }); });
-
-  // Auto-scroll
-  let autoSlide = setInterval(() => { sliderEl.scrollBy({ left: 280, behavior: "smooth" }); }, 4000);
-  sliderEl.addEventListener("mouseover",  () => clearInterval(autoSlide));
-  sliderEl.addEventListener("mouseleave", () => { autoSlide = setInterval(() => sliderEl.scrollBy({ left: 280, behavior: "smooth" }), 4000); });
-}
-
-/* ================= SCROLL REVEAL ================= */
-const revealElements = document.querySelectorAll(".reveal");
-
-const revealObserver = new IntersectionObserver(
-  entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("show","visible","active");
-        revealObserver.unobserve(entry.target);
-      }
+/* ── SCROLL REVEAL ── */
+(function(){
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){ e.target.classList.add('show'); ro.unobserve(e.target); }
     });
-  },
-  { threshold: 0.15 }
-);
+  }, { threshold: 0.10 });
+  document.querySelectorAll('.reveal, .reveal-l, .reveal-r').forEach(el => ro.observe(el));
+})();
 
-revealElements.forEach(el => revealObserver.observe(el));
+/* ── COUNT-UP ANIMATION ── */
+window.animateCount = function(el, target, suffix, duration){
+  if(!el) return;
+  duration = duration || 2000;
+  suffix   = suffix   || '';
+  const steps = 60;
+  const inc   = target / steps;
+  let cur     = 0;
+  const timer = setInterval(()=>{
+    cur += inc;
+    if(cur >= target){ el.textContent = target + suffix; clearInterval(timer); }
+    else { el.textContent = Math.floor(cur) + suffix; }
+  }, duration / steps);
+};
 
-/* ================= COUNT-UP IMPACT ================= */
-const counters = document.querySelectorAll(".impact-card h3");
+/* ── STORIES SLIDER (homepage) ── */
+(function(){
+  const track = document.getElementById('storiesTrack');
+  const dots  = document.querySelectorAll('#storyDots .slider-dot');
+  if(!track || !dots.length) return;
 
-const countObserver = new IntersectionObserver(
-  entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const target = parseInt(el.getAttribute("data-count")); // SAFE
-        let count = 0;
-        const step = Math.max(1, Math.floor(target / 80));
+  let idx = 0;
+  const total = dots.length;
 
-        const timer = setInterval(() => {
-          count += step;
-          if (count >= target) {
-            el.innerText = target + "+";
-            clearInterval(timer);
-          } else {
-            el.innerText = count;
-          }
-        }, 20);
-
-        countObserver.unobserve(el);
-      }
-    });
-  },
-  { threshold: 0.6 }
-);
-
-counters.forEach(c => countObserver.observe(c));
-/* ================= DONATE SECTION (index.html only) ================= */
-const donateTop    = document.querySelector(".donate-top");
-const donateChoice = document.getElementById("donateChoice");
-const foodForm     = document.getElementById("foodForm");
-const clothForm    = document.getElementById("clothForm");
-
-/* Only wire up if these elements actually exist on the current page */
-if (donateTop && donateChoice && foodForm && clothForm) {
-  function openChoice() {
-    donateTop.classList.add("hide");
-    donateChoice.classList.remove("hidden");
-    foodForm.classList.add("hidden");
-    clothForm.classList.add("hidden");
+  function goTo(i){
+    idx = (i + total) % total;
+    const card = track.firstElementChild;
+    const w    = card ? card.offsetWidth + 24 : 344;
+    track.style.transform = `translateX(-${idx * w}px)`;
+    dots.forEach((d,j) => d.classList.toggle('active', j === idx));
   }
 
-  function openFood() {
-    donateChoice.classList.add("hidden");
-    foodForm.classList.remove("hidden");
-    clothForm.classList.add("hidden");
-  }
+  window.goToStory    = goTo;
+  window.slideStories = dir => goTo(idx + dir);
 
-  function openCloth() {
-    donateChoice.classList.add("hidden");
-    foodForm.classList.add("hidden");
-    clothForm.classList.remove("hidden");
-  }
+  // Auto-play
+  let auto = setInterval(()=> goTo(idx + 1), 5000);
+  track.addEventListener('mouseenter', ()=> clearInterval(auto));
+  track.addEventListener('mouseleave', ()=>{ auto = setInterval(()=> goTo(idx+1), 5000); });
 
-  /* Expose globally so inline onclick="" attributes work */
-  window.openChoice = openChoice;
-  window.openFood   = openFood;
-  window.openCloth  = openCloth;
-
-  /* Initial state */
-  document.addEventListener("DOMContentLoaded", () => {
-    donateTop.classList.remove("hide");
-    donateChoice.classList.add("hidden");
-    foodForm.classList.add("hidden");
-    clothForm.classList.add("hidden");
+  // Touch / swipe
+  let sx = 0;
+  track.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, {passive:true});
+  track.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - sx;
+    if(Math.abs(dx) > 50) goTo(dx < 0 ? idx+1 : idx-1);
   });
-}
+})();
+
+/* ── CSRF INJECTION ── */
+(function(){
+  // Detect path depth: pages/ and auth/ need ../api/, root needs api/
+  const depth = location.pathname.split('/').filter(Boolean).length;
+  const base  = depth >= 3 ? '../api/' : 'api/';
+  fetch(base + 'get_csrf.php').then(r=>r.json()).then(d=>{
+    if(!d.token) return;
+    document.querySelectorAll('[name="csrf_token"]').forEach(el => el.value = d.token);
+    // Also target named IDs used in donate.html
+    ['foodCsrf','clothCsrf','volCsrf','contactCsrf'].forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.value = d.token;
+    });
+  }).catch(()=>{});
+})();
+
+/* ── LOGIN-GATE: hide if already logged in ── */
+(function(){
+  const gate = document.getElementById('loginBanner');
+  if(!gate) return;
+  fetch('api/get_csrf.php').then(r=>r.json()).then(d=>{
+    if(d.logged_in) gate.style.display = 'none';
+  }).catch(()=>{});
+})();
+
+/* ── GENERIC AJAX FORM HELPER ── */
+window.ajaxForm = function(formId, successMsg){
+  const form = document.getElementById(formId);
+  if(!form) return;
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    const btn  = form.querySelector('[type=submit]');
+    const orig = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner"></span>Sending…';
+    fetch(form.action, { method:'POST', body: new FormData(form) })
+      .then(r => r.ok ? r.json().catch(()=>({})) : Promise.reject(r))
+      .then(()=>{
+        showToast(successMsg || 'Submitted successfully!', 'success');
+        form.reset();
+        // hide login gate if shown inside donate page after success
+        const gate = document.getElementById('loginBanner');
+        if(gate) gate.style.display = 'none';
+      })
+      .catch(()=> showToast('Something went wrong. Please try again.', 'error'))
+      .finally(()=>{ btn.disabled = false; btn.innerHTML = orig; });
+  });
+};
+
+/* ── VOLUNTEER FORM ── */
+ajaxForm('volForm', '🎉 Application submitted! We\'ll contact you soon.');
+
+/* ── CONTACT FORM ── */
+ajaxForm('contactForm', '✓ Message sent! We\'ll respond within 24 hours.');
+
+/* ── FOOD DONATE FORM ── */
+ajaxForm('foodForm', '🍱 Food donation submitted! A volunteer will contact you for pickup.');
+
+/* ── CLOTH DONATE FORM ── */
+ajaxForm('clothForm', '👕 Clothing donation submitted! Pickup will be scheduled soon.');
+
+/* ── FILE INPUT PREVIEW LABEL ── */
+document.querySelectorAll('input[type=file]').forEach(inp=>{
+  inp.addEventListener('change', function(){
+    const labelId = this.id + 'Name';
+    const label   = document.getElementById(labelId);
+    if(label) label.textContent = this.files[0] ? this.files[0].name : '';
+    // Image preview
+    const previewId = this.id + 'Preview';
+    const preview   = document.getElementById(previewId);
+    if(preview && this.files[0]){
+      const reader = new FileReader();
+      reader.onload = e => {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+      };
+      reader.readAsDataURL(this.files[0]);
+    }
+  });
+});
+
+/* ── LIVE STATS FROM API (homepage) ── */
+(function(){
+  const ids = ['stat-donations','stat-volunteers','stat-lives','s1','s2','s3','fc-meals','fc-vols'];
+  if(!ids.some(id => document.getElementById(id))) return;
+
+  fetch('api/ai_stats.php')
+    .then(r => r.json())
+    .then(d => {
+      const fd   = d.food_delivered  || 0;
+      const cd   = d.cloth_delivered || 0;
+      const vols = d.volunteers      || 0;
+      animateCount(document.getElementById('stat-donations'), fd + cd,          '+');
+      animateCount(document.getElementById('stat-volunteers'), vols,             '+');
+      animateCount(document.getElementById('stat-lives'),      Math.round((fd+cd)*3.2), '+');
+      animateCount(document.getElementById('s1'),  fd,   '+');
+      animateCount(document.getElementById('s2'),  cd,   '+');
+      animateCount(document.getElementById('s3'),  vols, '+');
+      animateCount(document.getElementById('fc-meals'), fd,   '+');
+      animateCount(document.getElementById('fc-vols'),  vols, '+');
+      const s4 = document.getElementById('s4');
+      if(s4) s4.textContent = '15+';
+    })
+    .catch(()=>{
+      // Fallback display values
+      const fallbacks = {
+        'stat-donations':'500+','stat-volunteers':'80+','stat-lives':'1.6K+',
+        's1':'500+','s2':'300+','s3':'80+','s4':'15+','fc-meals':'500+','fc-vols':'80+'
+      };
+      Object.entries(fallbacks).forEach(([id,val])=>{
+        const el = document.getElementById(id);
+        if(el) el.textContent = val;
+      });
+    });
+})();
+
+/* ── FAQ ACCORDION ── */
+window.toggleFaq = function(i){
+  const item = document.getElementById('faq-' + i);
+  if(!item) return;
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+};
+
+/* ── DONATE TAB SWITCH ── */
+window.switchTab = function(name, btn){
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.donate-tab').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('tab-' + name);
+  if(panel) panel.classList.add('active');
+  if(btn)   btn.classList.add('active');
+};
+
+/* ── PASSWORD TOGGLE ── */
+window.togglePwd = function(fieldId, btnId){
+  fieldId = fieldId || 'pwdField';
+  btnId   = btnId   || 'eyeBtn';
+  const f = document.getElementById(fieldId);
+  const b = document.getElementById(btnId);
+  if(!f) return;
+  if(f.type === 'password'){ f.type = 'text';     if(b) b.innerHTML = '🙈'; }
+  else                     { f.type = 'password'; if(b) b.innerHTML = '👁'; }
+};
+
+/* ── SHOP PREVIEW CARDS (homepage static fallback) ── */
+(function(){
+  const grid = document.getElementById('shopPreviewGrid');
+  if(!grid) return;
+  const fallback = [
+    { icon:'🧵', name:'Handloom Saree', price:'₹899', seller:'Savita D., Nashik' },
+    { icon:'🍯', name:'Organic Honey', price:'₹349', seller:'Ramesh K., Pune' },
+    { icon:'🛍️', name:'Jute Handbag', price:'₹450', seller:'Meena S., Nashik' },
+    { icon:'🧆', name:'Artisan Pottery', price:'₹599', seller:'Arjun P., Kolhapur' },
+  ];
+  grid.innerHTML = fallback.map(p=>`
+    <a href="../shop/shop.php" class="shop-card">
+      <div class="shop-card-img">${p.icon}</div>
+      <div class="shop-card-body">
+        <div class="shop-card-name">${p.name}</div>
+        <div class="shop-card-price">${p.price}</div>
+        <div class="shop-card-seller">by ${p.seller}</div>
+      </div>
+    </a>`).join('');
+})();

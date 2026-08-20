@@ -14,9 +14,7 @@ if (isset($_POST['return_id'])) {
     $status = in_array($_POST['return_status'],['approved','rejected','pickup_scheduled','item_received','refund_initiated','refund_completed'])
               ? $_POST['return_status'] : null;
     if ($status) {
-        $stmt = $conn->prepare("UPDATE return_requests SET status=?,updated_at=NOW() WHERE id=?");
-        $stmt->bind_param("si", $status, $rid);
-        $stmt->execute();
+        $conn->prepare("UPDATE return_requests SET status=?,updated_at=NOW() WHERE id=?")->execute([$status,$rid]);
     }
     header("Location: ../admin/admin_dashboard.php?tab=returns"); exit;
 }
@@ -55,10 +53,7 @@ if (isset($_POST['order_id'])) {
     }
 
     // ── Notify buyer of status change ────────────────────────
-    $order_query = $conn->prepare("SELECT buyer_email, order_number, shipping_name, tracking_id FROM orders WHERE id=?");
-    $order_query->bind_param("i", $oid);
-    $order_query->execute();
-    $orow = $order_query->get_result()->fetch_assoc();
+    $orow = $conn->query("SELECT buyer_email, order_number, shipping_name, tracking_id FROM orders WHERE id=$oid")->fetch_assoc();
     if ($orow && $orow['buyer_email']) {
         $tid_val = !empty($_POST['tracking_id']) ? trim($_POST['tracking_id']) : ($orow['tracking_id'] ?? '');
         sendOrderStatusUpdate($orow['buyer_email'], $orow['shipping_name'] ?? 'Customer', $orow['order_number'], $status, $tid_val);
@@ -72,9 +67,7 @@ if (isset($_POST['order_id'])) {
 if (isset($_POST['action']) && $_POST['action']==='verify_seller') {
     if (!isset($_SESSION['admin_id'])) die("Unauthorized");
     $semail = trim($_POST['email']);
-    $verify = $conn->prepare("UPDATE seller_stores SET is_verified=1 WHERE seller_email=?");
-    $verify->bind_param("s", $semail);
-    $verify->execute();
+    $conn->prepare("UPDATE seller_stores SET is_verified=1 WHERE seller_email=?")->execute([$semail]);
 
     // Notify seller
     $sr = $conn->query("SELECT r.name, ss.store_name FROM register r JOIN seller_stores ss ON ss.seller_email=r.email WHERE r.email='".mysqli_real_escape_string($conn,$semail)."'")->fetch_assoc();

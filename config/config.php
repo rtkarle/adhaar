@@ -18,15 +18,15 @@ define('DB_NAME', getenv('DB_NAME') ?: 'adhaar_db');
 // ── MAIL ──────────────────────────────────────────────────────
 define('MAIL_HOST',      getenv('MAIL_HOST')      ?: 'smtp.gmail.com');
 define('MAIL_PORT',      getenv('MAIL_PORT')       ?  (int)getenv('MAIL_PORT') : 587);
-define('MAIL_USERNAME',  getenv('MAIL_USERNAME')   ?: '');
-define('MAIL_PASSWORD',  getenv('MAIL_PASSWORD')   ?: '');
-define('MAIL_FROM',      getenv('MAIL_FROM')       ?: MAIL_USERNAME);
+define('MAIL_USERNAME',  getenv('MAIL_USERNAME')   ?: 'rtkarle03@gmail.com');
+define('MAIL_PASSWORD',  getenv('MAIL_PASSWORD')   ?: 'pmuydxdnocglibrg');
+define('MAIL_FROM',      getenv('MAIL_FROM')       ?: 'rtkarle03@gmail.com');
 define('MAIL_FROM_NAME', getenv('MAIL_FROM_NAME')  ?: 'Adhaar – The SoulServe');
 
 // ── CLOUDINARY ────────────────────────────────────────────────
 define('CLOUDINARY_CLOUD_NAME', getenv('CLOUDINARY_CLOUD_NAME') ?: 'soulserves');
-define('CLOUDINARY_API_KEY',    getenv('CLOUDINARY_API_KEY')    ?: '');
-define('CLOUDINARY_API_SECRET', getenv('CLOUDINARY_API_SECRET') ?: '');
+define('CLOUDINARY_API_KEY',    getenv('CLOUDINARY_API_KEY')    ?: '221996235797965');
+define('CLOUDINARY_API_SECRET', getenv('CLOUDINARY_API_SECRET') ?: 'Y6N3TcJQjxNEODoiyJotuNPkwCs');
 define('CLOUDINARY_UPLOAD_URL', 'https://api.cloudinary.com/v1_1/' . (getenv('CLOUDINARY_CLOUD_NAME') ?: 'soulserves') . '/image/upload');
 
 // ── APP ───────────────────────────────────────────────────────

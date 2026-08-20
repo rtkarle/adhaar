@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -354,8 +354,11 @@
     <span class="section-label reveal">Marketplace</span>
     <h2 class="heading reveal" style="font-size:clamp(1.8rem,3vw,2.6rem);color:var(--navy);margin-bottom:14px">SoulServe Marketplace</h2>
     <p class="reveal" style="color:var(--text-muted);max-width:520px;margin:0 auto 48px">Every purchase supports rural livelihoods. Shop handmade, organic and traditional products — direct from artisans.</p>
-    <div class="product-grid reveal" id="shopPreview">
-      <div style="background:var(--soft-bg);border-radius:20px;height:300px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:14px;border:1px dashed var(--border)">Loading products...</div>
+    <div class="shop-grid reveal" id="shopPreviewGrid">
+      <a href="shop/shop.php" class="shop-card"><div class="shop-card-img">&#x1F9F5;</div><div class="shop-card-body"><div class="shop-card-name">Handloom Saree</div><div class="shop-card-price">&#8377;899</div><div class="shop-card-seller">by Savita D., Nashik</div></div></a>
+      <a href="shop/shop.php" class="shop-card"><div class="shop-card-img">&#x1F36F;</div><div class="shop-card-body"><div class="shop-card-name">Organic Honey</div><div class="shop-card-price">&#8377;349</div><div class="shop-card-seller">by Ramesh K., Pune</div></div></a>
+      <a href="shop/shop.php" class="shop-card"><div class="shop-card-img">&#x1F6CD;&#xFE0F;</div><div class="shop-card-body"><div class="shop-card-name">Jute Handbag</div><div class="shop-card-price">&#8377;450</div><div class="shop-card-seller">by Meena S., Nashik</div></div></a>
+      <a href="shop/shop.php" class="shop-card"><div class="shop-card-img">&#x1F9C6;</div><div class="shop-card-body"><div class="shop-card-name">Artisan Pottery</div><div class="shop-card-price">&#8377;599</div><div class="shop-card-seller">by Arjun P., Kolhapur</div></div></a>
     </div>
     <a href="shop/shop.php" class="btn btn-primary" style="margin:48px auto 0;display:inline-flex">Browse All Products &#8594;</a>
   </div>
@@ -432,97 +435,6 @@
 </footer>
 
 <script src="js/script.js"></script>
-<script>
-// ── CSRF Injection ──
-fetch('api/get_csrf.php').then(r=>r.json()).then(d=>{
-  document.querySelectorAll('[name="csrf_token"]').forEach(el=>el.value=d.token||'');
-  const volCsrf = document.getElementById('volCsrf');
-  if(volCsrf && d.token) volCsrf.value = d.token;
-}).catch(()=>{});
 
-// ── Navbar scroll ──
-const header = document.getElementById('header');
-window.addEventListener('scroll',()=>header.classList.toggle('scrolled',scrollY>60),{passive:true});
-
-// ── Mobile menu ──
-const menuToggle = document.getElementById('menuToggle');
-const mobileMenu = document.getElementById('mobileMenu');
-if(menuToggle&&mobileMenu){
-  menuToggle.addEventListener('click',()=>{
-    mobileMenu.classList.toggle('show');
-    menuToggle.textContent = mobileMenu.classList.contains('show') ? '✕' : '☰';
-  });
-  mobileMenu.querySelectorAll('.nav-link').forEach(l=>l.addEventListener('click',()=>{
-    mobileMenu.classList.remove('show');
-    menuToggle.textContent='☰';
-  }));
-}
-
-// ── Scroll reveal ──
-const ro = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');ro.unobserve(e.target)}});
-},{threshold:.12});
-document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>ro.observe(el));
-
-// ── Live stats from API ──
-fetch('api/ai_stats.php').then(r=>r.json()).then(d=>{
-  const anim = (el,target,suffix='')=>{
-    if(!el)return;
-    let start=0,dur=2000,step=dur/60;
-    const timer=setInterval(()=>{
-      start+=target/60;
-      el.textContent=Math.min(Math.floor(start),target)+suffix;
-      if(start>=target)clearInterval(timer);
-    },step);
-  };
-  const fd=d.food_delivered||0, cd=d.cloth_delivered||0, vols=d.volunteers||0;
-  anim(document.getElementById('stat-donations'),fd+cd,'+');
-  anim(document.getElementById('stat-volunteers'),vols,'+');
-  anim(document.getElementById('stat-lives'),Math.round((fd+cd)*3.2),'+');
-  anim(document.getElementById('s1'),fd,'+');
-  anim(document.getElementById('s2'),cd,'+');
-  anim(document.getElementById('s3'),vols,'+');
-  document.getElementById('s4').textContent='15+';
-  anim(document.getElementById('fc-meals'),fd,'+');
-  anim(document.getElementById('fc-vols'),vols,'+');
-}).catch(()=>{
-  ['stat-donations','stat-volunteers','stat-lives','s1','s2','s3'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.textContent=el.id.includes('vols')||el.id==='s3'?'50+':'100+';
-  });
-});
-
-// ── Volunteer form ──
-document.getElementById('volForm')?.addEventListener('submit',function(e){
-  e.preventDefault();
-  const btn=this.querySelector('button[type=submit]');
-  btn.textContent='Submitting...';btn.disabled=true;
-  fetch('api/volunteer.php',{method:'POST',body:new FormData(this)})
-    .then(()=>{
-      document.getElementById('volSuccess').style.display='block';
-      this.style.display='none';
-    }).catch(()=>{btn.textContent='Join as Volunteer →';btn.disabled=false;});
-});
-
-// ── Stories slider ──
-let sIdx=0;
-const track=document.getElementById('storiesTrack');
-const dots=document.querySelectorAll('#storyDots .slider-dot');
-function goToStory(i){
-  sIdx=i;
-  const w=track?.firstElementChild?.offsetWidth+24||364;
-  if(track) track.style.transform=`translateX(-${i*w}px)`;
-  dots.forEach((d,j)=>d.classList.toggle('active',j===i));
-}
-function slideStories(dir){
-  const max=dots.length-1;
-  sIdx=Math.max(0,Math.min(max,sIdx+dir));
-  goToStory(sIdx);
-}
-setInterval(()=>goToStory((sIdx+1)%dots.length),5000);
-
-// ── Shop preview ──
-fetch('shop/shop.php').catch(()=>{});
-</script>
 </body>
 </html>

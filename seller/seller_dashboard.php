@@ -476,5 +476,6 @@ $cats = ['handicraft'=>'Handicraft','textile'=>'Textile','food_product'=>'Food P
 <div id="dashToast"></div>
 <script src="../js/dashboard.js"></script>
 <script src="../js/ai_chat.js"></script>
+<script src="../js/script.js"></script>
 </body>
 </html>

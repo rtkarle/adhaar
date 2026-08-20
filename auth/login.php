@@ -165,5 +165,6 @@ function togglePwd(){
   else{f.type='password';b.innerHTML='&#128065;';}
 }
 </script>
+<script src="../js/script.js"></script>
 </body>
 </html>

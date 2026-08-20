@@ -388,5 +388,6 @@ document.getElementById('proofModalOverlay').addEventListener('click', function(
   if (e.target === this) closeProofModal();
 });
 </script>
+<script src="../js/script.js"></script>
 </body>
 </html>

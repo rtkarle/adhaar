@@ -278,5 +278,6 @@ $ai_impact = adhaar_ai()->predictImpact();
 <div id="dashToast"></div>
 <script src="../js/dashboard.js"></script>
 <script src="../js/ai_chat.js"></script>
+<script src="../js/script.js"></script>
 </body>
 </html>

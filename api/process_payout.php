@@ -46,7 +46,7 @@ if ($settled_exist) {
     $today = date('Y-m-d');
     $month_start = date('Y-m-01');
     $ins->bind_param(
-        "sdssssiss",
+        "sdssssiss s",
         $seller_email, $amount, $method, $reference,
         $month_start, $today, $orders_count,
         $notes, $admin_email

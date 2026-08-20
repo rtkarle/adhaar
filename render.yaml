@@ -35,7 +35,7 @@ services:
 
       # Mail
       - key: MAIL_USERNAME
-        sync: false
+        value: rtkarle03@gmail.com
       - key: MAIL_PASSWORD
         sync: false        # Set to app password in Render dashboard
 
@@ -43,13 +43,9 @@ services:
       - key: CLOUDINARY_CLOUD_NAME
         value: soulserves
       - key: CLOUDINARY_API_KEY
-        sync: false
+        value: "221996235797964"
       - key: CLOUDINARY_API_SECRET
         sync: false        # Set in Render dashboard
-      - key: ADMIN_REGISTRATION_KEY
-        sync: false
-      - key: DB_IMPORT_KEY
-        sync: false
 
       # Flask AI URL — update after adhaar-ai is deployed
       - key: AI_FLASK_URL

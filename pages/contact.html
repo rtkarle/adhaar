@@ -22,12 +22,15 @@
     <nav class="nav" id="mobileMenu">
       <a href="../index.html" class="nav-link">Home</a>
       <a href="about.html" class="nav-link">About</a>
+      <a href="activities.php" class="nav-link">Activities</a>
+      <a href="impact.php" class="nav-link">Impact</a>
       <a href="donate.html" class="nav-link">Donate</a>
       <a href="../shop/shop.php" class="nav-link">Shop</a>
       <a href="contact.html" class="nav-link active">Contact</a>
     </nav>
     <div class="nav-actions">
       <a href="../auth/login.php" class="btn-nav">Login</a>
+      <a href="../auth/register.php" class="btn-nav">Sign Up</a>
       <a href="donate.html" class="btn-nav-primary">Donate Now</a>
     </div>
     <div class="menu-icon" id="menuToggle">&#9776;</div>
@@ -132,25 +135,30 @@
         <span class="section-label">Common Questions</span>
         <h3 style="font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;color:var(--navy)">Frequently Asked Questions</h3>
       </div>
-      <?php
-      $faqs=[
-        ['How fast is food pickup?','We aim to pick up food donations within 2–4 hours of submission. For urgent cases, mark the priority as "High" in the form.'],
-        ['Do I need an account to donate?','You need a free account to submit donations — this allows us to send you status updates and delivery proof by email.'],
-        ['How do I become a volunteer?','Fill out the volunteer registration form on the homepage or contact page. Our team will reach out with your first pickup assignment.'],
-        ['Can I sell on the SoulServe Marketplace?','Yes! Register as a Seller, set up your store, and list your products. Our team verifies stores before they go live.'],
-        ['How do I track my donation?','After logging in, visit your Donor Dashboard. Every status update — accepted, scheduled, picked up, delivered — is tracked there and emailed to you.'],
-        ['Do you work with NGOs and CSR programs?','Absolutely. We partner with NGOs, corporates and CSR programs for bulk donation drives. Email us at adhaarsoulserve@gmail.com.'],
-      ];
-      ?>
-      <?php foreach($faqs as $i=>[$q,$a]): ?>
-      <div class="faq-item" id="faq-<?=$i?>">
-        <div class="faq-q" onclick="toggleFaq(<?=$i?>)">
-          <span><?=$q?></span>
-          <span class="faq-chevron">&#8964;</span>
-        </div>
-        <div class="faq-a"><?=$a?></div>
+      <div class="faq-item" id="faq-0">
+        <div class="faq-q" onclick="toggleFaq(0)"><span>How fast is food pickup?</span><span class="faq-chevron">&#8964;</span></div>
+        <div class="faq-a">We aim to pick up food donations within 2&ndash;4 hours of submission. For urgent cases, mark the priority as &ldquo;High&rdquo; in the form.</div>
       </div>
-      <?php endforeach; ?>
+      <div class="faq-item" id="faq-1">
+        <div class="faq-q" onclick="toggleFaq(1)"><span>Do I need an account to donate?</span><span class="faq-chevron">&#8964;</span></div>
+        <div class="faq-a">You need a free account to submit donations &mdash; this allows us to send you status updates and delivery proof by email.</div>
+      </div>
+      <div class="faq-item" id="faq-2">
+        <div class="faq-q" onclick="toggleFaq(2)"><span>How do I become a volunteer?</span><span class="faq-chevron">&#8964;</span></div>
+        <div class="faq-a">Fill out the volunteer registration form on the homepage or contact page. Our team will reach out with your first pickup assignment.</div>
+      </div>
+      <div class="faq-item" id="faq-3">
+        <div class="faq-q" onclick="toggleFaq(3)"><span>Can I sell on the SoulServe Marketplace?</span><span class="faq-chevron">&#8964;</span></div>
+        <div class="faq-a">Yes! Register as a Seller, set up your store, and list your products. Our team verifies stores before they go live.</div>
+      </div>
+      <div class="faq-item" id="faq-4">
+        <div class="faq-q" onclick="toggleFaq(4)"><span>How do I track my donation?</span><span class="faq-chevron">&#8964;</span></div>
+        <div class="faq-a">After logging in, visit your Donor Dashboard. Every status update &mdash; accepted, scheduled, picked up, delivered &mdash; is tracked there and emailed to you.</div>
+      </div>
+      <div class="faq-item" id="faq-5">
+        <div class="faq-q" onclick="toggleFaq(5)"><span>Do you work with NGOs and CSR programs?</span><span class="faq-chevron">&#8964;</span></div>
+        <div class="faq-a">Absolutely. We partner with NGOs, corporates and CSR programs for bulk donation drives. Email us at adhaarsoulserve@gmail.com.</div>
+      </div>
     </div>
   </div>
 </section>
@@ -202,5 +210,6 @@ document.getElementById('contactForm')?.addEventListener('submit',function(e){
     .finally(()=>{btn.textContent=orig;btn.disabled=false;});
 });
 </script>
+<script src="../js/script.js"></script>
 </body>
 </html>

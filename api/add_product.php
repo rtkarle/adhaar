@@ -16,16 +16,14 @@ if (isset($_POST['toggle_id'])) {
     if ($_SESSION['role'] === 'seller') {
         $tq = $conn->prepare("UPDATE products SET is_active=? WHERE id=? AND seller_email=?");
         $tq->bind_param("iis", $active, $tid, $email);
-        $back = '../seller/seller_dashboard.php?tab=products';
-    } elseif (isset($_SESSION['admin_id'])) {
+    } else {
         $tq = $conn->prepare("UPDATE products SET is_active=? WHERE id=?");
         $tq->bind_param("ii", $active, $tid);
-        $back = '../admin/admin_dashboard.php?tab=products';
-    } else {
-        http_response_code(403);
-        exit('Unauthorized');
     }
     $tq->execute();
+    $back = ($_SESSION['role'] === 'seller')
+        ? '../seller/seller_dashboard.php?tab=products'
+        : '../admin/admin_dashboard.php?tab=products';
     header("Location: $back"); exit;
 }
 

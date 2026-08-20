@@ -209,5 +209,6 @@ function checkStrength(v){
   hint.textContent=l[score];hint.style.color=c[score];
 }
 </script>
+<script src="../js/script.js"></script>
 </body>
 </html>

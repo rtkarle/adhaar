@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -30,6 +30,7 @@
     </nav>
     <div class="nav-actions">
       <a href="../auth/login.php" class="btn-nav">Login</a>
+      <a href="../auth/register.php" class="btn-nav">Sign Up</a>
       <a href="donate.html" class="btn-nav-primary">Donate Now</a>
     </div>
     <div class="menu-icon" id="menuToggle">&#9776;</div>
@@ -224,5 +225,6 @@ if(menuToggle&&mobileMenu){menuToggle.addEventListener('click',()=>{mobileMenu.c
 const ro=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('show');ro.unobserve(x.target)}})},{threshold:.1});
 document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>ro.observe(el));
 </script>
+<script src="../js/script.js"></script>
 </body>
 </html>

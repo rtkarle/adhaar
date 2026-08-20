@@ -130,23 +130,29 @@ section{padding:5.5rem 2rem}
 </style>
 </head>
 <body>
-<header class="header">
+<header class="header" id="header">
   <div class="nav-container">
     <a href="../index.html" class="logo-box">
-      <img src="../assets/logo.jpg" class="logo-img" alt="Adhaar Logo">
-      <div class="logo-text">The SoulServes</div>
+      <div class="logo-mark">
+        <svg viewBox="0 0 42 42" fill="none"><defs><linearGradient id="alg3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF8A00"/><stop offset="50%" stop-color="#F72585"/><stop offset="100%" stop-color="#2E8B57"/></linearGradient></defs><path d="M21 36s-1.5-1.2-4-3.3C10.5 27.4 5 22.5 5 16.5A8.5 8.5 0 0121 11a8.5 8.5 0 0116 5c0 6-5.5 10.9-12 16.2-2.5 2.1-4 3.3-4 3.3z" fill="url(#alg3)"/><path d="M9 21c3-2 6-1 8 1s3 5 4 5 2-3 4-5 5-3 8-1" stroke="white" stroke-width="2" stroke-linecap="round" fill="none" opacity=".7"/></svg>
+      </div>
+      <div class="logo-text">SoulServe<span>Endless Service. Infinite Impact.</span></div>
     </a>
     <nav class="nav" id="mobileMenu">
-      <a href="../index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="activities.php" class="active">Activities</a>
-      <a href="impact.php">Impact</a>
-      <a href="contact.html">Contact</a>
-      <a href="donate.html">Donate</a>
-      <a href="../shop/shop.php" class="btn-nav-shop">🛍️ Shop</a>
-      <a href="../auth/register.php" class="btn-nav">Sign Up</a>
+      <a href="../index.html" class="nav-link">Home</a>
+      <a href="about.html" class="nav-link">About</a>
+      <a href="activities.php" class="nav-link active">Activities</a>
+      <a href="impact.php" class="nav-link">Impact</a>
+      <a href="donate.html" class="nav-link">Donate</a>
+      <a href="../shop/shop.php" class="nav-link">Shop</a>
+      <a href="contact.html" class="nav-link">Contact</a>
     </nav>
-    <div class="menu-icon" id="menuToggle">☰</div>
+    <div class="nav-actions">
+      <a href="../auth/login.php" class="btn-nav">Login</a>
+      <a href="../auth/register.php" class="btn-nav">Sign Up</a>
+      <a href="donate.html" class="btn-nav-primary">Donate Now</a>
+    </div>
+    <div class="menu-icon" id="menuToggle">&#9776;</div>
   </div>
 </header>
 
@@ -332,36 +338,31 @@ section{padding:5.5rem 2rem}
 </div><!-- .page-wrap -->
 
 <footer class="footer">
-  <div class="footer-container">
-    <div class="footer-about">
-      <h3>Adhaar – The SoulServe</h3>
-      <p>Connecting surplus food and clothing to communities in need, reducing waste while restoring dignity and trust.</p>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:12px">SoulServe</div>
+        <p>Connecting surplus food and clothing to communities in need, reducing waste while restoring dignity.</p>
+        <div class="footer-socials" style="margin-top:16px">
+          <a href="mailto:adhaarsoulserve@gmail.com" class="social-btn">&#128231;</a>
+          <a href="tel:+918237917354" class="social-btn">&#128222;</a>
+        </div>
+      </div>
+      <div><h4>Platform</h4><div class="footer-links"><a href="donate.html">Donate</a><a href="../shop/shop.php">Marketplace</a><a href="impact.php">Impact</a><a href="activities.php">Activities</a></div></div>
+      <div><h4>Company</h4><div class="footer-links"><a href="about.html">About</a><a href="contact.html">Contact</a><a href="../auth/register.php">Register</a><a href="../auth/login.php">Login</a></div></div>
+      <div><h4>Contact</h4><div class="footer-links"><a href="mailto:adhaarsoulserve@gmail.com">adhaarsoulserve@gmail.com</a><a href="tel:+918237917354">+91 82379 17354</a><span>Kopargaon, Maharashtra</span></div></div>
     </div>
-    <div class="footer-links">
-      <h4>Quick Links</h4>
-      <a href="../index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="impact.php">Impact</a>
-      <a href="donate.html">Donate</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <div class="footer-contact">
-      <h4>Contact</h4>
-      <p>📞 +91 82379 17354</p>
-      <p>📧 adhaarsoulserve@gmail.com</p>
-      <p>📍 Maharashtra, India</p>
+    <div class="footer-bottom">
+      <p>&#169; 2026 SoulServe. All rights reserved.</p>
+      <p style="background:var(--gradient-brand);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700">"Different Colors. One Humanity."</p>
     </div>
   </div>
-  <p class="footer-bottom">© 2026 Adhaar – The SoulServe. All Rights Reserved.</p>
+  <div class="footer-rainbow"></div>
 </footer>
 
 <script>
 // Mobile menu toggle
-const menuToggle = document.getElementById('menuToggle');
-const nav        = document.getElementById('mobileMenu');
-if (menuToggle && nav) menuToggle.addEventListener('click', () => nav.classList.toggle('show'));
-
-// Scroll reveal
+const _h2=document.getElementById('header');if(_h2)window.addEventListener('scroll',()=>_h2.classList.toggle('scrolled',scrollY>60),{passive:true});const _mt2=document.getElementById('menuToggle'),_mn2=document.getElementById('mobileMenu');if(_mt2&&_mn2){_mt2.addEventListener('click',()=>{_mn2.classList.toggle('show');_mt2.textContent=_mn2.classList.contains('show')?'✕':'☰';});}// Scroll reveal
 const revels = document.querySelectorAll('.reveal');
 const ro = new IntersectionObserver(entries => {
   entries.forEach(e => {
@@ -379,5 +380,6 @@ function filterCards(cat, btn) {
   });
 }
 </script>
+<script src="../js/script.js"></script>
 </body>
 </html>
