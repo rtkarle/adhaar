@@ -7,20 +7,37 @@
  */
 require_once __DIR__ . '/../config/db.php';
 
-// ── Live stats from DB ────────────────────────────────────────
-$stat_food    = (int)$conn->query("SELECT COUNT(*) c FROM food_donations  WHERE status='delivered'")->fetch_assoc()['c'];
-$stat_cloth   = (int)$conn->query("SELECT COUNT(*) c FROM cloth_donations WHERE status='delivered'")->fetch_assoc()['c'];
-$stat_vols    = (int)$conn->query("SELECT COUNT(*) c FROM register WHERE role='volunteer' AND verified=1")->fetch_assoc()['c'];
-$stat_areas   = max(3, (int)$conn->query("SELECT COUNT(DISTINCT pickup_address) c FROM food_donations WHERE status='delivered'")->fetch_assoc()['c']);
+// ── Live stats from DB (safe) ────────────────────────────────
+function safe_count($conn, string $sql): int {
+    try { $r = $conn->query($sql); return $r ? (int)$r->fetch_assoc()['c'] : 0; }
+    catch (Throwable $e) { return 0; }
+}
+$stat_food  = safe_count($conn, "SELECT COUNT(*) c FROM food_donations  WHERE status='delivered'");
+$stat_cloth = safe_count($conn, "SELECT COUNT(*) c FROM cloth_donations WHERE status='delivered'");
+$stat_vols  = safe_count($conn, "SELECT COUNT(*) c FROM register WHERE role='volunteer' AND verified=1");
+$stat_areas = max(3, safe_count($conn, "SELECT COUNT(DISTINCT pickup_address) c FROM food_donations WHERE status='delivered'"));
 
-// ── Published events & news from DB ──────────────────────────
-$events_rows  = $conn->query(
-    "SELECT id, title, content, category, emoji, image, event_date, created_at
-     FROM events_news
-     WHERE is_published = 1
-     ORDER BY created_at DESC
-     LIMIT 20"
-)->fetch_all(MYSQLI_ASSOC);
+// ── Published events & news from DB (safe — table may not exist yet) ──
+$events_rows = [];
+try {
+    $chk = $conn->query("SHOW TABLES LIKE 'events_news'");
+    if ($chk && $chk->num_rows > 0) {
+        $eq = $conn->query(
+            "SELECT id, title, content, category, emoji, image, event_date, created_at
+             FROM events_news
+             WHERE is_published = 1
+             ORDER BY created_at DESC
+             LIMIT 20"
+        );
+        if ($eq) $events_rows = $eq->fetch_all(MYSQLI_ASSOC);
+    }
+} catch (Throwable $e) { $events_rows = []; }
+
+// ── Live stats — safe wrappers ───────────────────────────────
+function safe_count($conn, string $sql): int {
+    try { $r = $conn->query($sql); return $r ? (int)$r->fetch_assoc()['c'] : 0; }
+    catch (Throwable $e) { return 0; }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

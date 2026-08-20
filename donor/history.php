@@ -13,7 +13,7 @@ elseif($filter==='cloth')     $type_w  = "AND type='Clothes'";
 elseif($filter==='pending')   $status_w= "AND status='pending'";
 elseif($filter==='delivered') $status_w= "AND status='delivered'";
 
-$sql="SELECT * FROM ((SELECT 'Food' AS type,status,quantity,pickup_address,created_at FROM food_donations WHERE donor_email=?) UNION ALL (SELECT 'Clothes' AS type,status,quantity,pickup_address,created_at FROM cloth_donations WHERE donor_email=?)) combined WHERE 1=1 $type_w $status_w ORDER BY created_at DESC";
+$sql="SELECT * FROM ((SELECT COALESCE(donation_id,CONCAT('DON-FOOD-',LPAD(id,6,'0'))) AS don_id,'Food' AS type,status,quantity,pickup_address,created_at FROM food_donations WHERE donor_email=?) UNION ALL (SELECT COALESCE(donation_id,CONCAT('DON-CLO-',LPAD(id,6,'0'))) AS don_id,'Clothes' AS type,status,quantity,pickup_address,created_at FROM cloth_donations WHERE donor_email=?)) combined WHERE 1=1 $type_w $status_w ORDER BY created_at DESC";
 $h=$conn->prepare($sql);$h->bind_param("ss",$email,$email);$h->execute();
 $all=$h->get_result()->fetch_all(MYSQLI_ASSOC);
 $total_rows=count($all);
@@ -109,10 +109,11 @@ tbody tr:nth-child(3){animation-delay:.12s}tbody tr:nth-child(n+4){animation-del
     <?php else: ?>
     <div class="table-scroll">
     <table>
-      <thead><tr><th>Type</th><th>Quantity</th><th>Pickup Address</th><th>Date</th><th>Status</th></tr></thead>
+      <thead><tr><th>Donation ID</th><th>Type</th><th>Quantity</th><th>Pickup Address</th><th>Date</th><th>Status</th></tr></thead>
       <tbody>
         <?php foreach($rows as $r): ?>
         <tr>
+          <td><span style="font-size:11px;font-weight:700;background:rgba(122,125,63,.1);color:#5a7a2e;padding:3px 10px;border-radius:20px;font-family:monospace"><?=htmlspecialchars($r['don_id']??'—')?></span></td>
           <td><span class="type-badge <?=$r['type']==='Food'?'type-food':'type-cloth'?>"><?=$r['type']==='Food'?'🍱 Food':'👕 Clothes'?></span></td>
           <td><?=htmlspecialchars($r['quantity']??'—')?></td>
           <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><?=htmlspecialchars($r['pickup_address']??'—')?></td>

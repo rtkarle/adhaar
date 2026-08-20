@@ -1359,3 +1359,68 @@ td img { width:44px; height:36px; object-fit:cover; border-radius:8px; border:1p
   .form-row { grid-template-columns:1fr; }
   .welcome-band { flex-direction:column; }
 }
+
+/* ══ MOBILE PERFORMANCE — added v4.0 ══ */
+/* GPU-accelerated transitions on key elements */
+.sidebar,.sidebar-overlay,.card,.kpi,.pm-card,.don-card,.modal,.topbar{
+  -webkit-transform:translateZ(0);
+  transform:translateZ(0);
+}
+/* Reduce paint on scroll by isolating sidebar */
+.sidebar{ contain:layout style; }
+.main{ contain:layout; }
+
+/* Lazy content sections */
+.page > section,.page > div{ content-visibility:auto; contain-intrinsic-size:0 400px; }
+
+/* Touch-action on interactive elements */
+.nav-btn,.hamburger,.wb-btn,.pm-card,.track-card,.kpi-card{
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* Skeleton loader for async content */
+.skel-wrap{overflow:hidden;border-radius:14px;background:#fff;
+  box-shadow:0 4px 16px rgba(16,42,67,.06);}
+.skel{
+  background:linear-gradient(90deg,#f0f4f3 25%,#e4ecea 50%,#f0f4f3 75%);
+  background-size:200% 100%;
+  animation:skelAnim 1.4s infinite;
+  border-radius:8px;display:block;
+}
+@keyframes skelAnim{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-line{height:14px;margin:8px 16px}
+.skel-card{height:80px;margin:12px 16px;border-radius:12px}
+.skel-img{height:140px;width:100%;border-radius:0}
+
+/* Faster sidebar open on mobile */
+@media(max-width:700px){
+  .sidebar{
+    transition:transform .25s cubic-bezier(.22,1,.36,1);
+    will-change:transform;
+  }
+  .sidebar-overlay{
+    transition:opacity .25s ease;
+    will-change:opacity;
+  }
+  /* Prevent body scroll bleed */
+  body.sidebar-open{ overflow:hidden; position:fixed; width:100%; }
+
+  /* Bigger tap targets on mobile nav */
+  .nav-btn{ padding:13px 16px; min-height:48px; }
+  .hamburger{ min-width:44px; min-height:44px; align-items:center; justify-content:center; }
+
+  /* Reduce motion for low-power devices */
+  @media(prefers-reduced-motion:reduce){
+    .sidebar,.card,.kpi,.pm-card{ transition:none!important; animation:none!important; }
+  }
+}
+
+/* ══ TOAST animation ══ */
+@keyframes toastIn{
+  from{opacity:0;transform:translateX(24px) scale(.95)}
+  to{opacity:1;transform:none}
+}
+
+/* Fix for sidebar logo img on dark background */
+.sidebar-logo-mark img{ filter:brightness(0) invert(1); }

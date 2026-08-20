@@ -12,28 +12,48 @@ $uploadDir = __DIR__ . '/../uploads/';
 $dbPath = secure_upload($_FILES['image'] ?? [], $uploadDir, 'cloth');
 if (!$dbPath) { header("Location: ../donor/donate.php?error=upload"); exit; }
 
-$purchase_time  = trim($_POST['purchase_time'] ?? '');
-$quantity       = (int)($_POST['quantity'] ?? 0);
-$cloth_type     = trim($_POST['cloth_type'] ?? '');
-$condition_type = trim($_POST['condition_type'] ?? 'good');
+$purchase_time  = trim($_POST['purchase_time']  ?? '');
+$quantity       = (int)($_POST['quantity']       ?? 0);
+$cloth_type     = trim($_POST['cloth_type']      ?? '');
+$condition_type = trim($_POST['condition_type']  ?? 'good');
 $is_clean       = (int)(!empty($_POST['is_clean']));
-$pickup_address = trim($_POST['pickup_address'] ?? '');
-$contact        = trim($_POST['contact'] ?? '');
+$pickup_address = trim($_POST['pickup_address']  ?? '');
+$contact        = trim($_POST['contact']         ?? '');
 
 if (!$quantity || !$cloth_type || !$pickup_address || !$contact) {
     header("Location: ../donor/donate.php?error=fields"); exit;
 }
 
-$stmt = $conn->prepare("INSERT INTO cloth_donations (donor_email,purchase_time,quantity,cloth_type,condition_type,is_clean,pickup_address,contact,image,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,'pending',NOW())");
-$stmt->bind_param("ssississs", $donor_email, $purchase_time, $quantity, $cloth_type, $condition_type, $is_clean, $pickup_address, $contact, $dbPath);
+/* ── Insert row first ── */
+$stmt = $conn->prepare(
+    "INSERT INTO cloth_donations
+     (donor_email,purchase_time,quantity,cloth_type,condition_type,is_clean,pickup_address,contact,image,status,created_at)
+     VALUES (?,?,?,?,?,?,?,?,?,'pending',NOW())"
+);
+$stmt->bind_param("ssississs",
+    $donor_email, $purchase_time, $quantity, $cloth_type,
+    $condition_type, $is_clean, $pickup_address, $contact, $dbPath
+);
 if (!$stmt->execute()) { die("DB Error: " . $stmt->error); }
+$new_id = (int)$conn->insert_id;
 
-// Notify donor — fetch their name first
+/* ── Generate unique donation_id  e.g. DON-CLO-000017 ── */
+$donation_id = 'DON-CLO-' . str_pad($new_id, 6, '0', STR_PAD_LEFT);
+
+/* ── Add donation_id column if not yet present ── */
+$conn->query("ALTER TABLE cloth_donations ADD COLUMN IF NOT EXISTS donation_id VARCHAR(30) DEFAULT NULL AFTER id");
+$conn->query("ALTER TABLE cloth_donations ADD UNIQUE KEY IF NOT EXISTS uq_cloth_don_id (donation_id)");
+
+$upd = $conn->prepare("UPDATE cloth_donations SET donation_id=? WHERE id=?");
+$upd->bind_param("si", $donation_id, $new_id);
+$upd->execute();
+
+/* ── Notify donor ── */
 require_once __DIR__ . '/../config/mail.php';
 $nr = $conn->prepare("SELECT name FROM register WHERE email=?");
 $nr->bind_param("s", $donor_email); $nr->execute();
 $donor_name = $nr->get_result()->fetch_assoc()['name'] ?? 'Donor';
 sendDonationReceived($donor_email, $donor_name, 'cloth', $quantity . ' pieces of ' . $cloth_type, $pickup_address);
 
-header("Location: ../donor/donor_dashboard.php?success=cloth");
+header("Location: ../donor/donor_dashboard.php?success=cloth&don_id=" . urlencode($donation_id));
 exit;

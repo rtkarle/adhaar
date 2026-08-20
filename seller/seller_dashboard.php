@@ -6,40 +6,63 @@ if (!isset($_SESSION['user_email']) || $_SESSION['role'] !== 'seller') {
     header("Location: ../auth/login.php"); exit;
 }
 $email = $_SESSION['user_email'];
+
+/* safe query helpers */
+function sq_int($conn, string $sql): int {
+    try { $r = $conn->query($sql); return ($r && $row = $r->fetch_assoc()) ? (int)$row['c'] : 0; }
+    catch (Throwable $e) { return 0; }
+}
+function sq_float($conn, string $sql): float {
+    try { $r = $conn->query($sql); return ($r && $row = $r->fetch_assoc()) ? (float)$row['r'] : 0.0; }
+    catch (Throwable $e) { return 0.0; }
+}
+
 $uq = $conn->prepare("SELECT name FROM register WHERE email=? AND role='seller' AND verified=1");
 $uq->bind_param("s",$email); $uq->execute();
 $user = $uq->get_result()->fetch_assoc();
 if (!$user) { header("Location: ../auth/login.php"); exit; }
 
-$sq = $conn->prepare("SELECT * FROM seller_stores WHERE seller_email=?");
-$sq->bind_param("s",$email); $sq->execute();
-$store = $sq->get_result()->fetch_assoc();
+$store = null;
+try {
+    $sq2 = $conn->prepare("SELECT * FROM seller_stores WHERE seller_email=?");
+    $sq2->bind_param("s",$email); $sq2->execute();
+    $store = $sq2->get_result()->fetch_assoc();
+} catch (Throwable $e) {}
 
 $total_products = $total_orders = $pending_orders = 0;
 $total_revenue  = 0.0;
 if ($store) {
-    $se = mysqli_real_escape_string($conn,$email);
-    $total_products = (int)$conn->query("SELECT COUNT(*) c FROM products WHERE seller_email='$se' AND is_active=1")->fetch_assoc()['c'];
-    $total_orders   = (int)$conn->query("SELECT COUNT(*) c FROM orders WHERE seller_email='$se'")->fetch_assoc()['c'];
-    $total_revenue  = (float)$conn->query("SELECT COALESCE(SUM(total_amount),0) r FROM orders WHERE seller_email='$se' AND order_status NOT IN ('cancelled','returned')")->fetch_assoc()['r'];
-    $pending_orders = (int)$conn->query("SELECT COUNT(*) c FROM orders WHERE seller_email='$se' AND order_status='placed'")->fetch_assoc()['c'];
+    $se = mysqli_real_escape_string($conn, $email);
+    $total_products = sq_int($conn,  "SELECT COUNT(*) c FROM products WHERE seller_email='$se' AND is_active=1");
+    $total_orders   = sq_int($conn,  "SELECT COUNT(*) c FROM orders   WHERE seller_email='$se'");
+    $total_revenue  = sq_float($conn,"SELECT COALESCE(SUM(total_amount),0) r FROM orders WHERE seller_email='$se' AND order_status NOT IN ('cancelled','returned')");
+    $pending_orders = sq_int($conn,  "SELECT COUNT(*) c FROM orders WHERE seller_email='$se' AND order_status='placed'");
 }
 
-$pq = $conn->prepare("SELECT p.*,(SELECT COUNT(*) FROM product_reviews WHERE product_id=p.id) rev_count FROM products p WHERE p.seller_email=? ORDER BY p.created_at DESC");
-$pq->bind_param("s",$email); $pq->execute();
-$products = $pq->get_result()->fetch_all(MYSQLI_ASSOC);
+$products = [];
+try {
+    $pq = $conn->prepare("SELECT p.*,(SELECT COUNT(*) FROM product_reviews WHERE product_id=p.id) rev_count FROM products p WHERE p.seller_email=? ORDER BY p.created_at DESC");
+    $pq->bind_param("s",$email); $pq->execute();
+    $products = $pq->get_result()->fetch_all(MYSQLI_ASSOC);
+} catch (Throwable $e) {}
 
-$oq = $conn->prepare("SELECT o.*, GROUP_CONCAT(oi.product_name SEPARATOR ', ') AS items FROM orders o LEFT JOIN order_items oi ON oi.order_id=o.id WHERE o.seller_email=? GROUP BY o.id ORDER BY o.created_at DESC LIMIT 50");
-$oq->bind_param("s",$email); $oq->execute();
-$orders = $oq->get_result()->fetch_all(MYSQLI_ASSOC);
+$orders = [];
+try {
+    $oq = $conn->prepare("SELECT o.*, GROUP_CONCAT(oi.product_name SEPARATOR ', ') AS items FROM orders o LEFT JOIN order_items oi ON oi.order_id=o.id WHERE o.seller_email=? GROUP BY o.id ORDER BY o.created_at DESC LIMIT 50");
+    $oq->bind_param("s",$email); $oq->execute();
+    $orders = $oq->get_result()->fetch_all(MYSQLI_ASSOC);
+} catch (Throwable $e) {}
 
 $tab     = $_GET['tab']     ?? 'overview';
 $success = $_GET['success'] ?? '';
 $err     = $_GET['err']     ?? '';
 
-require_once __DIR__ . '/../api/ai_engine.php';
-$ai_recommendations = adhaar_ai()->getSellerRecommendations($email);
-$ai_product_recs = adhaar_ai()->getProductRecommendations($email, 0, 4);
+$ai_recommendations = $ai_product_recs = [];
+try {
+    require_once __DIR__ . '/../api/ai_engine.php';
+    $ai_recommendations = adhaar_ai()->getSellerRecommendations($email);
+    $ai_product_recs    = adhaar_ai()->getProductRecommendations($email, 0, 4);
+} catch (Throwable $e) {}
 
 $cats = ['handicraft'=>'Handicraft','textile'=>'Textile','food_product'=>'Food Product',
          'jewelry'=>'Jewelry','art'=>'Art','pottery'=>'Pottery','organic'=>'Organic','other'=>'Other'];

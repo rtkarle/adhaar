@@ -4,9 +4,13 @@ if (session_status()===PHP_SESSION_NONE) session_start();
 if (!isset($_SESSION['user_email'])) { header("Location: ../auth/login.php"); exit; }
 $email = $_SESSION['user_email'];
 
-$food =$conn->prepare("SELECT * FROM food_donations WHERE donor_email=? ORDER BY created_at DESC");
+$food=$conn->prepare(
+  "SELECT *,COALESCE(donation_id,CONCAT('DON-FOOD-',LPAD(id,6,'0'))) AS don_id
+   FROM food_donations WHERE donor_email=? ORDER BY created_at DESC");
 $food->bind_param("s",$email);$food->execute();$food_res=$food->get_result();
-$cloth=$conn->prepare("SELECT * FROM cloth_donations WHERE donor_email=? ORDER BY created_at DESC");
+$cloth=$conn->prepare(
+  "SELECT *,COALESCE(donation_id,CONCAT('DON-CLO-',LPAD(id,6,'0'))) AS don_id
+   FROM cloth_donations WHERE donor_email=? ORDER BY created_at DESC");
 $cloth->bind_param("s",$email);$cloth->execute();$cloth_res=$cloth->get_result();
 ?>
 <!DOCTYPE html>
@@ -93,7 +97,7 @@ function renderCard($row,$type,$steps,$step_labels){
 ?>
 <div class="track-card" style="animation-delay:<?=$delay?>ms;<?=$status==='rejected'?'border-left-color:#ef4444':''?>">
   <div class="tc-header">
-    <div class="tc-id"><?=$type==='food'?'🍱':'👕'?> #<?=(int)$row['id']?> — <?=ucfirst($type)?> Donation</div>
+    <div class="tc-id"><?=$type==='food'?'🍱':'👕'?> <span style="font-family:monospace;font-size:12px;background:rgba(122,125,63,.1);padding:2px 8px;border-radius:12px"><?=htmlspecialchars($row['don_id']??('#'.(int)$row['id']))?></span></div>
     <span class="badge <?=htmlspecialchars($status)?>"><?=ucfirst(str_replace('_',' ',$status))?></span>
   </div>
   <div class="tc-row"><span>Quantity:</span><strong><?=htmlspecialchars($row['quantity']??'—')?></strong></div>
