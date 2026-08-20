@@ -71,9 +71,9 @@ try {
     $ai_impact_data = $ai->predictImpact() ?: [];
   }
 } catch(Throwable $e){}
-$ai_people_fed   = $ai_impact_data['people_fed']     ?? ($total * 3);
-$ai_co2          = $ai_impact_data['co2_saved_kg']   ?? ($total * 1.2);
-$ai_eco_value    = $ai_impact_data['economic_value'] ?? ($total * 45);
+$ai_people_fed   = isset($ai_impact_data['people_fed'])    ? (int)$ai_impact_data['people_fed']    : null;
+$ai_co2          = isset($ai_impact_data['co2_saved_kg'])  ? (float)$ai_impact_data['co2_saved_kg'] : null;
+$ai_eco_value    = isset($ai_impact_data['economic_value'])? (int)$ai_impact_data['economic_value']  : null;
 
 $success = $_GET['success'] ?? '';
 $don_id  = $_GET['don_id']  ?? '';
@@ -559,7 +559,11 @@ function stepIndex(string $s, array $steps): int {
       </div>
       <div class="kpi-card c4">
         <div class="kpi-icon" style="background:rgba(46,139,87,.1)">🌍</div>
-        <div class="kpi-val" data-count="<?=(int)round($ai_people_fed)?>" data-suffix=""><?=(int)round($ai_people_fed)?></div>
+        <?php if($ai_people_fed !== null): ?>
+          <div class="kpi-val" data-count="<?=(int)$ai_people_fed?>" data-suffix=""><?=(int)$ai_people_fed?></div>
+        <?php else: ?>
+          <div class="kpi-val">—</div>
+        <?php endif; ?>
         <div class="kpi-label">People Helped</div>
       </div>
     </div>
@@ -605,15 +609,15 @@ function stepIndex(string $s, array $steps): int {
       </div>
       <div class="ai-impact-strip">
         <div class="ai-imp">
-          <div class="ai-imp-val"><?=number_format($ai_people_fed)?></div>
+          <div class="ai-imp-val"><?= $ai_people_fed !== null ? number_format($ai_people_fed) : '—' ?></div>
           <div class="ai-imp-lbl">People Fed</div>
         </div>
         <div class="ai-imp">
-          <div class="ai-imp-val"><?=number_format($ai_co2,1)?><small style="font-size:.7rem">kg</small></div>
+          <div class="ai-imp-val"><?= $ai_co2 !== null ? number_format($ai_co2, 1).'<small style="font-size:.7rem">kg</small>' : '—' ?></div>
           <div class="ai-imp-lbl">CO₂ Saved</div>
         </div>
         <div class="ai-imp">
-          <div class="ai-imp-val">₹<?=number_format($ai_eco_value)?></div>
+          <div class="ai-imp-val"><?= $ai_eco_value !== null ? '₹'.number_format($ai_eco_value) : '—' ?></div>
           <div class="ai-imp-lbl">Economic Value</div>
         </div>
       </div>
