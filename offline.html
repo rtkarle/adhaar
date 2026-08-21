@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Offline — SoulServe</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',system-ui,sans-serif;background:linear-gradient(135deg,#102A43,#006D77);
+    min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;color:#fff;text-align:center}
+  .card{background:rgba(255,255,255,.1);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.2);
+    border-radius:28px;padding:48px 40px;max-width:420px;width:100%}
+  .icon{font-size:64px;margin-bottom:24px;display:block;animation:float 3s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  h1{font-size:28px;font-weight:800;margin-bottom:12px}
+  p{font-size:15px;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:28px}
+  .btn{display:inline-block;padding:13px 28px;border-radius:20px;background:#fff;color:#006D77;
+    font-size:14px;font-weight:800;text-decoration:none;transition:.2s;border:none;cursor:pointer}
+  .btn:hover{background:#e8fdf5;transform:translateY(-2px)}
+  .tip{margin-top:20px;font-size:12px;color:rgba(255,255,255,.5);line-height:1.6}
+</style>
+</head>
+<body>
+<div class="card">
+  <span class="icon">📡</span>
+  <h1>You're Offline</h1>
+  <p>No internet connection right now. SoulServe needs a connection to show live donation data and submit forms.</p>
+  <button class="btn" onclick="window.location.reload()">Try Again</button>
+  <p class="tip">💡 Tip: Once back online, any donations you started will sync automatically.</p>
+</div>
+</body>
+</html>

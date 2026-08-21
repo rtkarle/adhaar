@@ -610,7 +610,689 @@ class AdhaarAI {
         } catch (Exception $e) {}
     }
 
-    /* ── 7. LOG AI DECISION ─────────────────────────────────
+    /* ══════════════════════════════════════════════════════════
+     *  NEW AI METHODS v2.0
+     * ══════════════════════════════════════════════════════════ */
+
+    /* ── A. FRAUD / DUPLICATE DETECTION ────────────────────────
+     * Detects suspicious duplicate or fraudulent donation activity.
+     * Returns ['risk'=>'low|medium|high', 'flags'=>[...], 'score'=>0-100]
+     */
+    public function detectDonationFraud(string $donor_email, string $type, string $address, int $quantity): array {
+        $me    = mysqli_real_escape_string($this->conn, $donor_email);
+        $table = $type === 'food' ? 'food_donations' : 'cloth_donations';
+        $flags = [];
+        $score = 0;
+
+        // Check duplicate submission in last 10 min
+        $recent = (int)$this->conn->query(
+            "SELECT COUNT(*) c FROM `$table`
+             WHERE donor_email='$me' AND created_at > NOW() - INTERVAL 10 MINUTE"
+        )->fetch_assoc()['c'];
+        if ($recent >= 2) { $flags[] = ['type'=>'duplicate','msg'=>"$recent submissions in last 10 minutes"]; $score += 40; }
+
+        // Check same address same day
+        $addr_esc = mysqli_real_escape_string($this->conn, substr($address, 0, 50));
+        $same_addr = (int)$this->conn->query(
+            "SELECT COUNT(*) c FROM `$table`
+             WHERE donor_email='$me' AND pickup_address LIKE '$addr_esc%'
+             AND DATE(created_at)=CURDATE()"
+        )->fetch_assoc()['c'];
+        if ($same_addr >= 2) { $flags[] = ['type'=>'same_address','msg'=>'Same address used multiple times today']; $score += 25; }
+
+        // Abnormally high quantity
+        $avg_qty = (float)$this->conn->query(
+            "SELECT COALESCE(AVG(quantity),0) avg FROM `$table` WHERE donor_email='$me'"
+        )->fetch_assoc()['avg'];
+        if ($avg_qty > 0 && $quantity > $avg_qty * 5) {
+            $flags[] = ['type'=>'abnormal_qty','msg'=>"Quantity $quantity is 5x above your average of ".round($avg_qty)]; $score += 20;
+        }
+
+        // Rapid burst — more than 5 donations in 1 hour
+        $burst = (int)$this->conn->query(
+            "SELECT COUNT(*) c FROM (
+                SELECT created_at FROM food_donations WHERE donor_email='$me' AND created_at > NOW()-INTERVAL 1 HOUR
+                UNION ALL
+                SELECT created_at FROM cloth_donations WHERE donor_email='$me' AND created_at > NOW()-INTERVAL 1 HOUR
+             ) x"
+        )->fetch_assoc()['c'];
+        if ($burst >= 5) { $flags[] = ['type'=>'burst','msg'=>"$burst donations in last hour — unusually high"]; $score += 30; }
+
+        $risk = $score >= 60 ? 'high' : ($score >= 30 ? 'medium' : 'low');
+        return ['risk'=>$risk, 'score'=>min(100,$score), 'flags'=>$flags];
+    }
+
+    /* ── B. SMART NEED MATCHING ─────────────────────────────────
+     * Matches a donation to the community/NGO that needs it most urgently.
+     * Returns top matches with urgency scores.
+     */
+    public function matchDonationToNeed(string $type, int $quantity, string $pickup_address): array {
+        $this->conn->query("CREATE TABLE IF NOT EXISTS ngo_profiles (
+            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            ngo_email VARCHAR(180) NOT NULL UNIQUE,
+            ngo_name VARCHAR(220) NOT NULL,
+            city VARCHAR(100),
+            pincode VARCHAR(10),
+            category ENUM('food_relief','clothing','education','healthcare','general') DEFAULT 'general',
+            capacity_daily INT DEFAULT 50,
+            is_verified TINYINT(1) DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB");
+
+        // Extract city hint from address
+        $addr_words = preg_split('/[\s,]+/', strtolower($pickup_address));
+        $city_hint  = '';
+        foreach (array_reverse($addr_words) as $w) {
+            if (strlen($w) > 3 && !is_numeric($w)) { $city_hint = $w; break; }
+        }
+
+        $ngos = $this->conn->query("SELECT * FROM ngo_profiles WHERE is_verified=1 ORDER BY capacity_daily DESC LIMIT 10");
+        if (!$ngos) {
+            // Fallback: no NGOs yet — return platform's own distribution
+            return [[
+                'name'       => 'SoulServe Distribution Network',
+                'city'       => 'Local',
+                'match_pct'  => 95,
+                'urgency'    => 'high',
+                'reason'     => 'Platform volunteers will directly distribute to identified beneficiaries in your area.',
+                'capacity'   => 100,
+            ]];
+        }
+
+        $matches = [];
+        foreach ($ngos->fetch_all(MYSQLI_ASSOC) as $ngo) {
+            $score = 0;
+            // Category match
+            $cat_match = ($type === 'food' && $ngo['category'] === 'food_relief') ||
+                         ($type === 'cloth' && $ngo['category'] === 'clothing') ||
+                         $ngo['category'] === 'general';
+            if ($cat_match) $score += 40;
+
+            // Location match
+            if ($city_hint && strtolower($ngo['city'] ?? '') === $city_hint) $score += 40;
+            elseif ($city_hint && stripos($ngo['city'] ?? '', $city_hint) !== false) $score += 20;
+
+            // Capacity match
+            if ($quantity <= $ngo['capacity_daily']) $score += 20;
+            elseif ($quantity <= $ngo['capacity_daily'] * 2) $score += 10;
+
+            $urgency = $score >= 70 ? 'high' : ($score >= 40 ? 'medium' : 'low');
+            $matches[] = [
+                'name'      => $ngo['ngo_name'],
+                'city'      => $ngo['city'] ?? '—',
+                'match_pct' => min(100, $score),
+                'urgency'   => $urgency,
+                'capacity'  => $ngo['capacity_daily'],
+                'reason'    => $cat_match ? "Specialises in $type distribution" : "General purpose NGO",
+            ];
+        }
+        usort($matches, fn($a,$b) => $b['match_pct'] - $a['match_pct']);
+        return array_slice($matches ?: [[
+            'name'      => 'SoulServe Volunteer Network',
+            'city'      => 'Local',
+            'match_pct' => 90,
+            'urgency'   => 'high',
+            'capacity'  => 100,
+            'reason'    => 'Direct community distribution by trained volunteers.',
+        ]], 0, 3);
+    }
+
+    /* ── C. ETA PREDICTION ──────────────────────────────────────
+     * Predicts estimated pickup/delivery time for a donation.
+     * Returns minutes estimate + confidence + factors.
+     */
+    public function predictETA(int $donation_id, string $type): array {
+        $table = $type === 'food' ? 'food_donations' : 'cloth_donations';
+        $d = $this->conn->query("SELECT status, priority, created_at, volunteer_email FROM `$table` WHERE id=$donation_id")->fetch_assoc();
+        if (!$d) return ['eta_minutes'=>60,'confidence'=>50,'status_msg'=>'Unknown donation'];
+
+        $status   = $d['status'] ?? 'pending';
+        $priority = $d['priority'] ?? 'medium';
+
+        // Base time by status
+        $base_min = match($status) {
+            'pending'       => $priority==='high' ? 30 : ($priority==='medium' ? 90 : 180),
+            'accepted'      => $priority==='high' ? 20 : 60,
+            'scheduled'     => 30,
+            'out_for_pickup'=> 15,
+            'picked_up'     => 20,
+            default         => 0,
+        };
+
+        // Adjust by volunteer workload
+        if ($d['volunteer_email']) {
+            $vol_load = (int)$this->conn->query(
+                "SELECT COUNT(*) c FROM food_donations WHERE volunteer_email='{$d['volunteer_email']}' AND status NOT IN ('delivered','rejected')
+                 UNION ALL SELECT COUNT(*) c FROM cloth_donations WHERE volunteer_email='{$d['volunteer_email']}' AND status NOT IN ('delivered','rejected')"
+            )->fetch_assoc()['c'];
+            $base_min += $vol_load * 10;
+        }
+
+        // Adjust by time of day
+        $hour = (int)date('H');
+        if ($hour >= 22 || $hour < 7) $base_min += 120; // night penalty
+        elseif ($hour >= 7 && $hour <= 10) $base_min -= 15; // morning boost
+
+        $confidence = $status === 'out_for_pickup' ? 90 : ($status === 'scheduled' ? 80 : 55);
+        $eta_min    = max(5, $base_min);
+
+        $human_eta = $eta_min < 60
+            ? "$eta_min minutes"
+            : round($eta_min/60,1) . " hour" . (round($eta_min/60,1) != 1 ? 's' : '');
+
+        return [
+            'eta_minutes' => $eta_min,
+            'eta_human'   => $human_eta,
+            'confidence'  => $confidence,
+            'priority'    => $priority,
+            'status_msg'  => "Expected " . ($status === 'delivered' ? 'already delivered' : "in ~$human_eta"),
+        ];
+    }
+
+    /* ── D. SMART RECURRING SUGGESTION ──────────────────────────
+     * Analyses donor's pattern and suggests a recurring schedule.
+     */
+    public function suggestRecurring(string $donor_email): array {
+        $me = mysqli_real_escape_string($this->conn, $donor_email);
+
+        // Get donation dates
+        $dates = $this->conn->query(
+            "SELECT DATE(created_at) AS d FROM food_donations WHERE donor_email='$me'
+             UNION ALL
+             SELECT DATE(created_at) FROM cloth_donations WHERE donor_email='$me'
+             ORDER BY d DESC LIMIT 20"
+        )->fetch_all(MYSQLI_ASSOC);
+
+        if (count($dates) < 2) {
+            return ['has_pattern'=>false,'suggestion'=>'Make 2+ donations to unlock recurring pattern detection.'];
+        }
+
+        // Calculate average gap between donations
+        $timestamps = array_map(fn($r)=>strtotime($r['d']), $dates);
+        sort($timestamps);
+        $gaps = [];
+        for ($i=1; $i<count($timestamps); $i++) {
+            $gaps[] = ($timestamps[$i] - $timestamps[$i-1]) / 86400;
+        }
+        $avg_gap  = array_sum($gaps) / count($gaps);
+        $frequency = $avg_gap <= 8 ? 'weekly' : ($avg_gap <= 16 ? 'biweekly' : 'monthly');
+
+        // Most common day of week
+        $day_counts = array_fill(0,7,0);
+        foreach ($timestamps as $ts) $day_counts[(int)date('w',$ts)]++;
+        $best_day  = array_search(max($day_counts), $day_counts);
+        $day_names = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+        // Most common donation type
+        $food_cnt  = (int)$this->conn->query("SELECT COUNT(*) c FROM food_donations WHERE donor_email='$me'")->fetch_assoc()['c'];
+        $cloth_cnt = (int)$this->conn->query("SELECT COUNT(*) c FROM cloth_donations WHERE donor_email='$me'")->fetch_assoc()['c'];
+        $pref_type = $food_cnt >= $cloth_cnt ? 'food' : 'clothing';
+
+        return [
+            'has_pattern'  => true,
+            'frequency'    => $frequency,
+            'best_day'     => $day_names[$best_day],
+            'best_day_num' => $best_day,
+            'pref_type'    => $pref_type,
+            'avg_gap_days' => round($avg_gap, 1),
+            'suggestion'   => "Based on your history, schedule a $frequency $pref_type donation on {$day_names[$best_day]}s.",
+            'confidence'   => min(95, 50 + count($dates) * 4),
+        ];
+    }
+
+    /* ── E. PERSONALIZED CAUSES ─────────────────────────────────
+     * Recommends causes based on donor's location, interests, history.
+     */
+    public function getPersonalizedCauses(string $donor_email): array {
+        $me      = mysqli_real_escape_string($this->conn, $donor_email);
+        $food_q  = (int)$this->conn->query("SELECT COUNT(*) c FROM food_donations WHERE donor_email='$me'")->fetch_assoc()['c'];
+        $cloth_q = (int)$this->conn->query("SELECT COUNT(*) c FROM cloth_donations WHERE donor_email='$me'")->fetch_assoc()['c'];
+
+        $causes = [];
+        $month  = (int)date('n');
+
+        // Season-based causes
+        if ($month >= 11 || $month <= 1) {
+            $causes[] = ['icon'=>'❄️','title'=>'Winter Clothing Drive','urgency'=>'high',
+                'desc'=>'Rural families need warm clothes — jackets, sweaters, blankets urgently needed.','action'=>'Donate Clothing','url'=>'donate.php?type=cloth'];
+        } elseif ($month >= 6 && $month <= 8) {
+            $causes[] = ['icon'=>'🌧️','title'=>'Monsoon Food Relief','urgency'=>'high',
+                'desc'=>'Flood-affected families need cooked meals. Food donations have 2x impact this season.','action'=>'Donate Food','url'=>'donate.php?type=food'];
+        } elseif ($month >= 3 && $month <= 5) {
+            $causes[] = ['icon'=>'☀️','title'=>'Summer Nutrition Drive','urgency'=>'medium',
+                'desc'=>'Children in rural areas need nutrition support in peak summer. Your food donation can help.','action'=>'Donate Food','url'=>'donate.php?type=food'];
+        }
+
+        // Based on history
+        if ($food_q === 0) {
+            $causes[] = ['icon'=>'🍱','title'=>'First Food Donation','urgency'=>'high',
+                'desc'=>'You have never donated food. One meal donation can feed a family of 5 tonight.','action'=>'Donate Food','url'=>'donate.php'];
+        }
+        if ($cloth_q === 0) {
+            $causes[] = ['icon'=>'👕','title'=>'First Clothing Donation','urgency'=>'medium',
+                'desc'=>'Your unused clothes can restore dignity for someone who has none.','action'=>'Donate Clothes','url'=>'donate.php'];
+        }
+
+        // Platform needs
+        $pending_food  = (int)$this->conn->query("SELECT COUNT(*) c FROM food_donations WHERE status='pending'")->fetch_assoc()['c'];
+        $pending_cloth = (int)$this->conn->query("SELECT COUNT(*) c FROM cloth_donations WHERE status='pending'")->fetch_assoc()['c'];
+        if ($pending_food < $pending_cloth) {
+            $causes[] = ['icon'=>'🍛','title'=>'Food Needed Now','urgency'=>'urgent',
+                'desc'=>"Platform currently has $pending_food food donations pending — very low. Families are waiting.",'action'=>'Donate Food','url'=>'donate.php'];
+        }
+
+        $causes[] = ['icon'=>'🤝','title'=>'Volunteer & Drive Impact','urgency'=>'low',
+            'desc'=>'Join our volunteer network and deliver donations in your area. Turn 2 hours into infinite impact.','action'=>'Volunteer','url'=>'../index.html#volunteer'];
+
+        return array_slice($causes, 0, 4);
+    }
+
+    /* ── F. MONTHLY IMPACT REPORT ───────────────────────────────
+     * Generates a personalized monthly impact summary for a donor.
+     */
+    public function generateMonthlyReport(string $donor_email, int $month = 0, int $year = 0): array {
+        if (!$month) $month = (int)date('n');
+        if (!$year)  $year  = (int)date('Y');
+        $me      = mysqli_real_escape_string($this->conn, $donor_email);
+        $m_start = "$year-" . str_pad($month,2,'0',STR_PAD_LEFT) . "-01";
+        $m_end   = date('Y-m-t', strtotime($m_start));
+
+        $food  = $this->conn->query("SELECT COUNT(*) c, COALESCE(SUM(quantity),0) qty FROM food_donations WHERE donor_email='$me' AND created_at BETWEEN '$m_start' AND '$m_end 23:59:59'")->fetch_assoc();
+        $cloth = $this->conn->query("SELECT COUNT(*) c, COALESCE(SUM(quantity),0) qty FROM cloth_donations WHERE donor_email='$me' AND created_at BETWEEN '$m_start' AND '$m_end 23:59:59'")->fetch_assoc();
+
+        $food_count  = (int)$food['c'];
+        $cloth_count = (int)$cloth['c'];
+        $food_qty    = (int)$food['qty'];
+        $cloth_qty   = (int)$cloth['qty'];
+        $total       = $food_count + $cloth_count;
+
+        $people_fed   = $food_qty * 3;
+        $co2_saved    = round($food_qty * 2.5 + $cloth_qty * 1.8, 1);
+        $eco_value    = $food_qty * 120 + $cloth_qty * 250;
+
+        // All-time stats for comparison
+        $all_time_food  = (int)$this->conn->query("SELECT COUNT(*) c FROM food_donations WHERE donor_email='$me'")->fetch_assoc()['c'];
+        $all_time_cloth = (int)$this->conn->query("SELECT COUNT(*) c FROM cloth_donations WHERE donor_email='$me'")->fetch_assoc()['c'];
+
+        // Get badges earned this month
+        $badges = [];
+        try {
+            $bq = $this->conn->query("SELECT badge_name, badge_emoji FROM donor_badges WHERE donor_email='$me' AND earned_at BETWEEN '$m_start' AND '$m_end 23:59:59'");
+            if ($bq) $badges = $bq->fetch_all(MYSQLI_ASSOC);
+        } catch (Throwable $e) {}
+
+        $month_names = ['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+        return [
+            'month'        => $month_names[$month] . ' ' . $year,
+            'food_count'   => $food_count,
+            'cloth_count'  => $cloth_count,
+            'total'        => $total,
+            'food_qty'     => $food_qty,
+            'cloth_qty'    => $cloth_qty,
+            'people_fed'   => $people_fed,
+            'co2_saved'    => $co2_saved,
+            'eco_value'    => $eco_value,
+            'all_time'     => $all_time_food + $all_time_cloth,
+            'badges_earned'=> $badges,
+            'is_active'    => $total > 0,
+            'rank_msg'     => $total >= 5 ? '🏆 You were a top donor this month!' :
+                             ($total >= 2 ? '⭐ Great month! Keep it up.' :
+                             ($total === 1 ? '🌱 Good start! Aim for 2+ next month.' : '💤 No donations this month.')),
+            'ai_summary'   => $total > 0
+                ? "This month you donated {$food_count} food and {$cloth_count} clothing items, feeding approximately {$people_fed} people and saving {$co2_saved}kg of CO₂ emissions."
+                : "No donations recorded this month. Your community needs you — even one donation makes a measurable difference.",
+        ];
+    }
+
+    /* ── G. WORKLOAD BALANCE ────────────────────────────────────
+     * Checks if a volunteer is overloaded and suggests alternatives.
+     */
+    public function checkVolunteerWorkload(string $volunteer_email): array {
+        $me       = mysqli_real_escape_string($this->conn, $volunteer_email);
+        $active   = (int)$this->conn->query(
+            "SELECT COUNT(*) c FROM food_donations WHERE volunteer_email='$me' AND status NOT IN ('delivered','rejected')
+             UNION SELECT COUNT(*) c FROM cloth_donations WHERE volunteer_email='$me' AND status NOT IN ('delivered','rejected')"
+        )->fetch_assoc()['c'];
+        $completed = (int)$this->conn->query(
+            "SELECT COUNT(*) c FROM food_donations WHERE volunteer_email='$me' AND status='delivered'"
+        )->fetch_assoc()['c']
+        + (int)$this->conn->query(
+            "SELECT COUNT(*) c FROM cloth_donations WHERE volunteer_email='$me' AND status='delivered'"
+        )->fetch_assoc()['c'];
+
+        $completion_rate = 0;
+        $total_assigned  = (int)$this->conn->query(
+            "SELECT COUNT(*) c FROM volunteer_tasks WHERE volunteer_email='$me'"
+        )->fetch_assoc()['c'];
+        $accepted = (int)$this->conn->query(
+            "SELECT COUNT(*) c FROM volunteer_tasks WHERE volunteer_email='$me' AND task_status='accepted'"
+        )->fetch_assoc()['c'];
+        if ($total_assigned > 0) $completion_rate = round($accepted / $total_assigned * 100);
+
+        $overloaded   = $active >= 5;
+        $impact_score = min(100, ($completed * 10) + ($completion_rate / 2));
+        $level        = $completed < 3 ? 'Newcomer' : ($completed < 10 ? 'Rising Star' : ($completed < 25 ? 'Changemaker' : ($completed < 50 ? 'Impact Hero' : 'SoulServe Legend')));
+
+        return [
+            'active_tasks'    => $active,
+            'completed'       => $completed,
+            'completion_rate' => $completion_rate,
+            'overloaded'      => $overloaded,
+            'impact_score'    => (int)$impact_score,
+            'level'           => $level,
+            'level_emoji'     => $completed < 3 ? '🌱' : ($completed < 10 ? '⭐' : ($completed < 25 ? '🔥' : ($completed < 50 ? '🏆' : '👑'))),
+            'advice'          => $overloaded
+                ? "You currently have $active active tasks. Consider pausing new assignments until you complete a few."
+                : "Your queue has capacity. You can take on more pickups if available in your area.",
+        ];
+    }
+
+    /* ── H. SELLER DEMAND FORECAST ──────────────────────────────
+     * Predicts which product categories will have high demand next week.
+     */
+    public function sellerDemandForecast(string $seller_email): array {
+        $me   = mysqli_real_escape_string($this->conn, $seller_email);
+        $month = (int)date('n');
+
+        // Sales trend for this seller's categories
+        $cats_q = $this->conn->query(
+            "SELECT p.category, COUNT(oi.id) sales, SUM(oi.quantity) qty
+             FROM order_items oi
+             JOIN products p ON p.id=oi.product_id
+             JOIN orders o ON o.id=oi.order_id
+             WHERE p.seller_email='$me'
+             AND o.created_at > NOW() - INTERVAL 30 DAY
+             GROUP BY p.category ORDER BY sales DESC"
+        );
+        $cat_sales = $cats_q ? $cats_q->fetch_all(MYSQLI_ASSOC) : [];
+
+        // Platform-wide trending categories (last 7 days)
+        $trending_q = $this->conn->query(
+            "SELECT p.category, COUNT(oi.id) c FROM order_items oi
+             JOIN products p ON p.id=oi.product_id
+             JOIN orders o ON o.id=oi.order_id
+             WHERE o.created_at > NOW() - INTERVAL 7 DAY
+             GROUP BY p.category ORDER BY c DESC LIMIT 3"
+        );
+        $trending = $trending_q ? array_column($trending_q->fetch_all(MYSQLI_ASSOC), 'category') : [];
+
+        // Seasonal boosts
+        $seasonal = match(true) {
+            ($month >= 10 && $month <= 12) => ['textile','handicraft'],
+            ($month >= 1  && $month <= 2)  => ['textile'],
+            ($month >= 3  && $month <= 5)  => ['organic','food_product'],
+            default                        => ['handicraft','art'],
+        };
+
+        // Build forecast
+        $forecast = [];
+        $all_cats = ['handicraft','textile','food_product','jewelry','art','pottery','organic','other'];
+        foreach ($all_cats as $cat) {
+            $base_score  = 20;
+            $my_sales    = array_sum(array_column(array_filter($cat_sales, fn($r)=>$r['category']===$cat),'sales'));
+            $in_trending = in_array($cat, $trending);
+            $in_seasonal = in_array($cat, $seasonal);
+
+            if ($my_sales > 0)   $base_score += min(30, $my_sales * 5);
+            if ($in_trending)    $base_score += 30;
+            if ($in_seasonal)    $base_score += 20;
+
+            $forecast[] = [
+                'category'    => $cat,
+                'score'       => min(100, $base_score),
+                'trending'    => $in_trending,
+                'seasonal'    => $in_seasonal,
+                'my_sales_30d'=> $my_sales,
+                'advice'      => $in_trending ? "🔥 Trending on platform — stock up!" :
+                                ($in_seasonal ? "📅 Seasonal demand high — good timing to list." :
+                                ($my_sales > 0 ? "📈 You have sales history here — keep stocked." : "💡 Low competition — good category to enter.")),
+            ];
+        }
+        usort($forecast, fn($a,$b) => $b['score'] - $a['score']);
+        return array_slice($forecast, 0, 5);
+    }
+
+    /* ── I. SMART PRICING SUGGESTION ────────────────────────────
+     * Suggests optimal pricing based on demand, competition, and stock.
+     */
+    public function suggestPricing(int $product_id): array {
+        $p = $this->conn->query("SELECT * FROM products WHERE id=$product_id")->fetch_assoc();
+        if (!$p) return ['suggested_price'=>0,'confidence'=>0,'msg'=>'Product not found'];
+
+        $cat  = $p['category'];
+        $curr = (float)$p['price'];
+        $mrp  = (float)$p['mrp'];
+        $sold = (int)$p['total_sold'];
+        $stock= (int)$p['stock'];
+        $rating=(float)$p['avg_rating'];
+
+        // Avg price in same category
+        $avg_price = (float)($this->conn->query(
+            "SELECT COALESCE(AVG(price),0) avg FROM products WHERE category='$cat' AND is_active=1 AND id!=$product_id"
+        )->fetch_assoc()['avg'] ?? $curr);
+
+        $suggested = $avg_price;
+
+        // High rating → allow slight premium
+        if ($rating >= 4.5) $suggested *= 1.10;
+        elseif ($rating < 3.0 && $rating > 0) $suggested *= 0.92;
+
+        // Fast moving → slight increase
+        if ($sold > 20) $suggested *= 1.05;
+
+        // Low stock → premium
+        if ($stock <= 3 && $sold > 5) $suggested *= 1.08;
+
+        // Never go below 85% of MRP if MRP set
+        if ($mrp > 0) $suggested = max($suggested, $mrp * 0.85);
+        $suggested = round($suggested, 0);
+
+        $diff   = $suggested - $curr;
+        $action = abs($diff) < 5 ? 'Keep current price' :
+                 ($diff > 0 ? "Increase by ₹$diff (demand supports it)" : "Reduce by ₹".abs($diff)." (improve competitiveness)");
+
+        return [
+            'current_price'   => $curr,
+            'suggested_price' => $suggested,
+            'market_avg'      => round($avg_price, 0),
+            'confidence'      => $sold > 10 ? 82 : 60,
+            'action'          => $action,
+            'msg'             => "Market average for $cat: ₹".round($avg_price,0).". ".($diff>5?"You can price higher given your rating/sales.":($diff<-5?"Consider reducing to stay competitive.":"Your pricing is well-aligned.")),
+        ];
+    }
+
+    /* ── J. REVIEW SENTIMENT ANALYSIS ───────────────────────────
+     * Classifies product reviews as positive/negative/neutral.
+     */
+    public function analyzeReviewSentiment(int $product_id): array {
+        $reviews = $this->conn->query(
+            "SELECT rating, review_text FROM product_reviews WHERE product_id=$product_id ORDER BY created_at DESC LIMIT 50"
+        );
+        if (!$reviews || $reviews->num_rows === 0) {
+            return ['sentiment'=>'no_reviews','positive'=>0,'negative'=>0,'neutral'=>0,'score'=>0,'summary'=>'No reviews yet.'];
+        }
+
+        $positive = $negative = $neutral = 0;
+        $pos_words = ['good','great','excellent','love','perfect','amazing','best','happy','recommend','quality','fast','nice','beautiful','worth','super'];
+        $neg_words = ['bad','poor','terrible','worst','hate','slow','broken','damaged','wrong','fake','cheap','disappointed','waste','late','ugly'];
+
+        foreach ($reviews->fetch_all(MYSQLI_ASSOC) as $r) {
+            $text  = strtolower($r['review_text'] ?? '');
+            $stars = (int)$r['rating'];
+
+            // Stars-based
+            if ($stars >= 4) $positive++;
+            elseif ($stars <= 2) $negative++;
+            else $neutral++;
+
+            // Text boost
+            if ($text) {
+                $pos_hits = count(array_filter($pos_words, fn($w)=>strpos($text,$w)!==false));
+                $neg_hits = count(array_filter($neg_words, fn($w)=>strpos($text,$w)!==false));
+                if ($pos_hits > $neg_hits) $positive++;
+                elseif ($neg_hits > $pos_hits) $negative++;
+            }
+        }
+        $total    = $positive + $negative + $neutral;
+        $score    = $total > 0 ? round(($positive / $total) * 100) : 0;
+        $sentiment= $score >= 70 ? 'positive' : ($score <= 30 ? 'negative' : 'mixed');
+
+        return [
+            'sentiment' => $sentiment,
+            'positive'  => $positive,
+            'negative'  => $negative,
+            'neutral'   => $neutral,
+            'score'     => $score,
+            'summary'   => $score >= 70 ? "Customers love this product! Keep the quality up." :
+                          ($score <= 30 ? "Negative feedback is high. Consider reviewing quality or description." :
+                          "Mixed reviews. Address negative feedback to improve rating."),
+        ];
+    }
+
+    /* ── K. FRAUD ORDER DETECTION ───────────────────────────────
+     * Flags potentially fraudulent shop orders.
+     */
+    public function detectOrderFraud(int $order_id): array {
+        $o = $this->conn->query("SELECT * FROM orders WHERE id=$order_id")->fetch_assoc();
+        if (!$o) return ['risk'=>'unknown','flags'=>[]];
+
+        $flags = [];
+        $score = 0;
+        $buyer = mysqli_real_escape_string($this->conn, $o['buyer_email']);
+
+        // Multiple orders same address in 1 hour (return fraud)
+        $same_addr = (int)$this->conn->query(
+            "SELECT COUNT(*) c FROM orders WHERE shipping_phone='{$o['shipping_phone']}' AND created_at > NOW()-INTERVAL 1 HOUR"
+        )->fetch_assoc()['c'];
+        if ($same_addr > 2) { $flags[] = "Multiple orders same phone in 1 hour"; $score += 30; }
+
+        // High value COD
+        if ($o['payment_method'] === 'cod' && $o['total_amount'] > 2000) {
+            $flags[] = "High-value COD order (₹".number_format($o['total_amount'],0).")";
+            $score += 20;
+        }
+
+        // New account high value order
+        $account_age = (int)$this->conn->query(
+            "SELECT DATEDIFF(NOW(),created_at) age FROM register WHERE email='$buyer'"
+        )->fetch_assoc()['age'] ?? 999;
+        if ($account_age < 1 && $o['total_amount'] > 1000) { $flags[] = "New account, high order value"; $score += 35; }
+
+        // Many returns history
+        $returns = (int)$this->conn->query(
+            "SELECT COUNT(*) c FROM return_requests WHERE buyer_email='$buyer' AND status='completed'"
+        )->fetch_assoc()['c'] ?? 0;
+        if ($returns > 3) { $flags[] = "$returns past returns — high return rate"; $score += 25; }
+
+        $risk = $score >= 60 ? 'high' : ($score >= 30 ? 'medium' : 'low');
+        return ['risk'=>$risk,'score'=>min(100,$score),'flags'=>$flags,'order_id'=>$order_id];
+    }
+
+    /* ── L. GENERATE PRODUCT DESCRIPTION ────────────────────────
+     * Rule-based product description generator from basic attributes.
+     */
+    public function generateProductDescription(string $name, string $category, float $price, array $attrs = []): string {
+        $cat_intros = [
+            'handicraft'   => "This beautiful handcrafted piece is made by skilled artisans",
+            'textile'      => "This exquisite textile is woven with care by rural weavers",
+            'food_product' => "This delicious artisanal food product is made fresh",
+            'jewelry'      => "This stunning piece of jewelry is carefully handmade",
+            'art'          => "This unique artwork is created by a talented local artist",
+            'pottery'      => "This elegant pottery piece is hand-thrown and kiln-fired",
+            'organic'      => "This 100% organic product is grown without chemicals",
+            'other'        => "This quality product is made with care",
+        ];
+        $intro = $cat_intros[$category] ?? $cat_intros['other'];
+
+        $parts = ["$intro by rural artisans in Maharashtra, India."];
+
+        if (!empty($attrs['material']))  $parts[] = "Made from premium {$attrs['material']},";
+        if (!empty($attrs['size']))      $parts[] = "available in size {$attrs['size']}.";
+        if (!empty($attrs['color']))     $parts[] = "The {$attrs['color']} finish gives it a timeless look.";
+
+        $parts[] = "Every purchase directly supports the livelihoods of rural families and preserves traditional craftsmanship.";
+        $parts[] = "Priced at just ₹" . number_format($price, 0) . ", this makes for a wonderful gift or personal purchase.";
+        $parts[] = "100% authentic. Ships within 3–5 days.";
+
+        return implode(' ', $parts);
+    }
+
+    /* ── M. AI ROUTE SUGGESTION ─────────────────────────────────
+     * Groups nearby pickups for efficient routing.
+     */
+    public function suggestPickupRoute(string $volunteer_email): array {
+        $me = mysqli_real_escape_string($this->conn, $volunteer_email);
+
+        $food_tasks  = $this->conn->query(
+            "SELECT id,'food' AS type, pickup_address, priority, quantity FROM food_donations
+             WHERE volunteer_email='$me' AND status NOT IN ('delivered','rejected','picked_up')"
+        )->fetch_all(MYSQLI_ASSOC);
+        $cloth_tasks = $this->conn->query(
+            "SELECT id,'cloth' AS type, pickup_address, priority, quantity FROM cloth_donations
+             WHERE volunteer_email='$me' AND status NOT IN ('delivered','rejected','picked_up')"
+        )->fetch_all(MYSQLI_ASSOC);
+
+        $tasks = array_merge($food_tasks, $cloth_tasks);
+        if (empty($tasks)) return ['route'=>[],'tip'=>'No active tasks for routing.'];
+
+        // Sort: high priority first, then food (perishable), then by address similarity
+        usort($tasks, function($a, $b) {
+            $pri = ['high'=>3,'medium'=>2,'low'=>1];
+            $ap  = $pri[$a['priority']??'low'] ?? 1;
+            $bp  = $pri[$b['priority']??'low'] ?? 1;
+            if ($ap !== $bp) return $bp - $ap;
+            if ($a['type'] !== $b['type']) return $a['type'] === 'food' ? -1 : 1;
+            return 0;
+        });
+
+        $route = [];
+        foreach ($tasks as $i => $t) {
+            $route[] = [
+                'stop'    => $i + 1,
+                'id'      => $t['id'],
+                'type'    => $t['type'],
+                'address' => $t['pickup_address'],
+                'priority'=> $t['priority'] ?? 'medium',
+                'qty'     => $t['quantity'],
+                'reason'  => ($t['priority']==='high') ? '🔴 High priority — go first!' :
+                            ($t['type']==='food' ? '🍱 Perishable — pick up early' : '👕 Clothing — flexible timing'),
+            ];
+        }
+
+        $tip = count($route) > 1
+            ? "Optimised route: start with high-priority/food donations, then clothing. Estimated total time: " . (count($route) * 20) . " min."
+            : "1 active task. Head directly to the pickup address.";
+
+        return ['route'=>$route, 'tip'=>$tip, 'total_stops'=>count($route)];
+    }
+
+    /* ── N. DONOR FRAUD ALERTS ──────────────────────────────────
+     * Returns recent flagged/suspicious activity for a donor.
+     */
+    public function getDonorAlerts(string $donor_email): array {
+        $fraud = $this->detectDonationFraud($donor_email, 'food', '', 0);
+        $alerts = [];
+        if ($fraud['risk'] !== 'low') {
+            foreach ($fraud['flags'] as $f) {
+                $alerts[] = ['level'=>$fraud['risk'],'icon'=>'⚠️','msg'=>$f['msg']];
+            }
+        }
+        // Check any rejected donations
+        $me  = mysqli_real_escape_string($this->conn, $donor_email);
+        $rej = (int)$this->conn->query(
+            "SELECT COUNT(*) c FROM food_donations WHERE donor_email='$me' AND status='rejected'"
+        )->fetch_assoc()['c']
+        + (int)$this->conn->query(
+            "SELECT COUNT(*) c FROM cloth_donations WHERE donor_email='$me' AND status='rejected'"
+        )->fetch_assoc()['c'];
+        if ($rej > 0) {
+            $alerts[] = ['level'=>'warn','icon'=>'❌','msg'=>"$rej donation(s) were rejected. Please ensure photos are clear and items meet quality guidelines."];
+        }
+        return $alerts;
+    }
+
+    /* ── LOG AI DECISION ─────────────────────────────────
      */
     public function log(string $action, $input, $output, float $confidence = 0, string $by = 'system'): void {
         try {

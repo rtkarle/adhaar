@@ -8,6 +8,13 @@
 <meta property="og:title" content="SoulServe — Endless Service. Infinite Impact.">
 <meta property="og:description" content="Together, We Create Infinite Impact. Donate food, clothing, volunteer, and shop from rural artisans.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="assets/logo.png">
+<meta name="theme-color" content="#006D77">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SoulServe">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="assets/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
@@ -419,6 +426,38 @@
 </footer>
 
 <script src="js/script.js"></script>
+<script>
+/* ── PWA Service Worker registration ── */
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/service-worker.js').catch(()=>{});
+}
+/* ── PWA Install prompt ── */
+let _deferredPrompt;
+window.addEventListener('beforeinstallprompt', e=>{
+  e.preventDefault();
+  _deferredPrompt = e;
+  const btn = document.getElementById('pwaInstallBtn');
+  if(btn) btn.style.display = 'flex';
+});
+window.installPWA = function(){
+  if(!_deferredPrompt) return;
+  _deferredPrompt.prompt();
+  _deferredPrompt.userChoice.then(()=>{ _deferredPrompt=null; const b=document.getElementById('pwaInstallBtn'); if(b) b.style.display='none'; });
+};
+</script>
+
+<!-- PWA Install Banner -->
+<div id="pwaInstallBtn" style="display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(135deg,#006D77,#2E8B57);color:#fff;border-radius:20px;padding:13px 24px;
+  align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,109,119,.35);z-index:9998;cursor:pointer;
+  font-size:14px;font-weight:700;border:none;white-space:nowrap;animation:fadeUp .5s ease"
+  onclick="installPWA()">
+  <img src="assets/logo.png" style="width:24px;height:24px;object-fit:contain;filter:brightness(0)invert(1)">
+  Install SoulServe App — No Play Store needed!
+  <span onclick="event.stopPropagation();this.parentElement.style.display='none'" 
+    style="opacity:.6;font-size:16px;margin-left:4px;cursor:pointer">✕</span>
+</div>
+
 
 </body>
 </html>
